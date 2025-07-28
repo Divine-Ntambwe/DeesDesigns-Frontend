@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Birthstone&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+US+Modern:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --dark-purple: #2f004a ;
+  --light-purple: rgb(240, 159, 246) ;
+  --swiper-theme-color: #f700ff;
+}
+
+
+
+.splash-screen {
+  background-color: #2f004a;
+  height: 100vh;
+  
+}
+
+#splash-navbar{
+  height: 10vh;
+  width: 100%;
+  background-color: gray;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  padding: 0 10px;
+  align-items: center;
+}
+
+#splash-navbar h1 {
+
+  font-size: 3.5em;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 5px;
+}
+
+h1,h2{
+   font-family: "Playfair Display", cursive;
+}
+
+#splash-navbar button {
+justify-self: end;
+height: 40px;
+width: 100px;
+background-color: white;
+border: none;
+border-radius: 10px;
+font-family: "raleway";
+font-size: 1em;
+color: #2f004a;
+font-weight: 500;
+
+}
+
+#splash-navbar button:hover {
+  cursor: pointer;
+}
+
+#splash-navbar button:active {
+  background-color: var(--dark-purple);
+  color:white;
+}
+#splash-imgs {
+  width:100%;
+  height: 85vh;
+  display: flex;
+  padding: 20px;
+  
+
+}
+
+#splash-imgs img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+}
