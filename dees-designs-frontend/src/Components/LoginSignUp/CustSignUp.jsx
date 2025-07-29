@@ -1,6 +1,7 @@
 import React,{useEffect, useState}from 'react'
 import './LoginSignUp.css'
 import useFetch from '../../useFetch';
+import { Link } from 'react-router-dom';
 
 function CustSignUp() {
   const [name,setName] = useState(""), 
@@ -12,10 +13,7 @@ function CustSignUp() {
   [conPassword,setConPassword] = useState("");
 
   const {post:postSignUp,loading,data} = useFetch("http://localhost:5000/customersSignUp");
-  
  
-
-
   function handleSignUp(e){
     e.preventDefault()
     const cred = {name,surname,email,gender,password,confirmPassword:conPassword};
@@ -70,7 +68,9 @@ function CustSignUp() {
 
             <input className="submit"type="submit" value="Sign Up"/>
           </form>
-          <p className='login-signup-link'>Already Have An Account?<a>Log In</a></p>
+          
+          <p className='login-signup-link'>Already Have An Account?<Link to="/Login"> Log In</Link></p>
+          <p className='login-signup-link'><Link to="/">Sign Up as a designer?</Link></p>
           
         </div>
     </div>

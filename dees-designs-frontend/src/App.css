@@ -16,7 +16,7 @@
 .splash-screen {
   background-color: #2f004a;
   height: 100vh;
-  
+  width: 100vw;
 }
 
 #splash-navbar{
@@ -35,6 +35,7 @@
   text-transform: uppercase;
   text-align: center;
   letter-spacing: 5px;
+  color: black;
 }
 
 h1,h2{
@@ -42,7 +43,7 @@ h1,h2{
 }
 
 #splash-navbar button {
-justify-self: end;
+
 height: 40px;
 width: 100px;
 background-color: white;
@@ -53,6 +54,10 @@ font-size: 1em;
 color: #2f004a;
 font-weight: 500;
 
+}
+
+#splash-navbar a {
+  justify-self: end;
 }
 
 #splash-navbar button:hover {
