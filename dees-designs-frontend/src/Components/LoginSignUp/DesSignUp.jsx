@@ -1,12 +1,13 @@
-import React,{useEffect, useState,useRef} from 'react'
+import React,{useEffect, useState,useRef, useContext} from 'react'
 import './LoginSignUp.css'
 import useFetch from '../../useFetch';
-import {Link} from 'react-router';
+import {Link, useNavigate} from 'react-router';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
+import { Authentication } from '../../App';
 
 
 function DesSignUp() {
@@ -22,12 +23,10 @@ function DesSignUp() {
   const {postMedia:postSignUp,loading,data} = useFetch("http://localhost:5000/designersSignUp");
   const uploadFile = useRef();
   const [displayErr,setDisplayErr] = useState("");
-  const [pfpFile,setPfpFile] = useState("")
-  
- 
-  useEffect(()=>{
-    // console.log(data)
-  });
+  const [pfpFile,setPfpFile] = useState("");
+  const navigate = useNavigate()
+  const {setIsAuthenticated,setRole} = useContext(Authentication)
+
 
   async function handleFilePicker(){
     uploadFile.current.click()
@@ -37,7 +36,16 @@ function DesSignUp() {
     const formData = new FormData();
     formData.append("pfp",pfpFile);
     formData.append("details",JSON.stringify(details));
-    postSignUp(formData);
+    postSignUp(formData,(d)=>{
+      if (d){
+        localStorage.setItem("userId",d.userId);
+        localStorage.setItem("role","designer");
+        setIsAuthenticated(true)
+        setRole("designer")
+        navigate("/DesignersHome")
+      }
+     
+    });
   }
   return (
     <div className='loginSignUp'>

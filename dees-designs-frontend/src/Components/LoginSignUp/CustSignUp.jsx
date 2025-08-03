@@ -1,7 +1,11 @@
-import React,{useEffect, useState}from 'react'
+import React,{useEffect, useState,useContext}from 'react'
 import './LoginSignUp.css'
 import useFetch from '../../useFetch';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { Authentication } from '../../App';
+
 
 function CustSignUp() {
   const [name,setName] = useState(""), 
@@ -12,15 +16,24 @@ function CustSignUp() {
   [password,setPassword] = useState(""),
   [conPassword,setConPassword] = useState("");
 
-  const {post:postSignUp,loading,data} = useFetch("http://localhost:5000/customersSignUp");
- 
+  const {post:postSignUp,loading,data,error} = useFetch("http://localhost:5000/customersSignUp");
+  const navigate = useNavigate();
+  const {setRole,setIsAuthenticated} = useContext(Authentication);
+
   function handleSignUp(e){
     e.preventDefault()
     const cred = {name,surname,email,gender,password,confirmPassword:conPassword};
-    postSignUp(cred,()=>{
-
+    postSignUp(cred,(d)=>{
+      if (d){
+        localStorage.setItem("userId",d.userId);
+        localStorage.setItem("role","customer");
+        setIsAuthenticated(true);
+        setRole("customer")
+        navigate('/Home')
+      }
+     
     })
-   
+    console.log(error.toString())
     
   }
 
@@ -31,6 +44,7 @@ function CustSignUp() {
         <div className='form-container'>
           <h2>Sign Up</h2>
           {data && <p className='cred-error'>{data.error}</p>}
+          {error && <p className='cred-error'>Network Error Please Try Again Later</p>}
           <form onSubmit={handleSignUp}>
 
             <label>Name:</label>
@@ -64,9 +78,12 @@ function CustSignUp() {
             <label>Confirm Password:</label>
             <input required type='password' onChange={(e)=> setConPassword(e.target.value)}/>  
 
-            
+          
+  
+            <Button className="submit button"type="submit" loading={loading} loadingPosition='end'   style={{backgroundColor: "#2f004a", color: "#f09ff6", marginBottom: "10px"}} >
+             Sign Up
+            </Button>
 
-            <input className="submit"type="submit" value="Sign Up"/>
           </form>
           
           <p className='login-signup-link'>Already Have An Account?<Link to="/Login"> Log In</Link></p>

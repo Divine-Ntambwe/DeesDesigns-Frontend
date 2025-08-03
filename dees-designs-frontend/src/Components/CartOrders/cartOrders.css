@@ -1,0 +1,6 @@
+.AddToCart{
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(lightgray 0%,
+    var(--dark-purple) 80%);
+}
