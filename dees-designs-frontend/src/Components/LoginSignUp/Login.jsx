@@ -1,31 +1,47 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import useFetch from '../../useFetch';
 import { Link,useNavigate } from 'react-router-dom';
+import { Authentication } from '../../App';
+import Button from '@mui/material/Button';
 
 function Login() {
     const [isDesigner,setIsDesigner] = useState(false),
     [email,setEmail] = useState(""),
-    [password,setPassword] = useState("")
+    [password,setPassword] = useState("");
+   const navigate = useNavigate();
+
+    
+    const {setIsAuthenticated,setRole} = useContext(Authentication);
   
     const {post:postLogin,loading,data} = useFetch("http://localhost:5000/userLogin");
-    const nav = useNavigate()
+   
 
-    function handleLogin(e){
-      
+    function handleLogin(e){   
       e.preventDefault();
       const creds = {email,password,isDesigner};
       
-      postLogin(creds,()=>{
-      
-      nav("/")
-      })
-      
-     
-      
+      postLogin(creds,(d)=>{
+        setIsAuthenticated(true);
+        setRole(isDesigner?"designer":"customer");
+        localStorage.setItem("userId",d.userId);
+        localStorage.setItem("role",isDesigner?"designer":"customer");
+
+        if (isDesigner === true){
+          navigate("/DesignersHome")
+        } else {
+          navigate("/Home");
+        }
+        
+      })   
     }
+
+
   return (
+    <>
+   
     <div className='Login loginSignUp'>
+     
         <div className='form-container'>
           <h2>Log In</h2>
           {data && <p className='cred-error'>{data.error}</p>}
@@ -39,18 +55,19 @@ function Login() {
 
             <div className='gender'>
              
-              <input type="checkbox" onChange={(e)=> setIsDesigner(true)}/>
+              <input type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>
               <label>Are you a designer?</label>
               </div>
   
             <input className="submit button"type="submit" value="Log In"/>
           </form>
           
-          <p className='login-signup-link'>Already Have An Account?<Link to="/">Log In</Link></p>
-          <p className='login-signup-link'><Link to="/">Sign Up as a designer?</Link></p>
+          <p className='login-signup-link'>Don't Have An Account?<Link to="/CustomerSignUp"> Sign Up as Customer?</Link></p>
+          <p className='login-signup-link'><Link to="/DesignerSignUp">Sign Up as a Designer?</Link></p>
           
         </div>
     </div>
+    </>
   )
 }
 

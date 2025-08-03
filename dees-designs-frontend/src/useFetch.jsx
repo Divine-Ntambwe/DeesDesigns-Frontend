@@ -7,8 +7,9 @@ function useFetch(url) {
 
 
     async function post(body = {},toDo = ()=>{}){
+      setLoading(true)
         try {
-            setLoading(true)
+            
             const res = await fetch(url,
                 {
                   method: "POST",
@@ -20,12 +21,13 @@ function useFetch(url) {
               const result = await res.json();
               setData(result);
               setLoading(false);
-              console.log(result)
+
               if (result.message) {
-                toDo();
+                toDo(result);
               }
         } catch(e) {
           console.error(e)
+          setError(e)
         }
         
       }
@@ -33,6 +35,7 @@ function useFetch(url) {
       async function postMedia(body = {},toDo = ()=>{}){
         try {
             setLoading(true)
+
             const res = await fetch(url,
                 {
                   method: "POST",
@@ -44,15 +47,16 @@ function useFetch(url) {
               setData(result);
               setLoading(false);
               if (result.message) {
-                toDo();
+                toDo(result);
               }
         } catch(e) {
           console.error(e)
+          setError(e)
         }
         
       }  
 
-   return {post, postMedia,data,loading}
+   return {post, postMedia,data,loading, error}
 }
 
 export default useFetch
