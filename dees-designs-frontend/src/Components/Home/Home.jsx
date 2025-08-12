@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from '../Navbar'
 import './Home.css'
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,33 +6,43 @@ import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import Footer from '../Footer';
 import { useNavigate } from 'react-router-dom';
+import Cart from '../CartOrders/Cart';
+import { appContext } from '../../Context/AppContext';
 function HomePage() {
   const nav = useNavigate()
   function handleGoToAddToCart(){
     nav("/AddToCart")
   }
+
   return (
     <>
     <div className='home-page'>
       <div className='navbar'>
-        <Navbar/>
+        <Navbar
+        />
       </div>
 
-      <div className='home-content'>
-      <Swiper
-        slidesPerView={4}
+      
+      <div className="home-header">
+       <Swiper
         spaceBetween={30}
-        loop={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        modules={[Autoplay]}
+        // loop={true}
+        // autoplay={{
+        //   delay: 2500,
+        //   disableOnInteraction: false,
+        // }}
+        // modules={[Autoplay]}
         className="mySwiper"
       >
         <SwiperSlide className="slides"id="slide1">
-        <img src='./81a2eb27167b044d4acef466471402fd.jpg'/>
-          
+          <div>
+            <h1 id="slogan">Get <span>dee</span> best for You!</h1>
+         <p id="short-desc">Discover the best designer wear from top global brands to skilled local creators, all crafted with style and precision to fit you perfectly. Whether you prefer luxury labels or unique custom pieces, you’ll enjoy fashion that reflects your taste and enhances your look.
+</p>
+          </div>
+         
+        <img src='./Ідеї фото для пар❤️.jpeg'/>
+         
         </SwiperSlide>
 
         <SwiperSlide className='slides'>
@@ -66,45 +76,50 @@ function HomePage() {
 
         
       </Swiper>
-      <h1>Get DEE best for You!</h1>
-
+      </div>  
+     
+     <div className='home-content'>
       <h2>Product Categories</h2>
-      <div id="product-cat">
-        <div>
-        <img src="./image copy 6.png"/>
-
-        <h3>Women's Wear</h3>
+      <div className='main-section' id="product-cat">
+        <div id="category">
+        <img id="category-img" src="./image copy 6.png"/>
+        <button className='view-collection'>View Women Wear</button>
         </div>
 
-        <div>
-        <img src="./image copy 8.png"/>
-        <h3>Men's Wear</h3>
+        <div id="category">
+        <img id="category-img" src="./image copy 8.png"/>
+         <button className='view-collection'>View Men Wear</button>
         </div>
 
-        <div>
-          <img src="./20250419_221038.jpg"/>
-          <h3>Designer's Designs</h3>
-        </div>
+        <div id="category">
+          <img id="category-img" src="./20250419_221038.jpg"/>
+          <button className='view-collection'>View Designer's Collection</button>
+         </div>
 
       </div>
 
       <h2>Popular</h2>
 
-      <div id="popular">
-        <div onClick={handleGoToAddToCart}>
+      <div className='main-section' id="popular">
+        <div className="popular-prod"onClick={handleGoToAddToCart}>
+
         <img src="./Pietà Evening.jpeg"/>
         <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p className='price'>R750</p>
+        <p><span className='price'>R750</span><span>Women</span></p>
+       
         </div>
+
+
         <div>
         <img src="./Pietà Evening.jpeg"/>
         <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
         <p className='price'>R750</p>
         </div>
-        <div>
+
+        <div  className="popular-prod"onClick={handleGoToAddToCart}>
         <img src="./Pietà Evening.jpeg"/>
         <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p className='price'>R750</p>
+        <p><span className='price'>R750</span><span>Women</span></p>
         </div>
         <div>
         <img src="./Pietà Evening.jpeg"/>
@@ -118,7 +133,7 @@ function HomePage() {
         </div>
       </div>
       <h2>Our Services</h2>
-      <div id="my services">
+      <div className='main-section' id="my services">
 
       </div>
       </div>

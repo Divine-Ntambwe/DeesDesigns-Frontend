@@ -3,13 +3,21 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 1em;
 }
 
 :root {
-  --dark-purple: #2f004a ;
+  --dark-purple: #6a04a5 ;
   --light-purple: #f09ff6 ;
   --swiper-theme-color: #f700ff;
   --med-purple: rgb(212, 136, 245) ;
+
+  --text-color1: #6a04a5 ;
+  --text-color2: white ;
+  --text-color3: black;
+  --background-color1: black; 
+  --background-color2: #f1f1f1f1 ;
+
 }
 
 
@@ -39,8 +47,12 @@
   color: black;
 }
 
-h1,h2,h3{
+h1,h2,h3,h4{
    font-family: "Playfair Display", cursive;
+}
+
+p {
+  font-family: "raleway";
 }
 
 #splash-navbar button {
@@ -86,31 +98,70 @@ font-weight: 500;
 }
 
 .navbar{
-  position: sticky;
+  position: sticky !important;
   top:0;
   left: 0 !important;
   z-index: 2;
-  
 }
 
-.top-navbar{
-  border-bottom: 1px solid lightgray;
+#num-of-cart-items{
+  color: black;
+  background-color: var(--med-purple);
+  font-size: 0.7em;
+  clip-path: circle();
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left:-15px;
+  top:-15px;
 }
 
-.nav-bar-comp div:first-child {
-  background-color: darkgray;
-  height: 8vh;
+.top-navbar > span{
   width: 100%;
   display: flex;
+}
+
+.top-navbar > span:nth-child(1){
+  gap: 30px
+}
+
+.top-navbar > span:nth-child(1) span:hover{
+  color: var(--text-color2);
+  cursor: pointer;
+}
+
+.top-navbar > span:nth-child(2){
+  justify-content: center;
+}
+
+.top-navbar > span:nth-child(3){
+  justify-content: end;
+}
+
+.top-navbar {
+  background-color: var(--background-color1);
+  height: 8vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
   align-items: center;
-  justify-content: space-between;
-  padding: 5px;
+  justify-content: center;
+  padding: 5px 10px;
 }
 
 .navbar-icons{
-  font-size: 2.5em;
-  color: var(--dark-purple);
+  font-size: 1.8em;
+  color: var(--text-color1);
   cursor: pointer;
+  font-weight: 100;
+}
+
+.top-nav-links{
+  color: var(--dark-purple);
+  font-size: 1.5em;
+  font-family: "raleway";
 }
 
 .nav-bar-comp h1 {
@@ -124,7 +175,7 @@ font-weight: 500;
   position: absolute;
   width: 22vw;
   height: 100vh;
-  background-color: lightgray;
+  background-color: var(--background-color1);
   top:0;
   left: 0 !important;
   padding: 5px;
@@ -155,9 +206,9 @@ color: var(--dark-purple);
 }
 
 .footer {
-  width: 100vw;
-  height: 50vh;
-  background-color: lightgray;
+  width: 100%;
+  height: 500px;
+  background-color: var(--background-color1);
   display: grid;
   grid-template-columns: 40% 20% 20% 20%;
   align-items: center;
@@ -168,7 +219,7 @@ color: var(--dark-purple);
   font-size: 10em;
   line-height: 0.9;
   text-transform: uppercase;
-  color: darkgray;
+  color: var(--text-color2);
 }
 
 .footer h1:first-child::first-letter{

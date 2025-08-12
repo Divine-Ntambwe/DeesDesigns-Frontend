@@ -98,7 +98,7 @@ function DesSignUp() {
             <img className="des-pfp"src={pfpPicture} onClick={handleFilePicker} ></img> 
                 <input ref={uploadFile} name="pfp" id="upload-file" type="file" accept="image/*" onChange={(e)=>{
                 setPfpFile(e.target.files[0])
-                if (pfpFile.type.startsWith("image")){
+                if (e.target.files[0].type.startsWith("image")){
                 setPfp(URL.createObjectURL(e.target.files[0]));
                
                 } else {

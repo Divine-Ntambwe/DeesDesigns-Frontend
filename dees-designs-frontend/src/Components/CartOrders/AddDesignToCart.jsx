@@ -5,9 +5,11 @@ import Rating from '@mui/material/Rating';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LinearProgress from '@mui/material/LinearProgress';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import TextField from '@mui/material/TextField';
 import Footer from '../Footer';
+import {Link} from 'react-router-dom';
 
-function AddToCart() {
+function AddDesignToCart() {
   const [progress, setProgress] = React.useState(90);
   return (
     <>
@@ -23,6 +25,7 @@ function AddToCart() {
             <img src="./Pietà Evening.jpeg"/>
             <div className='add-cart-prod-details'>
               <h2>Red Satin Transparent Sleeve Dress</h2>
+              <p className='cart-rating'><b>Uploaded By:</b> <Link>Janee Lori</Link></p>
               <Rating name="half-rating-read"  sx={{
     '& .MuiRating-iconFilled': {
       color: 'darkviolet', // filled stars
@@ -38,30 +41,14 @@ function AddToCart() {
               <p className='cart-rating'><span>4.7 rating</span><span> 11 reviews</span></p>
               <p className='add-to-cart-price'>R750.00</p>
 
-              <h3>Standard Measurement:</h3>
-              <div className='measurements'>
-                <span>Waist: 37cm</span>
-                <span>Waist: 37cm</span>
-                <span>Waist: 37cm</span>
-                <span>Waist: 37cm</span>
-                <span>Waist: 37cm</span>
-              </div>
+              <h3>Product Description</h3>
+               <textarea rows={50} cols={20} style={{pointerEvents: "none"}}>
+                lkjbv cfdftgyhujikoopiuiuytr
+               </textarea>
 
-              <form>
-                <span>
-                  <select className='add-to-cart-input'>
-                    <option>XS</option>
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                  </select>
-
-                   <input className='add-to-cart-input' type='number' value={1}min={1} max={6}/>
-                </span>
-                
+              <form>       
                 <button id="add-to-cart" type='sumbit' className='submit button'><ShoppingCartOutlinedIcon/> Add To Cart</button>
-              </form>
+             </form>
 
 
             </div>
@@ -173,4 +160,4 @@ function AddToCart() {
   )
 }
 
-export default AddToCart
+export default AddDesignToCart

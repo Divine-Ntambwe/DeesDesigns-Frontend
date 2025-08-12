@@ -9,6 +9,13 @@ import HomePage from './Components/Home/Home';
 import DesHome from './Components/DesHome/DesHome';
 import AddToCart from './Components/CartOrders/AddToCart';
 import Error404 from './Components/Error404Page';
+import Checkout from './Components/CartOrders/Checkout';
+import AppContext from './Context/AppContext';
+import TrackOrder from './Components/CartOrders/TrackOrder';
+import WomenWear from './Components/Categories/WomenWear';
+import MenWear from './Components/Categories/MenWear';
+import DesignersCollection from './Components/Categories/DesignersColllection';
+import AddDesignToCart from './Components/CartOrders/AddDesignToCart';
 
 const Authentication = createContext();
 
@@ -29,7 +36,8 @@ function App() {
   
   }
   return (
-    <Router>
+    <AppContext>
+       <Router>
 
       <div className='App'>
 
@@ -46,6 +54,12 @@ function App() {
 
           <Route exact path="/Home" element={<ProtectedRoute routeRole="customer" element={<HomePage/>}/>}/>
           <Route exact path="/AddToCart" element={<ProtectedRoute routeRole="customer" element={<AddToCart/>}/>}/>
+          <Route exact path="/CheckOut" element={<ProtectedRoute routeRole="customer" element={<Checkout/>}/>}/>
+          <Route exact path="/Orders" element={<ProtectedRoute routeRole="customer" element={<TrackOrder/>}/>}/>
+          <Route exact path="/WomenWear" element={<ProtectedRoute routeRole="customer" element={<WomenWear/>}/>}/>
+          <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
+          <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
+          <Route exact path="/AddDesignToCart" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
 
           <Route exact path="/DesignersHome" element={<ProtectedRoute routeRole="designer" element={<DesHome/>}/>}/>
           </Routes>
@@ -56,6 +70,8 @@ function App() {
       </div>
      
     </Router>
+    </AppContext>
+   
   )
 }
 export {Authentication}

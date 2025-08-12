@@ -9,13 +9,20 @@ import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import {Link} from 'react-router-dom';
 import {useRef} from 'react'
-
+import Cart from './CartOrders/Cart';
+let goHome 
 
 function Navbar() {
   const sideMenuEl = useRef();
-  const navBar = useRef()
+  const navBar = useRef();
+  const cartPopUp = useRef();
+  goHome = useRef();
+  
 
   function handleOpenMenu(){
     sideMenuEl.current.style.display = "block"
@@ -26,19 +33,36 @@ function Navbar() {
     sideMenuEl.current.style.display = "none"
     navBar.current.style.display = "flex"
   }
+
+  function handleOpenCart(){
+    cartPopUp.current.style.display = "flex"
+  }
+
   return (
+    <>
+      <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
+      </div>
+    
     <div className='nav-bar-comp'>
+      
         <div className="top-navbar" ref={navBar}>
-        <span className="navbar-icons"onClick={handleOpenMenu}><MenuOutlinedIcon style={{fontSize: "1.3em"}}/></span>
-        <h1>Dee's Designs</h1>
-        <span className="navbar-icons"><SearchOutlinedIcon style={{fontSize: "1.3em"}}/>  <ShoppingCartOutlinedIcon style={{fontSize: "1.3em"}}/></span>
+
+        <span className='top-nav-links'><span>Home</span> <span>Orders</span> <span>Shop Now</span> <span>Contact Us</span> </span>
+        
+        <span><h1>Dee's Designs</h1></span>
+        
+        <span className="navbar-icons"> <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+        <SearchOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+        <TextField id="input-with-sx" label="search" variant="standard" />
+      </Box>  <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>08</span> <MoreVertIcon onClick={handleOpenMenu} style={{fontSize: "1.3em"}}/></span>
         </div>
 
         <div ref={sideMenuEl} className='nav-dropdown'>
         <h1>Dee's Designs  <span className='close-sidemenu' onClick={handleCloseMenu}><CloseOutlinedIcon style={{cursor:"pointer"}}/></span></h1>
 
         <div className='side-bar-links'>
-        <Link><HomeOutlinedIcon style={{fontSize: "2em"}}/>Home</Link>
+        <Link><HomeOutlinedIcon ref={goHome}style={{fontSize: "2em"}}/>Home</Link>
         <Link><AccountCircleOutlinedIcon style={{fontSize: "2em"}}/>Profile </Link>
         <Link><ShoppingCartOutlinedIcon style={{fontSize: "2em"}}/>Cart </Link>
         <Link><ShoppingBagOutlinedIcon style={{fontSize: "2em"}}/>Orders  </Link>
@@ -50,7 +74,9 @@ function Navbar() {
         
         </div>
     </div>
+    </>
   )
 }
 
+export {goHome}
 export default Navbar

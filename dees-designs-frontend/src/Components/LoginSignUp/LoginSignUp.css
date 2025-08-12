@@ -30,7 +30,7 @@
 .form-container h2 {
     font-size: 3.2em;
     text-align: center;
-    color: var(--light-purple);
+    color: var(--dark-purple);
     margin-bottom: 2%;
 }
 
@@ -103,6 +103,9 @@
     border-radius: 10px;
     z-index: 100;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .swiper-button-next,.swiper-button-prev{
     width: unset;
@@ -156,6 +159,6 @@
 }
 
 .login-signup-link a {
-    color: var(--light-purple);
+    color: var(--dark-purple);
     text-decoration: underline;
 }
