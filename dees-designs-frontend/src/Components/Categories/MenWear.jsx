@@ -11,7 +11,6 @@ function MenWear() {
         </div>
 
         <div className="categories-content">
-            <h1>Men Wear</h1>
             <p className='category-links'>
                 <span>Suits</span> |
                 <span>Tuxedos</span> | 

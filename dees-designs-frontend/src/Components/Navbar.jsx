@@ -52,10 +52,23 @@ function Navbar() {
         
         <span><h1>Dee's Designs</h1></span>
         
-        <span className="navbar-icons"> <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-        <SearchOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-        <TextField id="input-with-sx" label="search" variant="standard" />
-      </Box>  <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>08</span> <MoreVertIcon onClick={handleOpenMenu} style={{fontSize: "1.3em"}}/></span>
+        <span className="navbar-icons"> <Box sx={{ display: 'flex', alignItems: 'flex-end',border:'1px solid #6a04a5', borderRadius:"180px", backgroundColor:"var(--background-color1)", padding:"0 15px 5px"}}>
+        <SearchOutlinedIcon sx={{ color: 'white', mr: 0.5, my: 0.5 }} />
+        <TextField id="input-with-sx" variant='standard' sx={{borderRadius:"180px",'& .MuiInput-underline:hover:before': {
+      borderBottomColor: 'white', // hover
+    },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: 'gray', // default
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#6a04a5', // focus
+    },'& input::placeholder': {
+      color: 'gray',
+      opacity: 1, // needed to fully apply color
+    },'& .MuiInputBase-input': {
+      color: 'white', // text color
+    }}} placeholder="search" />
+      </Box> <AccountCircleOutlinedIcon onClick={handleOpenMenu} style={{fontSize: "1.5em"}}/> <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>08</span></span>
         </div>
 
         <div ref={sideMenuEl} className='nav-dropdown'>

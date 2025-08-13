@@ -11,7 +11,6 @@ function WomenWear() {
         </div>
 
         <div className="categories-content">
-            <h1 id="women-heading">Women Wear</h1>
             <p className='category-links'>
                 <span>Long Dresses</span> |
                 <span>Short Dresses</span> | 

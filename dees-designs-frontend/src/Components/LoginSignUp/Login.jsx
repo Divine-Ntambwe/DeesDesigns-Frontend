@@ -14,7 +14,7 @@ function Login() {
     
     const {setIsAuthenticated,setRole} = useContext(Authentication);
   
-    const {post:postLogin,loading,data} = useFetch("http://localhost:5000/userLogin");
+    const {post:postLogin,loading,data,error} = useFetch("http://localhost:5000/userLogin");
    
 
     function handleLogin(e){   
