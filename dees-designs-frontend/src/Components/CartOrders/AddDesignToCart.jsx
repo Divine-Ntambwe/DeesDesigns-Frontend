@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext,useRef} from 'react'
 import Navbar from '../Navbar'
 import './cartOrders.modules.css'
 import Rating from '@mui/material/Rating';
@@ -8,14 +8,24 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import Footer from '../Footer';
 import {Link} from 'react-router-dom';
+import Cart from './Cart';
+import { appContext } from '../../Context/AppContext';
 
 function AddDesignToCart() {
   const [progress, setProgress] = React.useState(90);
+  const {handleOpenCart} = useContext(appContext);
+  const cartPopUp = useRef();
   return (
     <>
     <div className='AddToCart'>
         <div className='navbar'>
-            <Navbar/>
+            <Navbar
+            handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
+        </div>
+
+        <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
         </div>
 
         <div className='add-to-cart-content'>
@@ -153,7 +163,7 @@ function AddDesignToCart() {
         </div>
         
     </div>
-    <div>
+    <div id="footer">
       <Footer/>
     </div>
     </>

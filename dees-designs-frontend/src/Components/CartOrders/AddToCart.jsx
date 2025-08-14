@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext,useRef} from 'react'
 import Navbar from '../Navbar'
 import './cartOrders.modules.css'
 import Rating from '@mui/material/Rating';
@@ -6,18 +6,33 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LinearProgress from '@mui/material/LinearProgress';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Footer from '../Footer';
+import Cart from './Cart';
+import { appContext } from '../../Context/AppContext';
 
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
+  const {handleOpenCart} = useContext(appContext);
+  const cartPopUp = useRef();
+
+  function handleAddToCart(e){
+    e.preventDefault();
+    handleOpenCart(cartPopUp.current);
+  }
   return (
     <>
     <div className='AddToCart'>
         <div className='navbar'>
-            <Navbar/>
+            <Navbar
+            handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
         </div>
 
+        <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
+       </div>
+
         <div className='add-to-cart-content'>
-          <h1>Add To Cart</h1>
+          <h1 id='AddToCart'>Add To Cart</h1>
 
           <div className='add-cart-prod'>
             <img src="./Pietà Evening.jpeg"/>
@@ -47,7 +62,7 @@ function AddToCart() {
                 <span>Waist: 37cm</span>
               </div>
 
-              <form>
+              <form onSubmit={handleAddToCart} id="add-to-cart-form">
                 <span>
                   <select className='add-to-cart-input'>
                     <option>XS</option>
@@ -60,7 +75,7 @@ function AddToCart() {
                    <input className='add-to-cart-input' type='number' value={1}min={1} max={6}/>
                 </span>
                 
-                <button id="add-to-cart" type='sumbit' className='submit button'><ShoppingCartOutlinedIcon/> Add To Cart</button>
+                <button  id="add-to-cart" type='sumbit' className='submit button'><ShoppingCartOutlinedIcon/> Add To Cart</button>
               </form>
 
 
@@ -77,7 +92,7 @@ function AddToCart() {
               <p className='review'>This red dress is stunning! The color is bold and eye-catching. It fits well and feels comfy. Perfect for a date night or party! </p>
               <Rating  sx={{
     '& .MuiRating-iconFilled': {
-      color: 'purple', // filled stars
+      color: 'orange', // filled stars
     },
     '& .MuiRating-iconEmpty': {
       color: 'lightgray', // empty stars
@@ -94,7 +109,7 @@ function AddToCart() {
               <p className='review'>This red dress is stunning! The color is bold and eye-catching. It fits well and feels comfy. Perfect for a date night or party! </p>
               <Rating  sx={{
     '& .MuiRating-iconFilled': {
-      color: 'purple', // filled stars
+      color: 'orange', // filled stars
     },
     '& .MuiRating-iconEmpty': {
       color: 'lightgray', // empty stars
@@ -111,7 +126,7 @@ function AddToCart() {
               <p className='review'>This red dress is stunning! The color is bold and eye-catching. It fits well and feels comfy. Perfect for a date night or party! </p>
               <Rating  sx={{
     '& .MuiRating-iconFilled': {
-      color: 'purple', // filled stars
+      color: 'orange', // filled stars
     },
     '& .MuiRating-iconEmpty': {
       color: 'lightgray', // empty stars
@@ -166,7 +181,7 @@ function AddToCart() {
         </div>
         
     </div>
-    <div>
+    <div id="footer">
       <Footer/>
     </div>
     </>

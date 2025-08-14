@@ -12,14 +12,18 @@
   --swiper-theme-color: #f700ff;
   --med-purple: rgb(212, 136, 245) ;
 
-  --text-color1: #6a04a5 ;
+  --background-color3: #6a04a5 ;
   --text-color2: white ;
   --text-color3: black;
   --background-color1: black; 
   --background-color2: #f1f1f1f1 ;
 
 }
-
+#user-details {
+  color: var(--med-purple);
+  font-size: 1.2em;
+  font-weight: 500;
+}
 
 
 .splash-screen {
@@ -127,10 +131,27 @@ font-weight: 500;
   gap: 30px
 }
 
-.top-navbar > span:nth-child(1) span:hover{
+.top-navbar > span:nth-child(1) a{
+  color: var(--dark-purple);
+}
+
+a:visited{
+  color: inherit;
+}
+
+.top-navbar > span:nth-child(1) a:hover{
   color: var(--text-color2);
   cursor: pointer;
 }
+
+.top-navbar > span:nth-child(1) a:active{
+  color: var(--med-purple);
+}
+a {
+  text-decoration: none;
+}
+
+
 
 .top-navbar > span:nth-child(2){
   justify-content: center;
@@ -148,12 +169,13 @@ font-weight: 500;
   grid-template-columns: 33% 33% 33%;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid gray;
   /* padding: 5px 10px; */
 }
 
 .navbar-icons{
   font-size: 1.8em;
-  color: var(--text-color1);
+  color: var(--dark-purple);
   cursor: pointer;
   font-weight: 100;
   display: flex;
@@ -165,6 +187,10 @@ font-weight: 500;
   color: var(--dark-purple);
   font-size: 1.5em;
   font-family: "raleway";
+}
+
+.top-nav-links a {
+  text-decoration: none;
 }
 
 .nav-bar-comp h1 {
@@ -193,13 +219,18 @@ font-weight: 500;
   flex-direction: column;
   gap: 35px
 }
-.side-bar-links a{
+.side-bar-link,.side-bar-links a {
 font-size: 1.5em;
 text-decoration: none ;
 display: flex;
 align-items: center;
 gap: 10px;
 color: var(--dark-purple);
+}
+
+.side-bar-link:hover {
+  cursor: pointer;
+  color: var(--med-purple);
 }
 
 .close-sidemenu{
@@ -215,6 +246,7 @@ color: var(--dark-purple);
   display: grid;
   grid-template-columns: 40% 20% 20% 20%;
   align-items: center;
+  border-top: 1px solid gray;
 }
 
 .footer h1{

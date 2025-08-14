@@ -1,16 +1,25 @@
-import React from 'react'
+import React,{useContext,useRef} from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
+import Cart from './Cart';
+import { appContext } from '../../Context/AppContext'
 
 function Checkout() {
+    const {handleOpenCart} = useContext(appContext);
+    const cartPopUp = useRef();
   return (
     <>
     <div className='checkout-page'>
 
         <div className="navbar">
-            <Navbar/>
+            <Navbar
+            handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
         </div>
-        
+
+        <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
+       </div>
        
 
         <form>
@@ -117,7 +126,7 @@ function Checkout() {
         
         
     </div>
-    <div>
+    <div id="footer">
         <Footer/>
     </div>
     </>

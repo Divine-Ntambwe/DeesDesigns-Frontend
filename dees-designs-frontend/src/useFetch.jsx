@@ -5,6 +5,29 @@ function useFetch(url) {
     [data,setData] = useState(""),
     [loading,setLoading] = useState(false);
 
+    async function get(auth = {},toDo = ()=>{}) {
+      setLoading(true);
+      try {
+        const res = await fetch(url,
+                {
+                  method: "GET",
+                  headers: {"authentication":"application/json"},
+                  body: JSON.stringify(body)
+                }
+              )
+      
+              const result = await res.json();
+              setData(result);
+              setLoading(false);
+
+              if (result.status === 200) {
+                toDo(result);
+              }
+      }catch(e){
+        setError(e);
+        console.error("error getting",e)
+      }
+    }
 
     async function post(body = {},toDo = ()=>{}){
       setLoading(true)

@@ -1,25 +1,42 @@
-import React, { useContext } from 'react'
+import React, { useContext,useEffect,useRef } from 'react'
 import Navbar from '../Navbar'
 import './Home.css'
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import Footer from '../Footer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import Cart from '../CartOrders/Cart';
 import { appContext } from '../../Context/AppContext';
+import useFetch from '../../useFetch';
+import { shopContext } from '../../Context/ShopContext';
 function HomePage() {
+  const {handleOpenCart} = useContext(appContext);
+  const cartPopUp = useRef();
   const nav = useNavigate()
   function handleGoToAddToCart(){
     nav("/AddToCart")
   }
+
+  const {allProducts,setAllProducts} = useContext(shopContext)
+  const {get,data,loading,error} = useFetch("http://localhost:5000/stockProducts")
+  useEffect(()=>{
+    if (!allProducts){
+
+    }
+  },[])
 
   return (
     <>
     <div className='home-page'>
       <div className='navbar'>
         <Navbar
+         handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
         />
+      </div>
+
+      <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
       </div>
 
       
@@ -83,17 +100,17 @@ function HomePage() {
       <div className='main-section' id="product-cat">
         <div id="category">
         <img id="category-img" src="./image copy 6.png"/>
-        <button className='view-collection'>View Women Wear</button>
+        <button className='view-collection'><Link to="/WomenWear">View Women Wear</Link></button>
         </div>
 
         <div id="category">
         <img id="category-img" src="./image copy 8.png"/>
-         <button className='view-collection'>View Men Wear</button>
+         <button className='view-collection'><Link to="/MenWear">View Men Wear</Link></button>
         </div>
 
         <div id="category">
           <img id="category-img" src="./20250419_221038.jpg"/>
-          <button className='view-collection'>View Designer's Collection</button>
+          <button className='view-collection'><Link to="/DesignersCollection">View Designer's Collection</Link></button>
          </div>
 
       </div>
@@ -101,36 +118,16 @@ function HomePage() {
       <h2>Popular</h2>
 
       <div className='main-section' id="popular">
-        <div className="popular-prod"onClick={handleGoToAddToCart}>
+       <Link to="/AddToCart#AddToCart"> <div className="popular-prod"onClick={handleGoToAddToCart}>
 
         <img src="./Pietà Evening.jpeg"/>
         <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
         <p><span className='price'>R750</span><span>Women</span></p>
        
-        </div>
+        </div></Link>
 
 
-        <div>
-        <img src="./Pietà Evening.jpeg"/>
-        <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p className='price'>R750</p>
-        </div>
-
-        <div  className="popular-prod"onClick={handleGoToAddToCart}>
-        <img src="./Pietà Evening.jpeg"/>
-        <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p><span className='price'>R750</span><span>Women</span></p>
-        </div>
-        <div>
-        <img src="./Pietà Evening.jpeg"/>
-        <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p className='price'>R750</p>
-        </div>
-        <div>
-        <img src="./Pietà Evening.jpeg"/>
-        <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p className='price'>R750</p>
-        </div>
+       
       </div>
       <h2>Our Services</h2>
       <div className='main-section' id="my services">
@@ -140,7 +137,7 @@ function HomePage() {
      
     </div>
 
-    <div>
+    <div id="footer">
         <Footer/>
       </div>
     </>

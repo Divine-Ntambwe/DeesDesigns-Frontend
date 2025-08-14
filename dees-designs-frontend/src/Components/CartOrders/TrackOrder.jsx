@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext,useState,useRef} from 'react'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -13,9 +13,11 @@ import { styled } from "@mui/material/styles";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import Cart from './Cart';
+import { appContext } from '../../Context/AppContext';
+import { themeContext } from '../../Context/ThemeContext';
 
 const LongConnector = styled(StepConnector)(({ theme }) => ({
   [`& .MuiStepConnector-line`]: {
@@ -26,13 +28,23 @@ const LongConnector = styled(StepConnector)(({ theme }) => ({
 
 
 function TrackOrder() {
+  const {handleOpenCart} = useContext(appContext);
+  const {colorBW} = useContext(themeContext)
+  const cartPopUp = useRef();
 
   return (
     <>
     <div className='track-order-page'>
         <div className="navbar">
-            <Navbar/>
+            <Navbar
+              handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
         </div>
+
+        <div className='cart-popup' ref={cartPopUp}>
+          <Cart/>
+        </div>
+        
 
         <div className="order-content">
             <h1 id="orders-heading">Orders</h1>
@@ -40,27 +52,27 @@ function TrackOrder() {
    <Box sx={{ minWidth: 120 }}>
       <FormControl>
         <InputLabel sx={{
-    color: 'white',
+    color: colorBW,
     '&.Mui-focused': {
-      color: 'white', // when focused
+      color: colorBW, // when focused
     }
   }} id="demo-simple-select-label"><FilterListIcon/></InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={""}
-          label="Age"
+  
           sx={{
     width: 100,
-    color: "white",
+    color: colorBW,
     '& .MuiSvgIcon-root': {
-      color: 'white', // arrow
+      color: colorBW, // arrow
     },
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: 'darkviolet', // outline color
     },
     '&:hover .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'white', // on hover
+      borderColor: colorBW, // on hover
     },
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: 'darkviolet', // on focus
@@ -81,7 +93,7 @@ function TrackOrder() {
       '& .MuiStepLabel-label.Mui-completed': {
           color: 'darkviolet', // Completed step label color
         } ,           
-      "& .MuiStepLabel-label": { color: "white" },
+      "& .MuiStepLabel-label": { color: colorBW },
       "& .MuiStepIcon-root": { color: "darkviolet" },
       "& .MuiStepIcon-root.Mui-active": { color: "purple" },
       "& .MuiStepIcon-root.Mui-completed": { color: "darkviolet" }
@@ -190,7 +202,7 @@ function TrackOrder() {
          <div className="order">
                 <h2 className='order-id-text'>Order ID: 09309293211</h2>
                 <Stepper connector={<LongConnector />} activeStep={0} orientation="vertical" sx={{ 
-      "& .MuiStepLabel-label": { color: "white" },
+      "& .MuiStepLabel-label": { color: {colorBW} },
       "& .MuiStepIcon-root": { color: "darkviolet" },
       "& .MuiStepIcon-root.Mui-active": { color: "purple" },
       "& .MuiStepIcon-root.Mui-completed": { color: "darkviolet" }
@@ -251,7 +263,7 @@ function TrackOrder() {
 
     </div>
 
-    <div>
+    <div id="footer">
       <Footer/>
     </div>
     </>

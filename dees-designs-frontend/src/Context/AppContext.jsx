@@ -4,17 +4,17 @@ export const appContext = createContext();
 
 
 function AppContext({children}) {
-    console.log(children)
-    const [isA,setIsAuthenticated] = useState("check2");
-    const [check,setCheck] = useState("checking");
+  
+
+   function handleOpenCart(cart){
+    cart.style.display = "flex"
+   }
 
   return (
     <div>
 
-        <appContext.Provider  value={{check,isA,setCheck}}>
+        <appContext.Provider  value={{handleOpenCart}}>
                 {children}
-
-            
         </appContext.Provider>
         
     </div>

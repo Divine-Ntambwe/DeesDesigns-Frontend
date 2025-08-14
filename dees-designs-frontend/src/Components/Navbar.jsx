@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext, useState} from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -15,14 +15,15 @@ import TextField from '@mui/material/TextField';
 import {Link} from 'react-router-dom';
 import {useRef} from 'react'
 import Cart from './CartOrders/Cart';
-let goHome 
+import { appContext } from '../Context/AppContext';
+import { themeContext } from '../Context/ThemeContext';
 
-function Navbar() {
+function Navbar({handleOpenCart}) {
   const sideMenuEl = useRef();
   const navBar = useRef();
   const cartPopUp = useRef();
-  goHome = useRef();
-  
+  const {colorBW,theme,setTheme,setColorBW} = useContext(themeContext);
+  const [modeText,setModeText] = useState(theme === "light"?"Dark":"Light")
 
   function handleOpenMenu(){
     sideMenuEl.current.style.display = "block"
@@ -34,28 +35,35 @@ function Navbar() {
     navBar.current.style.display = "flex"
   }
 
-  function handleOpenCart(){
-    cartPopUp.current.style.display = "flex"
+  function handleChangeTheme(){
+   if (theme === "light"){
+    setTheme("dark");
+    setModeText("Light");
+    setColorBW("white");
+    localStorage.setItem("theme","dark")
+   }else {
+    setTheme("light");
+    setModeText("Dark");
+    setColorBW("black");
+    localStorage.setItem("theme","light")
+   }
   }
 
   return (
     <>
-      <div className='cart-popup' ref={cartPopUp}>
-        <Cart/>
-      </div>
     
     <div className='nav-bar-comp'>
       
         <div className="top-navbar" ref={navBar}>
 
-        <span className='top-nav-links'><span>Home</span> <span>Orders</span> <span>Shop Now</span> <span>Contact Us</span> </span>
+        <span className='top-nav-links'><Link to="/Home">Home</Link> <Link to="/Orders">Orders</Link> <Link>Shop Now</Link> <a href="#footer">Contact Us</a> </span>
         
         <span><h1>Dee's Designs</h1></span>
         
         <span className="navbar-icons"> <Box sx={{ display: 'flex', alignItems: 'flex-end',border:'1px solid #6a04a5', borderRadius:"180px", backgroundColor:"var(--background-color1)", padding:"0 15px 5px"}}>
-        <SearchOutlinedIcon sx={{ color: 'white', mr: 0.5, my: 0.5 }} />
+        <SearchOutlinedIcon sx={{ color: {colorBW}, mr: 0.5, my: 0.5 }} />
         <TextField id="input-with-sx" variant='standard' sx={{borderRadius:"180px",'& .MuiInput-underline:hover:before': {
-      borderBottomColor: 'white', // hover
+      borderBottomColor: {colorBW}, // hover
     },
     '& .MuiInput-underline:before': {
       borderBottomColor: 'gray', // default
@@ -66,22 +74,25 @@ function Navbar() {
       color: 'gray',
       opacity: 1, // needed to fully apply color
     },'& .MuiInputBase-input': {
-      color: 'white', // text color
+      color: colorBW, // text color
     }}} placeholder="search" />
       </Box> <AccountCircleOutlinedIcon onClick={handleOpenMenu} style={{fontSize: "1.5em"}}/> <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>08</span></span>
         </div>
 
         <div ref={sideMenuEl} className='nav-dropdown'>
         <h1>Dee's Designs  <span className='close-sidemenu' onClick={handleCloseMenu}><CloseOutlinedIcon style={{cursor:"pointer"}}/></span></h1>
-
+        <p id="user-details">
+          <p>Hi Divine!</p>
+          <p>divinentambwe@gmail.com</p>
+          </p>
         <div className='side-bar-links'>
-        <Link><HomeOutlinedIcon ref={goHome}style={{fontSize: "2em"}}/>Home</Link>
-        <Link><AccountCircleOutlinedIcon style={{fontSize: "2em"}}/>Profile </Link>
-        <Link><ShoppingCartOutlinedIcon style={{fontSize: "2em"}}/>Cart </Link>
-        <Link><ShoppingBagOutlinedIcon style={{fontSize: "2em"}}/>Orders  </Link>
-        <Link><BedtimeOutlinedIcon  style={{fontSize: "2em"}}/>Dark mode</Link>
-        <Link><PermContactCalendarOutlinedIcon  style={{fontSize: "2em"}}/>Contact us </Link>
-        <Link><LogoutOutlinedIcon style={{fontSize: "2em"}}/> Log Out</Link>
+        <Link className="side-bar-link" to="/Home"><HomeOutlinedIcon style={{fontSize: "2em"}}/>Home</Link>
+
+        <span className="side-bar-link" onClick={()=>{handleCloseMenu();handleOpenCart()}} ><ShoppingCartOutlinedIcon  style={{fontSize: "2em"}}/>Cart</span>
+        <Link className="side-bar-link" to="/Orders" ><ShoppingBagOutlinedIcon style={{fontSize: "2em"}}/>Orders</Link>
+        <span className="side-bar-link" onClick={handleChangeTheme}><BedtimeOutlinedIcon  style={{fontSize: "2em"}}/>{modeText} Mode</span>
+        <a href="#footer" onClick={handleCloseMenu} className="side-bar-link" ><PermContactCalendarOutlinedIcon  style={{fontSize: "2em"}}/>Contact us </a>
+        <Link className="side-bar-link" ><LogoutOutlinedIcon style={{fontSize: "2em"}}/> Log Out</Link>
 
         </div>
         
@@ -91,5 +102,5 @@ function Navbar() {
   )
 }
 
-export {goHome}
+
 export default Navbar

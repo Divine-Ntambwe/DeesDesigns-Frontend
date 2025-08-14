@@ -16,6 +16,9 @@ import WomenWear from './Components/Categories/WomenWear';
 import MenWear from './Components/Categories/MenWear';
 import DesignersCollection from './Components/Categories/DesignersColllection';
 import AddDesignToCart from './Components/CartOrders/AddDesignToCart';
+import Navbar from './Components/Navbar';
+import ThemeContext from './Context/ThemeContext';
+import ShopContext from './Context/ShopContext';
 
 const Authentication = createContext();
 
@@ -37,10 +40,11 @@ function App() {
   }
   return (
     <AppContext>
+      <ShopContext>
+      <ThemeContext>
        <Router>
 
       <div className='App'>
-
        
 
         <Authentication.Provider value={{isAuthenticated,setIsAuthenticated,role,setRole}}>
@@ -60,6 +64,7 @@ function App() {
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
           <Route exact path="/AddDesignToCart" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
+        
 
           <Route exact path="/DesignersHome" element={<ProtectedRoute routeRole="designer" element={<DesHome/>}/>}/>
           </Routes>
@@ -70,6 +75,8 @@ function App() {
       </div>
      
     </Router>
+    </ThemeContext>
+    </ShopContext>
     </AppContext>
    
   )

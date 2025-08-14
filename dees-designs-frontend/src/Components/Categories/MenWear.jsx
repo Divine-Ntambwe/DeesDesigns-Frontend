@@ -1,13 +1,23 @@
-import React from 'react'
+import React,{useContext,useRef} from 'react'
 import './categories.modules.css'
 import Footer from '../Footer'
 import Navbar from '../Navbar'
+import Cart from '../CartOrders/Cart';
+import { appContext } from '../../Context/AppContext';
 function MenWear() {
+    const {handleOpenCart} = useContext(appContext);
+    const cartPopUp = useRef();
   return (
     <>
     <div className='men-wear categories'>
         <div className="navbar">
-            <Navbar/>
+            <Navbar
+            handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
+        </div>
+
+        <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
         </div>
 
         <div className="categories-content">
@@ -56,7 +66,7 @@ function MenWear() {
         
     </div>
 
-    <div>
+    <div id="footer">
         <Footer/>
     </div>
     </>

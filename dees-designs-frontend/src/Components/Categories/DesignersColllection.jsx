@@ -1,14 +1,24 @@
-import React from 'react'
+import React,{useContext,useRef} from 'react'
 import './categories.modules.css'
 import Footer from '../Footer'
 import Navbar from '../Navbar'
+import { Link } from 'react-router-dom';
+import Cart from '../CartOrders/Cart';
+import { appContext } from '../../Context/AppContext';
 function DesignersCollection() {
+    const {handleOpenCart} = useContext(appContext);
+    const cartPopUp = useRef();
   return (
     <>
     <div className='designers-collec categories'>
         <div className="navbar">
-            <Navbar/>
+            <Navbar
+            handleOpenCart={()=>{handleOpenCart(cartPopUp.current)}}
+            />
         </div>
+        <div className='cart-popup' ref={cartPopUp}>
+        <Cart/>
+       </div>
 
         <div className="categories-content">
             <h1>Designer's Collection</h1>
@@ -21,13 +31,14 @@ function DesignersCollection() {
             </p>
 
             <div className="categories-products" id="popular">
-                <div className="popular-prod">
+        
+        <Link to="/AddDesignToCart"><div className="popular-prod">
 
         <img src="./Pietà Evening.jpeg"/>
         <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
         <p><span className='price'>R750</span><span>Women</span></p>
        
-        </div>
+        </div></Link>
 
                 <div className="cat-product">
                     
@@ -53,7 +64,7 @@ function DesignersCollection() {
         
     </div>
 
-    <div>
+    <div id='footer'>
         <Footer/>
     </div>
     </>

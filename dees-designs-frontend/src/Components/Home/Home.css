@@ -49,7 +49,7 @@
     padding: 0 20px;
 }
 #short-desc {
-    color: var(--text-color2);
+    color: white;
     width: 500px;
     font-size: 1.2em;
     line-height: 1.2;

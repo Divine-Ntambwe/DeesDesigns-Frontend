@@ -1,7 +1,7 @@
 .women-wear {
     background: linear-gradient(
         var(--med-purple) 10%,
-        var(--dark-purple) 90%
+        var(--background-color3) 90%
     ) ;
     background-color: var(--dark-purple);
 
@@ -21,10 +21,6 @@
 }
 .categories-content {
     padding: 20px 10px;
-}
-
-#women-heading {
-    /* color: var(--text-color2); */
 }
 
 .category-links {

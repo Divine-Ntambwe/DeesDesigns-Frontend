@@ -24,7 +24,7 @@ function Login() {
       postLogin(creds,(d)=>{
         setIsAuthenticated(true);
         setRole(isDesigner?"designer":"customer");
-        localStorage.setItem("userId",d.userId);
+        localStorage.setItem("userDetails",d.userId);
         localStorage.setItem("role",isDesigner?"designer":"customer");
 
         if (isDesigner === true){
