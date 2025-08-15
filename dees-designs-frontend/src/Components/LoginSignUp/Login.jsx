@@ -12,7 +12,7 @@ function Login() {
    const navigate = useNavigate();
 
     
-    const {setIsAuthenticated,setRole} = useContext(Authentication);
+    const {setIsAuthenticated,setRole,setUserDetails,setAuthCred,authCred,userDetails} = useContext(Authentication);
   
     const {post:postLogin,loading,data,error} = useFetch("http://localhost:5000/userLogin");
    
@@ -22,9 +22,15 @@ function Login() {
       const creds = {email,password,isDesigner};
       
       postLogin(creds,(d)=>{
+        delete d.message
         setIsAuthenticated(true);
         setRole(isDesigner?"designer":"customer");
-        localStorage.setItem("userDetails",d.userId);
+        setUserDetails(d);
+
+        const {email,password} = d;
+        setAuthCred(btoa(`${email}:${password}`));
+
+        localStorage.setItem("userDetails",JSON.stringify(d));
         localStorage.setItem("role",isDesigner?"designer":"customer");
 
         if (isDesigner === true){

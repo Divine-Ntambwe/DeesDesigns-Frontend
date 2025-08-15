@@ -4,7 +4,7 @@ export const appContext = createContext();
 
 
 function AppContext({children}) {
-  
+   
 
    function handleOpenCart(cart){
     cart.style.display = "flex"

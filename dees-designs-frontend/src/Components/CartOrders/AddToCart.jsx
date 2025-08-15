@@ -8,6 +8,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Footer from '../Footer';
 import Cart from './Cart';
 import { appContext } from '../../Context/AppContext';
+import { shopContext } from '../../Context/ShopContext';
 
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
@@ -18,6 +19,9 @@ function AddToCart() {
     e.preventDefault();
     handleOpenCart(cartPopUp.current);
   }
+
+  const {productDetails} = useContext(shopContext);
+
   return (
     <>
     <div className='AddToCart'>
@@ -35,9 +39,9 @@ function AddToCart() {
           <h1 id='AddToCart'>Add To Cart</h1>
 
           <div className='add-cart-prod'>
-            <img src="./Pietà Evening.jpeg"/>
+            <img src={productDetails.imagePath[0]}/>
             <div className='add-cart-prod-details'>
-              <h2>Red Satin Transparent Sleeve Dress</h2>
+              <h2>{productDetails.name}</h2>
               <Rating name="half-rating-read"  sx={{
     '& .MuiRating-iconFilled': {
       color: 'darkviolet', // filled stars

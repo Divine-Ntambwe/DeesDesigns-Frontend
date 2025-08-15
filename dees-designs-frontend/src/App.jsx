@@ -23,12 +23,13 @@ import ShopContext from './Context/ShopContext';
 const Authentication = createContext();
 
 function App() {
-
-  const [isAuthenticated,setIsAuthenticated] = useState(localStorage.getItem("userId")?true:false);
+  const [userDetails,setUserDetails] = useState(JSON.parse(localStorage.getItem("userDetails")) || "");
+  const {email,password} = userDetails
+  const [isAuthenticated,setIsAuthenticated] = useState(userDetails?true:false);
   const [role,setRole] = useState(localStorage.getItem("role"));
+  const [authCred,setAuthCred] = useState(btoa(`${email}:${password}`));
 
   const ProtectedRoute = ({element,routeRole}) => {
-    console.log(role)
     if (isAuthenticated && routeRole === role){
       return element
     } else {
@@ -47,7 +48,7 @@ function App() {
       <div className='App'>
        
 
-        <Authentication.Provider value={{isAuthenticated,setIsAuthenticated,role,setRole}}>
+        <Authentication.Provider value={{isAuthenticated,setIsAuthenticated,role,setRole,authCred,setAuthCred,userDetails,setUserDetails}}>
           <Routes>
           <Route exact path="/" element={<SplashScreen/>}/>
           <Route exact path="/CustomerSignUp" element={<CustSignUp/>}/>
