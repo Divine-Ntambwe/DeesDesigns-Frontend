@@ -18,7 +18,9 @@ import DesignersCollection from './Components/Categories/DesignersColllection';
 import AddDesignToCart from './Components/CartOrders/AddDesignToCart';
 import Navbar from './Components/Navbar';
 import ThemeContext from './Context/ThemeContext';
-import ShopContext from './Context/ShopContext';
+import ProductsContext from './Context/ProductsContext';
+import Cart from './Components/CartOrders/Cart';
+import CartContext from './Context/CartContext';
 
 const Authentication = createContext();
 
@@ -40,15 +42,17 @@ function App() {
   
   }
   return (
+    <Authentication.Provider value={{isAuthenticated,setIsAuthenticated,role,setRole,authCred,setAuthCred,userDetails,setUserDetails}}>
     <AppContext>
-      <ShopContext>
+      <ProductsContext>
+        <CartContext>
       <ThemeContext>
        <Router>
 
       <div className='App'>
        
 
-        <Authentication.Provider value={{isAuthenticated,setIsAuthenticated,role,setRole,authCred,setAuthCred,userDetails,setUserDetails}}>
+        
           <Routes>
           <Route exact path="/" element={<SplashScreen/>}/>
           <Route exact path="/CustomerSignUp" element={<CustSignUp/>}/>
@@ -58,7 +62,7 @@ function App() {
 
 
           <Route exact path="/Home" element={<ProtectedRoute routeRole="customer" element={<HomePage/>}/>}/>
-          <Route exact path="/AddToCart" element={<ProtectedRoute routeRole="customer" element={<AddToCart/>}/>}/>
+          <Route exact path="/AddToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddToCart/>}/>}/>
           <Route exact path="/CheckOut" element={<ProtectedRoute routeRole="customer" element={<Checkout/>}/>}/>
           <Route exact path="/Orders" element={<ProtectedRoute routeRole="customer" element={<TrackOrder/>}/>}/>
           <Route exact path="/WomenWear" element={<ProtectedRoute routeRole="customer" element={<WomenWear/>}/>}/>
@@ -71,14 +75,16 @@ function App() {
           </Routes>
          
 
-        </Authentication.Provider>
+        
      
       </div>
      
     </Router>
     </ThemeContext>
-    </ShopContext>
+    </CartContext>
+    </ProductsContext>
     </AppContext>
+    </Authentication.Provider>
    
   )
 }

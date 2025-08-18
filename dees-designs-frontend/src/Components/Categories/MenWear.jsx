@@ -1,12 +1,24 @@
-import React,{useContext,useRef} from 'react'
+import React,{useContext,useRef,useState,useEffect} from 'react'
 import './categories.modules.css'
 import Footer from '../Footer'
 import Navbar from '../Navbar'
 import Cart from '../CartOrders/Cart';
 import { appContext } from '../../Context/AppContext';
+import { products } from '../../Context/ProductsContext';
+import GlareHover from '../ReactBitComp/GlareHover'
 function MenWear() {
     const {handleOpenCart} = useContext(appContext);
-    const cartPopUp = useRef();
+        const {menProducts} = useContext(products)
+        const cartPopUp = useRef();
+        function handleProdHover(e,imgSrc){
+        setTimeout(
+          () =>{
+             e.target.children[0].src = imgSrc
+            },
+            300);
+    
+      }
+      
   return (
     <>
     <div className='men-wear categories'>
@@ -34,33 +46,30 @@ function MenWear() {
             </p>
 
             <div className="categories-products" id="popular">
-                <div className="popular-prod">
+               
+{
+          menProducts  && menProducts.map((product)=>(
+             
+             <div  id={product["_id"]} key={product["_id"]} className="popular-prod" onMouseOver={(e)=>{handleProdHover(e,product.imagePath[1])}} onMouseOut={(e)=>{handleProdHover(e,product.imagePath[0])}} onClick={(e)=> {handleGoToAddToCart(product["_id"]); nav("/AddToCart");}}>
+              <GlareHover
+    glareColor="#ffffff"
+    glareOpacity={0.3}
+    glareAngle={-30}
+    glareSize={300}
+    transitionDuration={800}
+    playOnce={false}
+    className="popular-prod"
+  >
+     <img alt={`A picture of ${product.name}`} src={product.imagePath[0]||null}/>
+  </GlareHover>
+  <p className='product-name'>{product.name}</p>
+        <p><span className='price'>R{product.price}.00</span><span>{product.menOrWomen}</span></p>
+             </div>
+             
+          ))
+        }
+        
 
-        <img src=".\image copy 8.png"/>
-        <p className='product-name'>Red Satin Transparent Sleeve Dress</p>
-        <p><span className='price'>R750</span><span>Women</span></p>
-       
-        </div>
-
-                <div className="cat-product">
-                    
-                </div>
-
-                <div className="cat-product">
-                    
-                </div>
-
-                <div className="cat-product">
-                    
-                </div>
-
-                <div className="cat-product">
-                    
-                </div>
-
-                <div className="cat-product">
-                    
-                </div>
             </div>
         </div>
         

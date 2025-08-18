@@ -16,7 +16,7 @@ function CustSignUp() {
   [password,setPassword] = useState(""),
   [conPassword,setConPassword] = useState("");
 
-  const {post:postSignUp,loading,data,error} = useFetch("http://localhost:5000/customersSignUp");
+  const {post:postSignUp,loading,data,error} = useFetch("/customersSignUp");
   const navigate = useNavigate();
   const {setRole,setIsAuthenticated} = useContext(Authentication);
 
@@ -44,8 +44,8 @@ function CustSignUp() {
         <div className='form-container'>
           <h2>Sign Up</h2>
           {data && <p className='cred-error'>{data.error}</p>}
-          {error && <p className='cred-error'>Network Error Please Try Again Later</p>}
-          <form onSubmit={handleSignUp}>
+          {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
+          <form onSubmit={handleSignUp} id="customer-signup-form" className='signup-login-form'>
 
             <label>Name:</label>
             <input required type='text' onChange={(e)=> setName(e.target.value)}/>
@@ -72,6 +72,8 @@ function CustSignUp() {
               
             </fieldset>
 
+           
+
             <label>Password:</label>
             <input required type='password' onChange={(e)=> setPassword(e.target.value)}/>  
 
@@ -80,9 +82,22 @@ function CustSignUp() {
 
           
   
-            <Button className="submit button"type="submit" loading={loading} loadingPosition='end'   style={{backgroundColor: "#2f004a", color: "#f09ff6", marginBottom: "10px"}} >
-             Sign Up
-            </Button>
+            <Button
+          type="submit"
+          loading={loading}
+           sx={{
+        backgroundColor: "#6a04a5",   // button color
+        color: "white",            // text color
+        width: "100%",            // custom width
+        height: "45px",            // custom height
+        "&:hover": {
+          backgroundColor: "gray", // hover color
+        },
+        marginBottom: "10px"
+      }}
+        >
+          Login
+        </Button>
 
           </form>
           

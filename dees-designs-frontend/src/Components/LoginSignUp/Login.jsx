@@ -14,7 +14,7 @@ function Login() {
     
     const {setIsAuthenticated,setRole,setUserDetails,setAuthCred,authCred,userDetails} = useContext(Authentication);
   
-    const {post:postLogin,loading,data,error} = useFetch("http://localhost:5000/userLogin");
+    const {post:postLogin,loading,data,error} = useFetch("/userLogin");
    
 
     function handleLogin(e){   
@@ -50,7 +50,8 @@ function Login() {
      
         <div className='form-container'>
           <h2>Log In</h2>
-          {data && <p className='cred-error'>{data.error}</p>}
+           {data && <p className='cred-error'>{data.error}</p>}
+          {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleLogin}>  
 
             <label>Email:</label>
@@ -64,8 +65,23 @@ function Login() {
               <input type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>
               <label>Are you a designer?</label>
               </div>
-  
-            <input className="submit button"type="submit" value="Log In"/>
+            <Button
+          type="submit"
+          loading={loading}
+           sx={{
+        backgroundColor: "#6a04a5",   // button color
+        color: "white",            // text color
+        width: "100%",            // custom width
+        height: "45px",            // custom height
+        "&:hover": {
+          backgroundColor: "gray", // hover color
+        },
+        marginBottom: "10px"
+      }}
+        >
+          Login
+        </Button>
+            {/* <input className="submit button"type="submit" value="Log In"/> */}
           </form>
           
           <p className='login-signup-link'>Don't Have An Account?<Link to="/CustomerSignUp"> Sign Up as Customer?</Link></p>
