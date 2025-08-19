@@ -34,7 +34,7 @@ function useFetch(endpoint) {
 
     async function deleteApi(toDo = ()=>{}) {
       try {
-        const res = await fetch(url,
+        const res = await fetch(url + endpoint,
                 {
                   method: "DELETE",
                   headers: {"authentication":"application/json","Authorization":`Basic ${authCred}`},
@@ -54,11 +54,42 @@ function useFetch(endpoint) {
       }
     }
 
+    async function postAuth(body = {},toDo = ()=>{}){
+      setLoading(true)
+      console.log(body)
+        try {
+            
+            const res = await fetch(url + endpoint,
+                {
+                  method: "POST",
+                  headers: {"Content-Type":"application/json","Authorization":`Basic ${authCred}`},
+                  body: JSON.stringify(body)
+                }
+              )
+      
+              const result = await res.json();
+              setData(result);
+              setLoading(false);
+              
+              if (res.status === 200) {
+                toDo(result);
+              } else {
+                setError(result.error)
+                console.error("error posting",result.error)
+                console.log("ooooooo")
+              }
+        } catch(e) {
+          console.error("error posting",e)
+          setError(e)
+        }
+        
+      }
+
     async function post(body = {},toDo = ()=>{}){
       setLoading(true)
         try {
             
-            const res = await fetch(url,
+            const res = await fetch(url + endpoint,
                 {
                   method: "POST",
                   headers: {"Content-Type":"application/json"},
@@ -85,7 +116,7 @@ function useFetch(endpoint) {
         try {
             setLoading(true)
 
-            const res = await fetch(url,
+            const res = await fetch(url + endpoint,
                 {
                   method: "POST",
                   body: body             
@@ -105,7 +136,7 @@ function useFetch(endpoint) {
         
       }  
 
-   return {post,get, deleteApi,postMedia,data,loading, error}
+   return {post,get, deleteApi,postMedia,data,loading, error, postAuth}
 }
 
 export default useFetch

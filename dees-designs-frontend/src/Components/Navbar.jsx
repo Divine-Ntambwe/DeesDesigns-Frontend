@@ -17,13 +17,15 @@ import {useRef} from 'react'
 import Cart from './CartOrders/Cart';
 import { appContext } from '../Context/AppContext';
 import { themeContext } from '../Context/ThemeContext';
+import { cartContext } from '../Context/CartContext';
 
 function Navbar({handleOpenCart}) {
   const sideMenuEl = useRef();
   const navBar = useRef();
   const cartPopUp = useRef();
   const {colorBW,theme,setTheme,setColorBW} = useContext(themeContext);
-  const [modeText,setModeText] = useState(theme === "light"?"Dark":"Light")
+  const [modeText,setModeText] = useState(theme === "light"?"Dark":"Light");
+  const {cartNum} = useContext(cartContext)
 
   function handleOpenMenu(){
     sideMenuEl.current.style.display = "block"
@@ -76,7 +78,7 @@ function Navbar({handleOpenCart}) {
     },'& .MuiInputBase-input': {
       color: colorBW, // text color
     }}} placeholder="search" />
-      </Box> <AccountCircleOutlinedIcon onClick={handleOpenMenu} style={{fontSize: "1.5em"}}/> <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>08</span></span>
+      </Box> <AccountCircleOutlinedIcon onClick={handleOpenMenu} style={{fontSize: "1.5em"}}/> <ShoppingCartOutlinedIcon onClick={handleOpenCart} style={{fontSize: "1.3em"}}/><span id='num-of-cart-items'>{cartNum}</span></span>
         </div>
 
         <div ref={sideMenuEl} className='nav-dropdown'>

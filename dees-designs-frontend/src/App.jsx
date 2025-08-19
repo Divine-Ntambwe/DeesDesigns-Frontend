@@ -68,7 +68,7 @@ function App() {
           <Route exact path="/WomenWear" element={<ProtectedRoute routeRole="customer" element={<WomenWear/>}/>}/>
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
-          <Route exact path="/AddDesignToCart" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
+          <Route exact path="/AddDesignToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
         
 
           <Route exact path="/DesignersHome" element={<ProtectedRoute routeRole="designer" element={<DesHome/>}/>}/>

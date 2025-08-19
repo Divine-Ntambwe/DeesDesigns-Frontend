@@ -62,10 +62,9 @@ function ProductsContext({ children }) {
   
   const {authCred} = useContext(Authentication);
   const {url} = useContext(appContext)
-  async function getReviews() {
+  async function getReviews(productId) {
     try {
-      console.log(productDetails["_id"])
-      const res = await fetch(`${url}/reviews/${productDetails["_id"]}`, {
+      const res = await fetch(`${url}/reviews/${productId}`, {
         method: "GET",
         headers: {
           authentication: "application/json",
@@ -76,7 +75,6 @@ function ProductsContext({ children }) {
       const result = await res.json();
 
       if (res.status === 200) {
-        
         setReviews(result)
       }
     } catch (e) {
@@ -86,7 +84,15 @@ function ProductsContext({ children }) {
   function handleGoToAddToCart(productId) {
     if(allProducts) {
       setProductDetails(allProducts.find((prod) => prod["_id"] === productId));
-      getReviews()
+      getReviews(productId)
+    }
+  }
+
+  function handleGoToAddDesignToCart(productId) {
+    console.log(designerProducts)
+    if(designerProducts) {
+      setProductDetails(designerProducts.find((prod) => prod["_id"] === productId));
+      getReviews(productId)
     }
   }
 
@@ -100,6 +106,7 @@ function ProductsContext({ children }) {
           productDetails,
           setProductDetails,
           handleGoToAddToCart,
+          handleGoToAddDesignToCart,
           homeProducts,
           womenProducts,
           menProducts,
