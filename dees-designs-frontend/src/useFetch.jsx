@@ -1,26 +1,51 @@
-import React, { useState } from 'react'
-
-function useFetch(url) {
+import React, { useContext, useState } from 'react'
+import { Authentication } from './App';
+import { appContext } from './Context/AppContext';
+function useFetch(endpoint) {
     const [error,setError] = useState(""),
     [data,setData] = useState(""),
     [loading,setLoading] = useState(false);
+    const {authCred} = useContext(Authentication);
+    const {url} = useContext(appContext)
 
-    async function get(auth = {},toDo = ()=>{}) {
+    async function get(toDo = ()=>{}) {
       setLoading(true);
       try {
-        const res = await fetch(url,
+        const res = await fetch(url + endpoint,
                 {
                   method: "GET",
-                  headers: {"authentication":"application/json"},
-                  body: JSON.stringify(body)
+                  headers: {"authentication":"application/json","Authorization":`Basic ${authCred}`},
                 }
               )
       
               const result = await res.json();
               setData(result);
               setLoading(false);
+              
+    
+              if (res.status === 200) {
+                toDo(result);
+              }
+      }catch(e){
+        setError(e);
+        console.error("error getting",e)
+      }
+    }
 
-              if (result.status === 200) {
+    async function deleteApi(toDo = ()=>{}) {
+      try {
+        const res = await fetch(url,
+                {
+                  method: "DELETE",
+                  headers: {"authentication":"application/json","Authorization":`Basic ${authCred}`},
+                }
+              )
+      
+              const result = await res.json();
+              setData(result);
+              
+    
+              if (res.status === 200) {
                 toDo(result);
               }
       }catch(e){
@@ -44,8 +69,9 @@ function useFetch(url) {
               const result = await res.json();
               setData(result);
               setLoading(false);
-
+              
               if (result.message) {
+
                 toDo(result);
               }
         } catch(e) {
@@ -79,7 +105,7 @@ function useFetch(url) {
         
       }  
 
-   return {post, postMedia,data,loading, error}
+   return {post,get, deleteApi,postMedia,data,loading, error}
 }
 
 export default useFetch

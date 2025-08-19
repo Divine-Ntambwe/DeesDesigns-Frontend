@@ -4,7 +4,7 @@ export const appContext = createContext();
 
 
 function AppContext({children}) {
-  
+   const url = "http://localhost:5000"
 
    function handleOpenCart(cart){
     cart.style.display = "flex"
@@ -13,7 +13,7 @@ function AppContext({children}) {
   return (
     <div>
 
-        <appContext.Provider  value={{handleOpenCart}}>
+        <appContext.Provider  value={{handleOpenCart,url}}>
                 {children}
         </appContext.Provider>
         
