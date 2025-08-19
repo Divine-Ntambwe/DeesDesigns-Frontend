@@ -1,4 +1,4 @@
-import React,{useContext,useRef} from 'react'
+import React,{useContext,useEffect,useRef, useState} from 'react'
 import Navbar from '../Navbar'
 import './cartOrders.modules.css'
 import Rating from '@mui/material/Rating';
@@ -7,14 +7,67 @@ import LinearProgress from '@mui/material/LinearProgress';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import Footer from '../Footer';
-import {Link} from 'react-router-dom';
+import {Link,useParams} from 'react-router-dom';
 import Cart from './Cart';
 import { appContext } from '../../Context/AppContext';
+import { products } from '../../Context/ProductsContext';
+import useFetch from '../../useFetch';
+import { cartContext } from "../../Context/CartContext";
+import Button from '@mui/material/Button';
+import { Authentication } from "../../App";
 
 function AddDesignToCart() {
-  const [progress, setProgress] = React.useState(90);
+  const [progress,setProgress] = useState(90)
   const {handleOpenCart} = useContext(appContext);
   const cartPopUp = useRef();
+  const { productDetails, handleGoToAddDesignToCart, designerProducts, reviews } = useContext(products);
+  const productId = useParams().productId;
+  const {setFetch} = useContext(cartContext);
+  const { userDetails } = useContext(Authentication);
+
+  useEffect(()=>{
+    handleGoToAddDesignToCart(productId);
+  },[designerProducts]);
+
+  const { postAuth, loading, error } = useFetch("/addToCart");
+
+  function handleAddToCart(e) {
+    e.preventDefault();
+    const cartItem = {
+      customerId: userDetails["_id"],
+      productId,
+      productName: productDetails.name,
+      price: productDetails.price,
+      size:"M",
+      quantity:1,
+      imgPath: productDetails.imagePath,
+      productProvider:"designer"
+    };
+    postAuth(cartItem,(d)=>{
+      setFetch(true);
+      handleOpenCart(cartPopUp.current);
+    });
+    
+    
+  }
+  function getMeasurements() {
+    const arr = [];
+    for (let [x, y] of Object.entries(productDetails.measurementDescription)) {
+      arr.push(x + ": " + y);
+    }
+    return arr;
+  }
+  function calcStarsProgress(starNum) {
+    return reviews.length === 0? 0:(
+      (reviews.filter((i) => {
+        return i.rating === starNum;
+      }).length /
+        reviews.length) *
+      100
+    );
+  }
+ 
+
   return (
     <>
     <div className='AddToCart'>
@@ -31,11 +84,11 @@ function AddDesignToCart() {
         <div className='add-to-cart-content'>
           <h1>Add To Cart</h1>
 
-          <div className='add-cart-prod'>
-            <img src="./Pietà Evening.jpeg"/>
+          {productDetails && <div className='add-cart-prod'>
+            <img src={productDetails.imagePath}/>
             <div className='add-cart-prod-details'>
-              <h2>Red Satin Transparent Sleeve Dress</h2>
-              <p className='cart-rating'><b>Uploaded By:</b> <Link>Janee Lori</Link></p>
+              <h2>{productDetails.name}</h2>
+              <p className='cart-rating'><b>Uploaded By:</b> <Link to={`/DesignersProfile/${productDetails["_id"]}`} style={{textDecoration:"underline"}}>{productDetails.uploadedBy}</Link></p>
               <Rating name="half-rating-read"  sx={{
     '& .MuiRating-iconFilled': {
       color: 'darkviolet', // filled stars
@@ -49,20 +102,34 @@ function AddDesignToCart() {
   }}
   defaultValue={2} precision={0.5} readOnly/>
               <p className='cart-rating'><span>4.7 rating</span><span> 11 reviews</span></p>
-              <p className='add-to-cart-price'>R750.00</p>
+              <p className='add-to-cart-price'>R{productDetails.price}.00</p>
 
               <h3>Product Description</h3>
                <textarea rows={50} cols={20} style={{pointerEvents: "none"}}>
-                lkjbv cfdftgyhujikoopiuiuytr
+                {getMeasurements().toString()}
                </textarea>
 
-              <form>       
-                <button id="add-to-cart" type='sumbit' className='submit button'><ShoppingCartOutlinedIcon/> Add To Cart</button>
-             </form>
+             {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
+                  <Button
+                  onClick={handleAddToCart}
+          loading={loading}
+           sx={{
+        backgroundColor: "#6a04a5",   // button color
+        color: "white",            // text color
+        width: "100%",            // custom width
+        height: "45px",            // custom height
+        "&:hover": {
+          backgroundColor: "gray", // hover color
+        },
+        marginBottom: "10px"
+      }}
+        >
+          <ShoppingCartOutlinedIcon/> Add To Cart
+        </Button>
 
 
             </div>
-          </div>
+          </div>}
 <div className='review-rating'>
             
           <div className='cart-reviews'>

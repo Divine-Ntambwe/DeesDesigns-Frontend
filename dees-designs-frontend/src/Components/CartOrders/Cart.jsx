@@ -82,12 +82,12 @@ function Cart() {
             ))}
         </div>
 
-        <p id="cart-total">Total: R{cartTotal}.00</p>
+       {Boolean(cartNum) &&<> <p id="cart-total">Total: R{cartTotal}.00</p>
         <Link to="/CheckOut">
-          <button id="checkout" className="button">
+            <button id="checkout" className="button">
             Check Out
           </button>
-        </Link>
+        </Link> </>}
       </div>
     </div>
   );
