@@ -15,6 +15,10 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
         onChange={onChange}
         value = {value?value:""}
         sx={{
+          "& input:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 100px  inset", // background color
+      WebkitTextFillColor: "var(--text-color2)"},
+           width:"100%",
           // label
           "& label": {
             color: "gray",
@@ -28,6 +32,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
             color: "var(--text-color2)",
             backgroundColor: "transparent",
             fontSize: "1.3em",
+           
           },
 
           // outline colors

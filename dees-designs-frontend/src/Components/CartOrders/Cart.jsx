@@ -14,8 +14,7 @@ function Cart() {
   }
 
   const {cartItems,setFetch,cartNum,cartTotal} = useContext(cartContext);
-  const {authCred} = useContext(Authentication)
-  console.log(cartTotal,cartNum)
+  const {authCred} = useContext(Authentication);
 
    const {url} = useContext(appContext)
   async function handleRemoveItem(e) {

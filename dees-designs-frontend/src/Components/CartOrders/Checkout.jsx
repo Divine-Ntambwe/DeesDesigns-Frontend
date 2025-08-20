@@ -31,7 +31,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function Checkout() {
   const { handleOpenCart } = useContext(appContext);
   const cartPopUp = useRef();
-  const { cartItems,cartTotal,setFetch } = useContext(cartContext);
+  const { cartItems,cartTotal,setFetch,cartNum } = useContext(cartContext);
   const { userDetails } = useContext(Authentication);
   const { get} = useFetch(
     `/getAddressAndBankDetails/${userDetails["_id"]}`
@@ -85,11 +85,12 @@ function Checkout() {
       
     }
     postAuth(orderDetails,(d)=>{
-      setFetch(true);
+      
       handleClickOpen()
+      setFetch(true);
     });
   }
-   const [open, setOpen] = React.useState(true);
+   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -115,7 +116,7 @@ function Checkout() {
         <DialogTitle>{"Dees Designs"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-           <b>Thank You For Your Purchase!</b> you'll recieve your package with in 2-3 days
+           <b>Thank You For Your Purchase!</b> you'll recieve your package with in 5-7 days
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -144,7 +145,7 @@ function Checkout() {
           onSubmit={handleCheckOut}
         >
           <h1>Checkout</h1>
-          <div className="checkout">
+          {Boolean(cartNum) && <div className="checkout">
             <div className="checkout-forms-cont" id="delivery-info">
               <h2>Delivery Information</h2>
 
@@ -164,7 +165,7 @@ function Checkout() {
                     label="Mobile Number"
                     name="number"
                     value={savedDetails.number}
-                    pattern={/0{1}\d/}
+                    pattern={/\d/}
                     onChange={handleOrderDetails}
                   />
                 </div>
@@ -432,7 +433,7 @@ function Checkout() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
         </Box>
       </div>
       <div id="footer">

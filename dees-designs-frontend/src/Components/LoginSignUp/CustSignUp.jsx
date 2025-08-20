@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { Authentication } from '../../App';
+import TextFieldComp from '../TextField';
 
 
 function CustSignUp() {
@@ -18,19 +19,26 @@ function CustSignUp() {
 
   const {post:postSignUp,loading,data,error} = useFetch("/customersSignUp");
   const navigate = useNavigate();
-  const {setRole,setIsAuthenticated} = useContext(Authentication);
+  const {setIsAuthenticated,setRole,setUserDetails,setAuthCred} = useContext(Authentication);
 
   function handleSignUp(e){
     e.preventDefault()
-    const cred = {name,surname,email,gender,password,confirmPassword:conPassword};
-    postSignUp(cred,(d)=>{
-      if (d){
-        localStorage.setItem("userId",d.userId);
+    const creds = {name,surname,email,number,gender,password,confirmPassword:conPassword};
+    postSignUp(creds,(d)=>{
+        delete d.message
+
+        const {email,password} = d;
+        setAuthCred(btoa(`${email}:${password}`)); 
+
+        localStorage.setItem("userDetails",JSON.stringify(d));
+        setUserDetails(d);
+
         localStorage.setItem("role","customer");
         setIsAuthenticated(true);
         setRole("customer")
         navigate('/Home')
-      }
+
+      
      
     })
     console.log(error.toString())
@@ -47,21 +55,15 @@ function CustSignUp() {
           {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleSignUp} id="customer-signup-form" className='signup-login-form'>
 
-            <label>Name:</label>
-            <input required type='text' onChange={(e)=> setName(e.target.value)}/>
-
-            <label>Surname:</label>
-            <input required type='text' onChange={(e)=> setSurname(e.target.value)}/>  
-
-            <label>Email:</label>
-            <input required type='email' onChange={(e)=> setEmail(e.target.value)}/>  
-
-            <fieldset>
+            <TextFieldComp value={name}id="cust-name" name="custName" label="Name" onChange={(e)=> setName(e.target.value)}/>
+            <TextFieldComp value={surname} id="cust-surname" name="custSurname" label="Surname" onChange={(e)=> setSurname(e.target.value)}/>
+            <TextFieldComp value={email} id="cust-email" name="custEmail" label="Email" type='email' onChange={(e)=> setEmail(e.target.value)}/>  
+              <fieldset>
               <legend>Gender:</legend>
               
               <div className='gender'>
              
-              <input type="radio" name="gender" value="male" onChange={(e)=> setGender("M")}/>
+              <input type="radio" name="gender" value="male"  onChange={(e)=> setGender("M")}/>
               <label>Male</label>
               </div>
 
@@ -71,17 +73,11 @@ function CustSignUp() {
               </div>
               
             </fieldset>
-
+            <TextFieldComp value={number} label="Mobile Number" id="cust-number" name="custNumber" onChange={(e)=>{setNumber(e.target.value)}}/>
+            <TextFieldComp value={password} label="Password" id="password" type='password' onChange={(e)=> setPassword(e.target.value)}/>
+            <TextFieldComp value={conPassword} label="Confirm Password" name="confirmPassword" id="confirm-password"type="password" onChange={(e)=> setConPassword(e.target.value)}/> 
+            
            
-
-            <label>Password:</label>
-            <input required type='password' onChange={(e)=> setPassword(e.target.value)}/>  
-
-            <label>Confirm Password:</label>
-            <input required type='password' onChange={(e)=> setConPassword(e.target.value)}/>  
-
-          
-  
             <Button
           type="submit"
           loading={loading}
@@ -96,7 +92,7 @@ function CustSignUp() {
         marginBottom: "10px"
       }}
         >
-          Login
+          Sign Up
         </Button>
 
           </form>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { createContext } from 'react'
 export const themeContext = createContext() 
 
@@ -9,8 +9,8 @@ function ThemeContext({children}) {
     const root = document.querySelector(':root');
     const [colorBW,setColorBW] = useState(theme === "light"?"black":"white")
 
-
-    if (theme === "light"){
+    useEffect(()=>{
+      if (theme === "light"){
         root.style.setProperty("--background-color1","#f1f1f1");
         root.style.setProperty("--text-color2","black");
         root.style.setProperty("background-color3","#f09ff6");
@@ -23,6 +23,8 @@ function ThemeContext({children}) {
         
     }
 
+    },[theme])
+    
   return (
     <div>
         <themeContext.Provider value={{setTheme,colorBW,theme,setColorBW}}>

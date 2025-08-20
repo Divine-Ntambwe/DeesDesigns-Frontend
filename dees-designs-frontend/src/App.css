@@ -21,8 +21,8 @@
 
 }
 #user-details {
-  color: var(--med-purple);
-  font-size: 1.2em;
+  color: var(--text-color2);
+  font-size: 1.5em;
   font-weight: 500;
 }
 
