@@ -26,7 +26,7 @@ function CartContext({children}) {
         )
        })
 
-    },[fetch])
+    },[fetch,userDetails])
   return (
     <cartContext.Provider value = {{cartItems,setFetch,cartNum,cartTotal}}>
         {children}

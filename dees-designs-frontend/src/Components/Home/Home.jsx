@@ -17,6 +17,7 @@ import { Authentication } from "../../App";
 function HomePage() {
   const { handleOpenCart } = useContext(appContext);
   const cartPopUp = useRef();
+  const displayedProducts = useRef()
   const nav = useNavigate();
   const {
     allProducts,
@@ -49,6 +50,7 @@ function HomePage() {
             handleOpenCart={() => {
               handleOpenCart(cartPopUp.current);
             }}
+            displayedProducts={displayedProducts.current}
           />
         </div>
 
@@ -115,7 +117,7 @@ function HomePage() {
             </div>
           </div>
 
-          <h2>You might like these</h2>
+          <h2 ref={displayedProducts} id="home-products">Home</h2>
 
           <div className="main-section" id="popular">
             {homeProducts &&

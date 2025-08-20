@@ -4,6 +4,7 @@ import useFetch from '../../useFetch';
 import { Link,useNavigate } from 'react-router-dom';
 import { Authentication } from '../../App';
 import Button from '@mui/material/Button';
+import TextFieldComp from "../TextField";
 
 function Login() {
     const [isDesigner,setIsDesigner] = useState(false),
@@ -12,7 +13,7 @@ function Login() {
    const navigate = useNavigate();
 
     
-    const {setIsAuthenticated,setRole,setUserDetails,setAuthCred,authCred,userDetails} = useContext(Authentication);
+    const {setIsAuthenticated,setRole,setUserDetails,setAuthCred} = useContext(Authentication);
   
     const {post:postLogin,loading,data,error} = useFetch("/userLogin");
    
@@ -54,12 +55,22 @@ function Login() {
           {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleLogin}>  
 
-            <label>Email:</label>
-            <input required type='email' onChange={(e)=> setEmail(e.target.value)}/>  
-
-            <label>Password:</label>
-            <input required type='password' onChange={(e)=> setPassword(e.target.value)}/>  
-
+             <TextFieldComp
+            id="login-email"
+            name="loginEmail"
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+             <TextFieldComp
+            id="login-password"
+            name="loginPassword"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
             <div className='gender'>
              
               <input type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>

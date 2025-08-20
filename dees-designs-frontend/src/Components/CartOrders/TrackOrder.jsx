@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -33,15 +33,23 @@ function TrackOrder() {
   const { colorBW } = useContext(themeContext);
   const cartPopUp = useRef();
   const orderStatus = [
-    "Order Placed",
-    "Order Confirmed",
-    "Order is being processed",
-    "Order in transit",
-    "Order has hit the road!",
-    "Delivered",
+    "placed",
+    "confirmed",
+    "is being processed",
+    "in transit",
+    "has hit the road!",
+    "delivered",
   ];
+  const [orders,setOrders] = useState()
   const {userDetails} = useContext(Authentication);
-  const {get} = useFetch(`/customerOrders/${userDetails["_id"]}`)
+  const {get} = useFetch(`/customerOrders/${userDetails["_id"]}`);
+
+  useEffect(()=>{
+    get((d)=>{
+      setOrders(d)
+    
+    })
+  },[])
   
   return (
     <>
@@ -102,17 +110,25 @@ function TrackOrder() {
             </FormControl>
           </Box>
 
-          <div className="order">
-            <h2 className="order-id-text">Order ID: 09309293211</h2>
+          {orders && 
+
+          orders.map((order)=>(
+            <>
+            <div className="order">
+            <h2 className="order-id-text">Order ID: {order._id}</h2>
             <Stepper
               connector={<LongConnector />}
-              activeStep={3}
+              activeStep={orderStatus.indexOf(order.statusOfExchange)}
               orientation="vertical"
               sx={{
                 "& .MuiStepLabel-label.Mui-completed": {
                   color: "darkviolet", // Completed step label color
                 },
-                "& .MuiStepLabel-label": { color: colorBW },
+                "& .MuiStepLabel-label.Mui-active": {
+          color: "var(--med-purple)", // active step text color
+          fontWeight: "bold",
+        },
+                "& .MuiStepLabel-label": { color: "var(--text-color2)" },
                 "& .MuiStepIcon-root": { color: "darkviolet" },
                 "& .MuiStepIcon-root.Mui-active": { color: "purple" },
                 "& .MuiStepIcon-root.Mui-completed": { color: "darkviolet" },
@@ -145,95 +161,49 @@ function TrackOrder() {
             <div className="order-details">
               <div>
                 <p>
-                  <b>Order Date:</b> Tuesday, 16 February 2025
+                  <b>Order Date:</b> {new Date(order.dateOfPurchase).toDateString()}
                 </p>
                 <br />
                 <p>
-                  <b>Estimated Time Of Delivery:</b> Monday, 21 February 2025
+                  <b>Estimated Time Of Delivery:</b>{new Date(order.dateOfDelivery).toDateString()}
                 </p>
                 <br />
                 <p>
                   <b>Delivery Address:</b>
                   <address>
-                    15 Church Street
+                    {order.address.streetAddress}
                     <br />
-                    Turffontein, 2190
+                    {order.address.suburb}, {order.address.postalCode}
                     <br />
-                    Johannesburg, South Africa
+                    {order.address.city}, South Africa
                   </address>
                 </p>
               </div>
 
               <div className="ordered-items">
-                <div>
-                  <img src="./Pietà Evening.jpeg" />
+                {order.purchasedProducts.map((prod)=>(
+                  <div>
+                  <img src={prod.imgPath} />
                   <p>
-                    <p>Red Satin Transparent Sleeve Dress</p>
-                    <p>R750</p>
-                    <p>qty: 1</p>
+                    <p>{prod.productName}</p>
+                    <p>R{prod.price}.00</p>
+                    <p>Size: {prod.size}</p>
+                    <p>qty: {prod.quantity}</p>
                   </p>
                 </div>
-
-                <div>
-                  <img src="./Pietà Evening.jpeg" />
-                  <p>
-                    <p>Red Satin Transparent Sleeve Dress</p>
-                    <p>R750</p>
-                    <p>qty: 1</p>
-                  </p>
-                </div>
-
-                <div>
-                  <img src="./Pietà Evening.jpeg" />
-                  <p>
-                    <p>Red Satin Transparent Sleeve Dress</p>
-                    <p>R750</p>
-                    <p>qty: 1</p>
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
+            
           </div>
+          <hr />
+          </>
+          
+          ))
+          
+          }
 
-          <div className="order">
-            <h2 className="order-id-text">Order ID: 09309293211</h2>
-            <Stepper
-              connector={<LongConnector />}
-              activeStep={0}
-              orientation="vertical"
-              sx={{
-                "& .MuiStepLabel-label": { color: { colorBW } },
-                "& .MuiStepIcon-root": { color: "darkviolet" },
-                "& .MuiStepIcon-root.Mui-active": { color: "purple" },
-                "& .MuiStepIcon-root.Mui-completed": { color: "darkviolet" },
-              }}
-            >
-              <Step>
-                <StepLabel>Order Placed</StepLabel>
-              </Step>
-
-              <Step>
-                <StepLabel>Order Confirmed</StepLabel>
-              </Step>
-
-              <Step>
-                <StepLabel>Order is being processed</StepLabel>
-              </Step>
-
-              <Step>
-                <StepLabel>Order in transit</StepLabel>
-              </Step>
-
-              <Step>
-                <StepLabel>Order has hit the road!</StepLabel>
-              </Step>
-
-              <Step>
-                <StepLabel>Delivered</StepLabel>
-              </Step>
-            </Stepper>
-            <div>Order Date</div>
-          </div>
+          
         </div>
       </div>
 

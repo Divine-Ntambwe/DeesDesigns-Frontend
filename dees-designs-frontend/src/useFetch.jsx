@@ -101,8 +101,7 @@ function useFetch(endpoint) {
               setData(result);
               setLoading(false);
               
-              if (result.message) {
-
+              if (res.status === 200) {
                 toDo(result);
               }
         } catch(e) {
