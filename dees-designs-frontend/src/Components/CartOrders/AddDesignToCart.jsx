@@ -18,7 +18,7 @@ import { Authentication } from "../../App";
 
 function AddDesignToCart() {
   const [progress,setProgress] = useState(90)
-  const {handleOpenCart} = useContext(appContext);
+  const {handleOpenCart,url} = useContext(appContext);
   const cartPopUp = useRef();
   const { productDetails, handleGoToAddDesignToCart, designerProducts, reviews } = useContext(products);
   const productId = useParams().productId;
@@ -85,7 +85,7 @@ function AddDesignToCart() {
           <h1>Add To Cart</h1>
 
           {productDetails && <div className='add-cart-prod'>
-            <img src={productDetails.imagePath}/>
+            <img src={`${url}/${productDetails.imagePath}`}/>
             <div className='add-cart-prod-details'>
               <h2>{productDetails.name}</h2>
               <p className='cart-rating'><b>Uploaded By:</b> <Link to={`/DesignersProfile/${productDetails["_id"]}`} style={{textDecoration:"underline"}}>{productDetails.uploadedBy}</Link></p>
@@ -106,7 +106,7 @@ function AddDesignToCart() {
 
               <h3>Product Description</h3>
                <textarea rows={50} cols={20} style={{pointerEvents: "none"}}>
-                {getMeasurements().toString()}
+                {productDetails.productDescription}
                </textarea>
 
              {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
@@ -196,34 +196,7 @@ function AddDesignToCart() {
             
           </div>
 
-             <div className="rating">
-            <h4 id="review-heading">Ratings</h4>
-              <div>
-                <span className='rate-num'>5 <StarBorderIcon/> </span>
-                <LinearProgress style={{height: "2vh", borderRadius:"5px",backgroundColor:"gray"}}   variant="determinate" value={progress} />
-              </div>
-
-              <div>
-                <span className='rate-num'>4 <StarBorderIcon/></span>
-                <LinearProgress style={{height: "2vh", borderRadius:"5px",backgroundColor:"gray"}}   variant="determinate" value={80} />
-              </div>
-
-              <div>
-                <span className='rate-num'>3 <StarBorderIcon/></span>
-                <LinearProgress style={{height: "2vh", borderRadius:"5px",backgroundColor:"gray"}}   variant="determinate" value={progress} />
-              </div>
-
-              <div>
-                <span className='rate-num'>2 <StarBorderIcon/></span>
-                <LinearProgress style={{height: "2vh", borderRadius:"5px",backgroundColor:"gray"}}   variant="determinate" value={40} />
-              </div>
-
-              <div>
-                <span className='rate-num'>1 <StarBorderIcon/></span>
-                <LinearProgress style={{height: "2vh", borderRadius:"5px",backgroundColor:"gray"}}   variant="determinate" value={10} />
-              </div>
-               
-            </div>
+             
           </div>
 
           

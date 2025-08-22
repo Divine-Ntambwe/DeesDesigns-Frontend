@@ -31,8 +31,9 @@ function DesNavbar() {
   return (
     <div className='nav-bar-comp'>
         <div className="top-navbar" ref={navBar}>
-        <span className="navbar-icons"onClick={handleOpenMenu}><MenuOutlinedIcon style={{fontSize: "1.3em"}}/></span>
+        {/* <span className="navbar-icons"onClick={handleOpenMenu}><MenuOutlinedIcon style={{fontSize: "1.3em"}}/></span> */}
         <h1>Dee's Designs</h1>
+        <p></p>
         <span className="navbar-icons"><SearchOutlinedIcon style={{fontSize: "1.3em"}}/>  <AccountCircleOutlinedIcon style={{fontSize: "1.3em"}}/></span>
         </div>
 

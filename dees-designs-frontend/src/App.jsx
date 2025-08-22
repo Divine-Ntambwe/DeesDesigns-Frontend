@@ -21,6 +21,7 @@ import ThemeContext from './Context/ThemeContext';
 import ProductsContext from './Context/ProductsContext';
 import Cart from './Components/CartOrders/Cart';
 import CartContext from './Context/CartContext';
+import DesignerContext from './Context/DesignerContext';
 
 const Authentication = createContext();
 
@@ -47,6 +48,7 @@ function App() {
       <ProductsContext>
         <CartContext>
       <ThemeContext>
+        <DesignerContext>
        <Router>
 
       <div className='App'>
@@ -80,6 +82,7 @@ function App() {
       </div>
      
     </Router>
+    </DesignerContext>
     </ThemeContext>
     </CartContext>
     </ProductsContext>

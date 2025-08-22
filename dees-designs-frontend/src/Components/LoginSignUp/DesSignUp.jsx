@@ -204,7 +204,7 @@ function DesSignUp() {
             type="submit"
             loading={loading}
             sx={{
-              backgroundColor: "#6a04a5", // button color
+              backgroundColor: "var(--med-purple)", // button color
               color: "white", // text color
               width: "100%", // custom width
               height: "45px", // custom height

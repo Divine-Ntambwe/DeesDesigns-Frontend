@@ -1,23 +1,16 @@
 .women-wear {
-    background: linear-gradient(
+    /* background: linear-gradient(
         var(--med-purple) 10%,
         var(--background-color3) 90%
-    ) ;
-    background-color: var(--dark-purple);
+    ) ; */
+    background-color: var(--background-color1);
 
 }
 .men-wear{
-     background: linear-gradient(
-       var(--background-color1) 10%,
-       var(--dark-purple) 90%
-    ) ;
-     background-color: black;
+      background-color: var(--background-color1);
 }
 .designers-collec {
-    background: linear-gradient(
-        var(--background-color1) 10%,
-        var(--med-purple) 90%
-    ) ;
+    background-color: var(--background-color1);
 }
 .categories-content {
     padding: 20px 10px;

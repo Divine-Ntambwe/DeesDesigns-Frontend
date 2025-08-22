@@ -56,7 +56,6 @@ function useFetch(endpoint) {
 
     async function postAuth(body = {},toDo = ()=>{}){
       setLoading(true)
-      console.log(body)
         try {
             
             const res = await fetch(url + endpoint,
@@ -76,7 +75,6 @@ function useFetch(endpoint) {
               } else {
                 setError(result.error)
                 console.error("error posting",result.error)
-                console.log("ooooooo")
               }
         } catch(e) {
           console.error("error posting",e)
@@ -135,7 +133,56 @@ function useFetch(endpoint) {
         
       }  
 
-   return {post,get, deleteApi,postMedia,data,loading, error, postAuth}
+       async function postMediaAuth(body = {},toDo = ()=>{}){
+        try {
+            setLoading(true)
+
+            const res = await fetch(url + endpoint,
+                {
+                  method: "POST",
+                      headers: {"Authorization":`Basic ${authCred}`},
+                  body: body             
+               }
+              )
+      
+              const result = await res.json();
+              setData(result);
+              setLoading(false);
+              if (res.status === 200) {
+                toDo(result);
+              } 
+        } catch(e) {
+          setError(e)
+        }
+        
+      } 
+      
+      async function putMedia(body = {},toDo = ()=>{}){
+        try {
+            setLoading(true)
+
+            const res = await fetch(url + endpoint,
+                {
+                  method: "PUT",
+                  headers: {"Authorization":`Basic ${authCred}`},
+                  body: body             
+               }
+              )
+      
+              const result = await res.json();
+              setData(result);
+              setLoading(false);
+              if (res.status === 200) {
+                toDo(result);
+              } 
+        } catch(e) {
+          console.error(e)
+          setError(e)
+        }
+        
+      }  
+
+   return {post,get,setError, deleteApi,postMedia,postMediaAuth,putMedia,data,loading, error, postAuth}
 }
 
 export default useFetch

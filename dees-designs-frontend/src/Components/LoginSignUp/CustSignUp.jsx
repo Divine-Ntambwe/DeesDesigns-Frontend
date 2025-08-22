@@ -82,7 +82,7 @@ function CustSignUp() {
           type="submit"
           loading={loading}
            sx={{
-        backgroundColor: "#6a04a5",   // button color
+        backgroundColor: "var(--med-purple)",   // button color
         color: "white",            // text color
         width: "100%",            // custom width
         height: "45px",            // custom height
@@ -98,7 +98,7 @@ function CustSignUp() {
           </form>
           
           <p className='login-signup-link'>Already Have An Account?<Link to="/Login"> Log In</Link></p>
-          <p className='login-signup-link'><Link to="/">Sign Up as a designer?</Link></p>
+          <p className='login-signup-link'><Link to="/DesignerSignUp">Sign Up as a designer?</Link></p>
           
         </div>
     </div>

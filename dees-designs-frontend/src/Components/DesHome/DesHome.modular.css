@@ -1,0 +1,65 @@
+.des-home {
+    background: var(--background-color1);
+    width: 100%;
+    min-height: 100vh;
+}
+
+.des-home-content {
+    padding: 10px 20px 30px 20px;
+}
+
+.designers-uploads {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
+    gap: 10px 35px
+}
+
+.design {
+    /* border: 1px solid red; */
+    height: 700px;
+    color: var(--dark-purple);
+}
+
+.design img {
+    width: 100%;
+    height: 570px;
+    object-fit: cover;
+}
+
+p {
+font-family: "Oswald", sans-serif;
+}
+
+.product-name {
+    font-weight: 300;
+    font-size: 1.5em;
+}
+
+.remove-edit{
+    font-size: 2em;
+}
+
+.product-details{
+    display: flex;
+    justify-content: space-between;
+}
+
+.upload-buttons{
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#upload-a-design-content {
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+    /* overflow:hidden; */
+}
+
+.select-categories {
+    display:grid;
+    grid-template-columns: 50% 50%;
+    border: none;
+}

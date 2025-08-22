@@ -70,7 +70,7 @@ function Checkout() {
   function handleOrderDetails(e) {
     setSavedDetails({ ...savedDetails, [e.target.name]: e.target.value });
   }
-  
+  console.log(savedDetails)
 
   const {postAuth,loading,error} = useFetch(`/orders/${userDetails["_id"]}`) 
   function handleCheckOut(e) {
@@ -99,7 +99,7 @@ function Checkout() {
   const nav = useNavigate()
   const handleClose = () => {
     setOpen(false);
-    nav("/Home")
+    nav("/Orders")
   };
 
   return (
@@ -255,7 +255,7 @@ function Checkout() {
                           borderColor: "var(--text-color2)", // on hover
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "darkviolet", // on focus
+                          borderColor: "var(--dark-purple)", // on focus
                         },
                       }}
                     >
@@ -322,7 +322,7 @@ function Checkout() {
           
                 loading={loading}
                 sx={{
-                  backgroundColor: "#6a04a5", // button color
+                  backgroundColor: "var(--med-purple)", // button color
                   color: "white", // text color
                   width: "100%", // custom width
                   height: "45px", // custom height
@@ -348,6 +348,7 @@ function Checkout() {
                     id="cash-on-delivery"
                     value="Cash On Delivery"
                     type="radio"
+                    
                     onChange={(e) => {
                     
                       handleOrderDetails(e);

@@ -24,7 +24,7 @@ function ProductsContext({ children }) {
 
   useEffect(() => {
     getStockProducts((d) => {
-      console.log(d);
+      
       setAllProducts(d);
       setHomeProducts(
         [
@@ -34,7 +34,7 @@ function ProductsContext({ children }) {
           ...Object.groupBy(d, ({ menOrWomen }) => {
             return menOrWomen === getGenderCat() ? "1" : "2";
           })["2"],
-        ].slice(0, 16)
+        ].slice(0, 20)
       );
       setWomenProducts(
         Object.groupBy(d, ({ menOrWomen }) => {
@@ -96,10 +96,23 @@ function ProductsContext({ children }) {
     let original;
     switch (path) {
       case "/Home":
-        original = allProducts
+         if (searchText.length === 0){
+          setHomeProducts(
+            [
+          ...Object.groupBy(allProducts, ({ menOrWomen }) => {
+            return menOrWomen === getGenderCat() ? "1" : "2";
+          })["1"],
+          ...Object.groupBy(allProducts, ({ menOrWomen }) => {
+            return menOrWomen === getGenderCat() ? "1" : "2";
+          })["2"],
+        ].slice(0, 20)
+          )
+          return 
+        }
+      
 
         setHomeProducts(
-          original.filter((prod) => {
+          allProducts.filter((prod) => {
             return prod.name.toLowerCase().includes(searchText.toLowerCase());
           })
         );
@@ -151,8 +164,7 @@ function ProductsContext({ children }) {
     }
 
 
-  }
-  console.log(homeProducts);
+  };
 
   return (
     <div>

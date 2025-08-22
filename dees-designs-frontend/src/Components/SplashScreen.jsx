@@ -3,13 +3,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { Authentication } from '../App'
 
 function SplashScreen() {
-  const {isAuthenticated} = useContext(Authentication);
+  const {isAuthenticated,role} = useContext(Authentication);
   const nav = useNavigate();
 
   useEffect(()=>{
 
     if (isAuthenticated === true){
-      nav("/Home")
+      role === "customer"?nav("/Home"):nav('/DesignersHome')
     }
   },[])
 

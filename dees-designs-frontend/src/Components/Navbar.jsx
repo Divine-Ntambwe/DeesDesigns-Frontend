@@ -13,24 +13,24 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link,Navigate,useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { themeContext } from "../Context/ThemeContext";
 import { cartContext } from "../Context/CartContext";
 import { products } from "../Context/ProductsContext";
 import { Authentication } from "../App";
 
-function Navbar({ handleOpenCart,displayedProducts }) {
+function Navbar({ handleOpenCart, displayedProducts }) {
   const sideMenuEl = useRef();
   const navBar = useRef();
-  const {userDetails} = useContext(Authentication)
-  const nav = useNavigate()
+  const { userDetails } = useContext(Authentication);
+  const nav = useNavigate();
   const { colorBW, theme, setTheme, setColorBW } = useContext(themeContext);
   const [modeText, setModeText] = useState(
     theme === "light" ? "Dark" : "Light"
   );
   const { cartNum } = useContext(cartContext);
-  const {handleSearchProducts} = useContext(products)
+  const { handleSearchProducts } = useContext(products);
 
   function handleOpenMenu() {
     sideMenuEl.current.style.display = "block";
@@ -66,23 +66,30 @@ function Navbar({ handleOpenCart,displayedProducts }) {
   };
 
   const location = useLocation();
-  const searchPaths = ["/Home","/MenWear","/WomenWear","/DesignersCollection"]
-  function handleSearchFocus(){
+  const searchPaths = [
+    "/Home",
+    "/MenWear",
+    "/WomenWear",
+    "/DesignersCollection",
+  ];
+  function handleSearchFocus() {
     if (!searchPaths.includes(location.pathname)) {
-       nav("/Home") 
+      nav("/Home");
     }
   }
 
-  function handleSearchProductsInput(e){
-   if (location.pathname === "/Home") displayedProducts.scrollIntoView({ behavior: "smooth" });
-   handleSearchProducts(e.target.value,location.pathname)  
+  function handleSearchProductsInput(e) {
+    if (location.pathname === "/Home")
+      document
+        .getElementById("home-products")
+        .scrollIntoView({ behavior: "smooth" });
+    handleSearchProducts(e.target.value, location.pathname);
   }
 
-  function handleLogOut(){
-    localStorage.clear()
-    nav("/Login")
-    setTheme("dark")
-    
+  function handleLogOut() {
+    localStorage.clear();
+    nav("/Login");
+   
   }
   return (
     <>
@@ -96,7 +103,7 @@ function Navbar({ handleOpenCart,displayedProducts }) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
               // onMouseLeave={handleClose}
-              onMouseOver={handleClick}
+              onClick={handleClick}
             >
               Shop Now
             </Link>
@@ -166,7 +173,7 @@ function Navbar({ handleOpenCart,displayedProducts }) {
               sx={{
                 display: "flex",
                 alignItems: "flex-end",
-                border: "1px solid #6a04a5",
+                border: "1px solid var(--dark-purple)",
                 borderRadius: "180px",
                 backgroundColor: "var(--background-color1)",
                 padding: "0 15px 5px",
@@ -179,7 +186,9 @@ function Navbar({ handleOpenCart,displayedProducts }) {
                 autoComplete={false}
                 autoSave={false}
                 onFocus={handleSearchFocus}
-                onChange={(e)=>{handleSearchProductsInput(e)}}
+                onChange={(e) => {
+                  handleSearchProductsInput(e);
+                }}
                 id="input-with-sx"
                 variant="standard"
                 sx={{
@@ -191,7 +200,7 @@ function Navbar({ handleOpenCart,displayedProducts }) {
                     borderBottomColor: "gray", // default
                   },
                   "& .MuiInput-underline:after": {
-                    borderBottomColor: "#6a04a5", // focus
+                    borderBottomColor: "var(--dark-purple)", // focus
                   },
                   "& input::placeholder": {
                     color: "gray",
@@ -205,10 +214,12 @@ function Navbar({ handleOpenCart,displayedProducts }) {
               />
             </Box>{" "}
             <AccountCircleOutlinedIcon
+              className="cart-profile"
               onClick={handleOpenMenu}
               style={{ fontSize: "1.5em" }}
             />{" "}
             <ShoppingCartOutlinedIcon
+            className="cart-profile"
               onClick={handleOpenCart}
               style={{ fontSize: "1.3em" }}
             />
@@ -247,7 +258,13 @@ function Navbar({ handleOpenCart,displayedProducts }) {
               <ShoppingBagOutlinedIcon style={{ fontSize: "2em" }} />
               Orders
             </Link>
-            <span className="side-bar-link" onClick={ () =>{handleChangeTheme();handleCloseMenu()}}>
+            <span
+              className="side-bar-link"
+              onClick={() => {
+                handleChangeTheme();
+                handleCloseMenu();
+              }}
+            >
               <BedtimeOutlinedIcon style={{ fontSize: "2em" }} />
               {modeText} Mode
             </span>
