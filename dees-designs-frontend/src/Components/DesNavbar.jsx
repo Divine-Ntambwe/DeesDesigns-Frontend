@@ -12,46 +12,44 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import PublishIcon from '@mui/icons-material/Publish';
 import {Link} from 'react-router-dom';
-import {useRef} from 'react'
+import {useRef,useContext} from 'react'
+import { themeContext } from '../Context/ThemeContext';
+import { useNavigate } from 'react-router-dom';
 
 
 function DesNavbar() {
-  const sideMenuEl = useRef();
-  const navBar = useRef()
+  const { colorBW, theme, setTheme, setColorBW } = useContext(themeContext);
+  const nav = useNavigate();
 
-  function handleOpenMenu(){
-    sideMenuEl.current.style.display = "block"
-    navBar.current.style.display = "none"
+
+  function handleChangeTheme() {
+    if (theme === "light") {
+      setTheme("dark");
+      setColorBW("white");
+      localStorage.setItem("theme", "dark");
+    } else {
+      setTheme("light");
+      setColorBW("black");
+      localStorage.setItem("theme", "light");
+    }
   }
 
-  function handleCloseMenu(){
-    sideMenuEl.current.style.display = "none"
-    navBar.current.style.display = "flex"
+    function handleLogOut() {
+    localStorage.clear();
+    nav("/Login");
+   
   }
+  
+  
   return (
     <div className='nav-bar-comp'>
-        <div className="top-navbar" ref={navBar}>
-        {/* <span className="navbar-icons"onClick={handleOpenMenu}><MenuOutlinedIcon style={{fontSize: "1.3em"}}/></span> */}
+        <div className="top-navbar" >
         <h1>Dee's Designs</h1>
         <p></p>
-        <span className="navbar-icons"><SearchOutlinedIcon style={{fontSize: "1.3em"}}/>  <AccountCircleOutlinedIcon style={{fontSize: "1.3em"}}/></span>
+        <span className="navbar-icons"><BedtimeOutlinedIcon onClick={handleChangeTheme} style={{fontSize: "1.3em"}}/>  <LogoutOutlinedIcon onClick={handleLogOut}style={{fontSize: "1.3em"}}/></span>
         </div>
 
-        <div ref={sideMenuEl} className='nav-dropdown'>
-        <h1>Dee's Designs  <span className='close-sidemenu' onClick={handleCloseMenu}><CloseOutlinedIcon style={{cursor:"pointer"}}/></span></h1>
-
-        <div className='side-bar-links'>
-        <Link><HomeOutlinedIcon style={{fontSize: "2em"}}/>Home</Link>
-        <Link><AccountCircleOutlinedIcon style={{fontSize: "2em"}}/>Profile </Link>
-        <Link><PublishIcon style={{fontSize: "2em"}}/>Publish A Design</Link>
-        <Link><FileUploadIcon style={{fontSize: "2em"}}/>Upload A Design For a Customer</Link>
-        <Link><BedtimeOutlinedIcon  style={{fontSize: "2em"}}/>Dark mode</Link>
-        <Link><PermContactCalendarOutlinedIcon  style={{fontSize: "2em"}}/>Contact us </Link>
-        <Link><LogoutOutlinedIcon style={{fontSize: "2em"}}/> Log Out</Link>
-
-        </div>
         
-        </div>
     </div>
   )
 }

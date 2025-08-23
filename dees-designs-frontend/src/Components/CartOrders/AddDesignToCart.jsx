@@ -41,7 +41,7 @@ function AddDesignToCart() {
       size:"M",
       quantity:1,
       imgPath: productDetails.imagePath,
-      productProvider:"designer"
+      productProvider:"designerProduct"
     };
     postAuth(cartItem,(d)=>{
       setFetch(true);
@@ -88,7 +88,7 @@ function AddDesignToCart() {
             <img src={`${url}/${productDetails.imagePath}`}/>
             <div className='add-cart-prod-details'>
               <h2>{productDetails.name}</h2>
-              <p className='cart-rating'><b>Uploaded By:</b> <Link to={`/DesignersProfile/${productDetails["_id"]}`} style={{textDecoration:"underline"}}>{productDetails.uploadedBy}</Link></p>
+              <p className='cart-rating'><b>Uploaded By:</b> <Link to={`/DesignerProfile/${productDetails["designerId"]}`} style={{textDecoration:"underline"}}>{productDetails.uploadedBy}</Link></p>
               <Rating name="half-rating-read"  sx={{
     '& .MuiRating-iconFilled': {
       color: 'darkviolet', // filled stars

@@ -40,7 +40,7 @@ function AddToCart() {
       size,
       quantity,
       imgPath: productDetails.imagePath[0],
-      productProvider:"stock"
+      productProvider:"stockProduct"
     };
     postAuth(cartItem,(d)=>{
       setFetch(true);

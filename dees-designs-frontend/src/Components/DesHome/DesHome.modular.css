@@ -63,3 +63,20 @@ font-family: "Oswald", sans-serif;
     grid-template-columns: 50% 50%;
     border: none;
 }
+
+.designers-details{
+    display: flex;
+    gap: 10px
+}
+
+.designers-details img {
+    object-fit: cover;
+    width: 150px;
+    height: 200px;
+    border-radius: 10px;
+}
+
+.designers-details p {
+    color: var(--text-color2);
+    font-size: 2em;
+}

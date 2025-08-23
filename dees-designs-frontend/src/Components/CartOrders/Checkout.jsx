@@ -22,6 +22,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useNavigate } from "react-router-dom";
+import { products } from "../../Context/ProductsContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -29,10 +30,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 function Checkout() {
-  const { handleOpenCart } = useContext(appContext);
+  const { handleOpenCart,url } = useContext(appContext);
   const cartPopUp = useRef();
   const { cartItems,cartTotal,setFetch,cartNum } = useContext(cartContext);
   const { userDetails } = useContext(Authentication);
+  const {setFetchProducts} = useContext(products)
   const { get} = useFetch(
     `/getAddressAndBankDetails/${userDetails["_id"]}`
   );
@@ -70,7 +72,6 @@ function Checkout() {
   function handleOrderDetails(e) {
     setSavedDetails({ ...savedDetails, [e.target.name]: e.target.value });
   }
-  console.log(savedDetails)
 
   const {postAuth,loading,error} = useFetch(`/orders/${userDetails["_id"]}`) 
   function handleCheckOut(e) {
@@ -88,6 +89,7 @@ function Checkout() {
       
       handleClickOpen()
       setFetch(true);
+      setFetchProducts(true)
     });
   }
    const [open, setOpen] = React.useState(false);
@@ -292,7 +294,7 @@ function Checkout() {
                   cartItems.map((item) => (
                     <div key={item["_id"]} className="cart-items">
                       <img
-                        src={item.imgPath}
+                        src={item.productProvider === "designerProduct"?item.imgPath:`${url}/${item.imgPath}`}
                         alt={`A picture of ${item.productName}`}
                       />
 

@@ -38,7 +38,7 @@ const LongConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 function TrackOrder() {
-  const { handleOpenCart } = useContext(appContext);
+  const { handleOpenCart,url } = useContext(appContext);
   const { colorBW } = useContext(themeContext);
   const cartPopUp = useRef();
   const orderStatus = [
@@ -292,7 +292,7 @@ function TrackOrder() {
                 {order.purchasedProducts.map((prod)=>(
                   <><div >
                    
-                  <img src={prod.imgPath} onClick={(e)=>{handleViewPurchasedProduct(prod.productId)}} />
+                  <img src={prod.productProvider === "stockProduct"?prod.path:`${url}/${prod.imgPath}`} onClick={(e)=>{if (prod.productId) handleViewPurchasedProduct(prod.productId)}} />
                   <p>
                     <p>{prod.productName}</p>
                     <p>R{prod.price}.00</p>

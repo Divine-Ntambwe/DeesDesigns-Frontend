@@ -22,6 +22,7 @@ import ProductsContext from './Context/ProductsContext';
 import Cart from './Components/CartOrders/Cart';
 import CartContext from './Context/CartContext';
 import DesignerContext from './Context/DesignerContext';
+import DesignerProfile from './Components/DesHome/DesignerProfile';
 
 const Authentication = createContext();
 
@@ -71,9 +72,11 @@ function App() {
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
           <Route exact path="/AddDesignToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
+          <Route exact path="/DesignerProfile/:designerId" element={<ProtectedRoute routeRole="customer" element={<DesignerProfile/>}/>}/>
         
 
           <Route exact path="/DesignersHome" element={<ProtectedRoute routeRole="designer" element={<DesHome/>}/>}/>
+         
           </Routes>
          
 

@@ -150,6 +150,7 @@ function useFetch(endpoint) {
               setLoading(false);
               if (res.status === 200) {
                 toDo(result);
+                setError(false)
               } 
         } catch(e) {
           setError(e)

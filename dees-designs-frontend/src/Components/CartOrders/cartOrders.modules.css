@@ -1,9 +1,8 @@
 .AddToCart{
     width: 100%;
-    height: fit-content;
+    min-height: 100vh;
     background: var(--background-color1);
-    /* background: linear-gradient(var(--background-color1) 0%,
-    var(--dark-purple) 90%); */
+   
 }
 
 .checkout-page {
@@ -157,7 +156,7 @@ min-height: 100vh;
 .add-cart-prod img {
     width: 27vw;
     height: 80vh;
-    /* object-fit: contain; */
+    object-fit: cover;
     position: relative;
     border-radius: 10px;
 }

@@ -17,12 +17,14 @@ function ProductsContext({ children }) {
   const { userDetails } = useContext(Authentication);
   const { get: getStockProducts } = useFetch("/stockProducts");
   const { get: getDesignerProducts } = useFetch("/allDesignerProducts");
+  const [fetchProducts,setFetchProducts] = useState(false)
 
   function getGenderCat() {
     return userDetails.gender === "M" ? "Men" : "Women";
   }
 
   useEffect(() => {
+    setFetchProducts(false)
     getStockProducts((d) => {
       
       setAllProducts(d);
@@ -52,7 +54,7 @@ function ProductsContext({ children }) {
       setDesignerProducts(d);
       setAllDesignerProducts(d)
     });
-  }, []);
+  }, [fetchProducts]);
 
   const { authCred } = useContext(Authentication);
   const { url } = useContext(appContext);
@@ -72,7 +74,7 @@ function ProductsContext({ children }) {
         setReviews(result);
       }
     } catch (e) {
-      console.error("error getting", e);
+      console.error("error getting reviews", e);
     }
   }
   function handleGoToAddToCart(productId) {
@@ -181,6 +183,7 @@ function ProductsContext({ children }) {
           allProducts,
           reviews,
           handleSearchProducts,
+          setFetchProducts
         }}
       >
         {children}
