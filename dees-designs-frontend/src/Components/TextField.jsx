@@ -16,7 +16,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
         value = {value?value:""}
         sx={{
           "& input:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 100px  inset", // background color
+      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
       WebkitTextFillColor: "var(--text-color2)"},
            width:"100%",
           // label

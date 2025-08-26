@@ -8,12 +8,12 @@
 }
 
 :root {
-  --dark-purple: #6a04a5 ;
+  --dark-purple: #d07a7a ;
   --light-purple: #f09ff6 ;
   --swiper-theme-color: #f700ff;
-  --med-purple: rgb(212, 136, 245) ;
+  --med-purple: #e54848 ;
 
-  --background-color3: #6a04a5 ;
+  --background-color3: rgb(208, 132, 132);
   --text-color2: white ;
   --text-color3: black;
   --background-color1: black; 
@@ -145,6 +145,7 @@ a:visited{
 .top-navbar > span:nth-child(1) a:hover{
   color: var(--text-color2);
   cursor: pointer;
+  
 }
 
 .top-navbar > span:nth-child(1) a:active{
@@ -162,6 +163,7 @@ a {
 
 .top-navbar > span:nth-child(3){
   justify-content: end;
+  
 }
 
 .top-navbar {
@@ -194,6 +196,10 @@ a {
 
 .top-nav-links a {
   text-decoration: none;
+}
+
+.cart-profile:hover {
+  color: var(--text-color2);
 }
 
 .nav-bar-comp h1 {
@@ -252,6 +258,8 @@ color: var(--dark-purple);
   border-top: 1px solid gray;
 }
 
+
+
 .footer h1{
   word-wrap:break-word;
   font-size: 10em;
@@ -278,11 +286,18 @@ color: var(--dark-purple);
   gap:10px;
 }
 
+.display-error{
+  color:red;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+}
+
 /* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Raleway&display=swap'); */
 
 .error-container {
   font-family: 'Raleway', sans-serif;
-  background-color: var(--light-purple);
+  background-color: var(--med-purple);
   color: #555;
   height: 100vh;
   width: 100%;
@@ -298,7 +313,7 @@ color: var(--dark-purple);
 .error-code {
   font-size: 120px;
   font-family: 'Playfair Display', serif;
-  color: var(--dark-purple);
+  color: var(--text-color2);
   margin: 0;
 }
 
@@ -309,7 +324,7 @@ color: var(--dark-purple);
 
 .error-text {
   font-size: 18px;
-  color: #777;
+   color: var(--text-color2);
   margin-bottom: 30px;
 }
 

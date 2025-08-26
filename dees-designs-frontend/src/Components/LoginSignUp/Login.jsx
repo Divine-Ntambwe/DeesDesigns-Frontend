@@ -73,14 +73,14 @@ function Login() {
           />
             <div className='gender'>
              
-              <input type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>
+              <input style={{accentColor:"var(--dark-purple) !important"}}type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>
               <label>Are you a designer?</label>
               </div>
             <Button
           type="submit"
           loading={loading}
            sx={{
-        backgroundColor: "#6a04a5",   // button color
+        backgroundColor: "var(--med-purple)",   // button color
         color: "white",            // text color
         width: "100%",            // custom width
         height: "45px",            // custom height

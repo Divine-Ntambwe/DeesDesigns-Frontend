@@ -161,7 +161,7 @@ function HomePage() {
           <h2>Our Services</h2>
 
           <div className="main-section" id="our-services">
-            <Tooltip title="See our designers" placement="right-end">
+            <Tooltip title="" placement="right-end">
               <Link>
                 <div className="services">
                   <img
@@ -174,7 +174,7 @@ function HomePage() {
             </Tooltip>
 
             <Tooltip
-              title="Learn More About The Designers"
+              title=""
               placement="right-end"
             >
               <Link>
@@ -185,8 +185,8 @@ function HomePage() {
               </Link>
             </Tooltip>
 
-            <Tooltip title="Go to designer's collection" placement="right-end">
-              <Link to="/DesignersCollection">
+            <Tooltip title="" placement="right-end">
+              <Link>
                 <div className="services">
                   <img id="services-img" src=".\v7d6P_vQ.jpeg" />
                   <h4 className="services-headings">Made For You</h4>

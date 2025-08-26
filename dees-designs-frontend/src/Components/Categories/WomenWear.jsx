@@ -35,14 +35,14 @@ function WomenWear() {
         </div>
 
         <div className="categories-content">
-          <p className="category-links">
+          {/* <p className="category-links">
             <span>Long Dresses</span> |<span>Short Dresses</span> |
             <span>Ballroom Dresses</span> |<span>Bride Dresses</span> |
             <span>Braidmaid Dresses</span> |<span>Graduation</span> |
             <span>Matric Dance</span> |<span>Wedding</span> |
             <span>Evening Dresses</span> |<span>Date Night</span> |
             <span>Shoes</span> |<span>Accessories</span>
-          </p>
+          </p> */}
 
           <div className="categories-products" id="popular">
             {womenProducts &&

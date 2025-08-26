@@ -21,6 +21,14 @@ import ThemeContext from './Context/ThemeContext';
 import ProductsContext from './Context/ProductsContext';
 import Cart from './Components/CartOrders/Cart';
 import CartContext from './Context/CartContext';
+import DesignerContext from './Context/DesignerContext';
+import DesignerProfile from './Components/DesHome/DesignerProfile';
+import ConfirmPage from './Components/ConfirmRequest';
+import ShippingReturns from './Components/T&Cs/ShippingReturns';
+import AboutUs from './Components/T&Cs/AboutUs';
+import ContactUs from './Components/T&Cs/ContactUs';
+import TermsAndConditions from './Components/T&Cs/TermsAndConditions';
+import PrivacyPolicy from './Components/T&Cs/PrivacyPolicy';
 
 const Authentication = createContext();
 
@@ -47,6 +55,7 @@ function App() {
       <ProductsContext>
         <CartContext>
       <ThemeContext>
+        <DesignerContext>
        <Router>
 
       <div className='App'>
@@ -69,9 +78,17 @@ function App() {
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
           <Route exact path="/AddDesignToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
+          <Route exact path="/DesignerProfile/:designerId" element={<ProtectedRoute routeRole="customer" element={<DesignerProfile/>}/>}/>
+          <Route exact path="/confirmCartRequest/:token" element={<ProtectedRoute routeRole="customer" element={<ConfirmPage/>}/>}/>
+          <Route exact path="/ShippingAndReturns" element={<ProtectedRoute routeRole="customer" element={<ShippingReturns />}/>}/>
+          <Route exact path="/AboutUs" element={<ProtectedRoute routeRole="customer" element={<AboutUs />}/>}/>
+          <Route exact path="/ContactUs" element={<ProtectedRoute routeRole="customer" element={<ContactUs />}/>}/>
+          <Route exact path="/TermsAndConditions" element={<ProtectedRoute routeRole="customer" element={<TermsAndConditions />}/>}/>
+          <Route exact path="/PrivacyPolicy" element={<ProtectedRoute routeRole="customer" element={<PrivacyPolicy />}/>}/>
         
 
           <Route exact path="/DesignersHome" element={<ProtectedRoute routeRole="designer" element={<DesHome/>}/>}/>
+         
           </Routes>
          
 
@@ -80,6 +97,7 @@ function App() {
       </div>
      
     </Router>
+    </DesignerContext>
     </ThemeContext>
     </CartContext>
     </ProductsContext>

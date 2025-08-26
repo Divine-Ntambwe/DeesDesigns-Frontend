@@ -7,6 +7,7 @@ import { cartContext } from "../../Context/CartContext";
 import useFetch from "../../useFetch";
 import { Authentication } from "../../App";
 import { appContext } from "../../Context/AppContext";
+import Button from "@mui/material/Button";
 
 function Cart() {
   function handleCloseCart() {
@@ -55,7 +56,7 @@ function Cart() {
             cartItems.map((item) => (
               <div key={item["_id"]} className="cart-items">
                 <img
-                  src={item.imgPath}
+                  src={item.productProvider === "stockProduct"?item.imgPath:`${url}/${item.imgPath}`}
                   alt={`A picture of ${item.productName}`}
                 />
 
@@ -83,9 +84,20 @@ function Cart() {
 
        {Boolean(cartNum) &&<> <p id="cart-total">Total: R{cartTotal}.00</p>
         <Link to="/CheckOut">
-            <button id="checkout" className="button">
-            Check Out
-          </button>
+            <Button
+           sx={{
+        backgroundColor: "var(--med-purple)",   // button color
+        color: "white",            // text color
+        width: "100%",            // custom width
+        height: "45px",            // custom height
+        "&:hover": {
+          backgroundColor: "gray", // hover color
+        },
+        marginBottom: "10px"
+      }}
+        >
+           Checkout
+        </Button>
         </Link> </>}
       </div>
     </div>

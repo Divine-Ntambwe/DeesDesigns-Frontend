@@ -9,7 +9,7 @@ import { products } from "../../Context/ProductsContext";
 import useFetch from "../../useFetch";
 import GlareHover from "../ReactBitComp/GlareHover";
 function DesignersCollection() {
-  const { handleOpenCart } = useContext(appContext);
+  const { handleOpenCart,url } = useContext(appContext);
   const { designerProducts, handleGoToAddDesignToCart } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
@@ -29,10 +29,10 @@ function DesignersCollection() {
         </div>
 
         <div className="categories-content">
-          <p className="category-links">
+          {/* <p className="category-links">
             <span>Graduation</span> |<span>Matric Dance</span> |
             <span>Wedding</span> |<span>Men</span> |<span>Women</span>
-          </p>
+          </p> */}
 
           <div className="categories-products" id="popular">
             {designerProducts &&
@@ -56,13 +56,13 @@ function DesignersCollection() {
                   >
                     <img
                       alt={`A picture of ${product.name}`}
-                      src={product.imagePath || null}
+                      src={`${url}/${product.imagePath}` || null}
                     />
                   </GlareHover>
                   <p className="product-name">{product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
-                    <span>{product.menOrWomen}</span>
+                    <span>{product.uploadedBy}</span>
                   </p>
                 </div>
               ))}

@@ -23,7 +23,8 @@ function AddToCart() {
   const [quantity, setQuantity] = useState(1);
   const { userDetails } = useContext(Authentication);
   const productId = useParams().productId;
-  const {setFetch,cartNum,setCartNum} = useContext(cartContext)
+  const {setFetch} = useContext(cartContext)
+  const [rating,setRating] = useState()
 
   const increase = () => setQuantity((q) => (q < 10 ? q + 1 : 10));
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -39,7 +40,7 @@ function AddToCart() {
       size,
       quantity,
       imgPath: productDetails.imagePath[0],
-      productProvider:"stock"
+      productProvider:"stockProduct"
     };
     postAuth(cartItem,(d)=>{
       setFetch(true);
@@ -50,6 +51,7 @@ function AddToCart() {
 
   useEffect(() => {
     handleGoToAddToCart(productId);
+    if (productDetails)setRating(productDetails.rating.length === 0?"0":productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length)
   }, [allProducts]);
 
   function getMeasurements() {
@@ -94,27 +96,11 @@ function AddToCart() {
               <img src={productDetails.imagePath[0]} />
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>
-                <Rating
-                  name="half-rating-read"
-                  sx={{
-                    "& .MuiRating-iconFilled": {
-                      color: "darkviolet", // filled stars
-                    },
-                    "& .MuiRating-iconEmpty": {
-                      color: "darkviolet", // empty stars
-                    },
-                    "& .MuiRating-iconHover": {
-                      color: "darkviolet", // on hover
-                    },
-                  }}
-                  defaultValue={productDetails.rating}
-                  precision={0.5}
-                  readOnly
-                />
-                <p className="cart-rating">
-                  <span>{productDetails.rating} rating</span>
-                  <span> {reviews.length} reviews</span>
-                </p>
+
+             {reviews && productDetails &&   <p className="cart-rating">
+                  <span > {productDetails.rating.length === 0?"0":(productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length).toFixed(1)}<StarBorderIcon size="large" sx={{}}/></span>
+                  <span> ({productDetails.rating.length} reviews)</span>
+                </p>}
                 <p className="add-to-cart-price">R{productDetails.price}.00</p>
 
                 <h3>Standard Measurement:</h3>
@@ -153,15 +139,15 @@ function AddToCart() {
                               for (let i of e.target.parentElement.children) {
                                 i.style.backgroundColor = "transparent";
                               }
-                              e.target.style.backgroundColor = "black";
+                              e.target.style.backgroundColor = "var(--dark-purple)";
                               setSize(e.target.textContent);
                             }}
-                            onMouseOver={(e) => {
-                              e.target.style.borderColor = "black";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.borderColor = "white";
-                            }}
+                            // onMouseOver={(e) => {
+                            //   e.target.style.borderColor = "var(--dark-purple)";
+                            // }}
+                            // onMouseLeave={(e) => {
+                            //   e.target.style.borderColor = "var(text-color2)";
+                            // }}
                           >
                             {x}
                           </span>
@@ -172,7 +158,7 @@ function AddToCart() {
           type="submit"
           loading={loading}
            sx={{
-        backgroundColor: "#6a04a5",   // button color
+        backgroundColor: "var(--med-purple)",   // button color
         color: "white",            // text color
         width: "100%",            // custom width
         height: "45px",            // custom height
@@ -204,7 +190,7 @@ function AddToCart() {
                           {new Date(review.dateOfUpload).toLocaleDateString()}
                         </span>
                       </span>
-                      <p className="review">{review.review}</p>
+                     
                       <Rating
                         sx={{
                           "& .MuiRating-iconFilled": {
@@ -222,13 +208,14 @@ function AddToCart() {
                         precision={0.5}
                         readOnly
                       />
+                       <p className="review">{review.review}</p>
                       <hr />
                     </div>
                   ))}
               </div>
             </div>
 
-            {reviews && (
+            {/* {reviews && (
               <div className="rating">
                 <h4 id="review-heading">Ratings</h4>
                 {[5, 4, 3, 2, 1].map((i) => (
@@ -248,7 +235,7 @@ function AddToCart() {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

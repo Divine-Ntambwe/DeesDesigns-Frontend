@@ -8,6 +8,7 @@
   position: relative;
   display: grid;
   place-items: center;
+  box-shadow: 1px 1px 15px var(--dark-purple);
 }
 
 .glare-hover::before {
@@ -27,6 +28,7 @@
 
 .glare-hover:hover {
   cursor: pointer;
+  box-shadow: 8px 8px 15px var(--dark-purple);
 }
 
 .glare-hover:hover::before {
