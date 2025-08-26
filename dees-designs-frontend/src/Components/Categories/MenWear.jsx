@@ -34,12 +34,12 @@ function MenWear() {
         </div>
 
         <div className="categories-content">
-          <p className="category-links">
+          {/* <p className="category-links">
             <span>Suits</span> |<span>Tuxedos</span> |<span>Blazers</span> |
             <span>Graduation</span> |<span>Matric Dance</span> |
             <span>Wedding</span> |<span>Date Night</span> |<span>Shoes</span> |
             <span>Accessories</span>
-          </p>
+          </p> */}
 
           <div className="categories-products" id="popular">
             {menProducts &&

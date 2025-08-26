@@ -56,7 +56,7 @@ function Cart() {
             cartItems.map((item) => (
               <div key={item["_id"]} className="cart-items">
                 <img
-                  src={item.productProvider === "stockProduct"?item.path:`${url}/${item.imgPath}`}
+                  src={item.productProvider === "stockProduct"?item.imgPath:`${url}/${item.imgPath}`}
                   alt={`A picture of ${item.productName}`}
                 />
 

@@ -177,7 +177,7 @@ function TrackOrder() {
         <div className="order-content">
           <h1 id="orders-heading">Orders</h1>
           <br />
-          <Box sx={{ minWidth: 120 }}>
+          {/* <Box sx={{ minWidth: 120 }}>
             <FormControl>
               <InputLabel
                 sx={{
@@ -216,7 +216,7 @@ function TrackOrder() {
                 <MenuItem value={30}>Thirty</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+          </Box> */}
 
           {orders && 
 
@@ -292,7 +292,7 @@ function TrackOrder() {
                 {order.purchasedProducts.map((prod)=>(
                   <><div >
                    
-                  <img src={prod.productProvider === "stockProduct"?prod.path:`${url}/${prod.imgPath}`} onClick={(e)=>{if (prod.productId) handleViewPurchasedProduct(prod.productId)}} />
+                  <img src={prod.productProvider === "stockProduct"?prod.imgPath:`${url}/${prod.imgPath}`} onClick={(e)=>{if (prod.productId) handleViewPurchasedProduct(prod.productId)}} />
                   <p>
                     <p>{prod.productName}</p>
                     <p>R{prod.price}.00</p>

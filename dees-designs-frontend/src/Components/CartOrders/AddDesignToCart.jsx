@@ -89,7 +89,7 @@ function AddDesignToCart() {
             <div className='add-cart-prod-details'>
               <h2>{productDetails.name}</h2>
               <p className='cart-rating'><b>Uploaded By:</b> <Link to={`/DesignerProfile/${productDetails["designerId"]}`} style={{textDecoration:"underline"}}>{productDetails.uploadedBy}</Link></p>
-              <Rating name="half-rating-read"  sx={{
+              {/* <Rating name="half-rating-read"  sx={{
     '& .MuiRating-iconFilled': {
       color: 'darkviolet', // filled stars
     },
@@ -101,12 +101,12 @@ function AddDesignToCart() {
     },
   }}
   defaultValue={2} precision={0.5} readOnly/>
-              <p className='cart-rating'><span>4.7 rating</span><span> 11 reviews</span></p>
+              <p className='cart-rating'><span>4.7 rating</span><span> 11 reviews</span></p> */}
               <p className='add-to-cart-price'>R{productDetails.price}.00</p>
 
               <h3>Product Description</h3>
-               <textarea rows={50} cols={20} style={{pointerEvents: "none"}}>
-                {productDetails.productDescription}
+               <textarea rows={50} cols={20} value={productDetails.productDescription} style={{pointerEvents: "none"}}>
+                
                </textarea>
 
              {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
@@ -114,7 +114,7 @@ function AddDesignToCart() {
                   onClick={handleAddToCart}
           loading={loading}
            sx={{
-        backgroundColor: "#6a04a5",   // button color
+        backgroundColor: "var(--dark-purple)",   // button color
         color: "white",            // text color
         width: "100%",            // custom width
         height: "45px",            // custom height
@@ -130,7 +130,7 @@ function AddDesignToCart() {
 
             </div>
           </div>}
-<div className='review-rating'>
+{/* <div className='review-rating'>
             
           <div className='cart-reviews'>
             <h4 id="review-heading">Reviews</h4>
@@ -197,7 +197,7 @@ function AddDesignToCart() {
           </div>
 
              
-          </div>
+          </div> */}
 
           
         </div>

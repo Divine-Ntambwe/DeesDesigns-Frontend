@@ -8,10 +8,10 @@
 }
 
 :root {
-  --dark-purple: rgb(208, 122, 122) ;
+  --dark-purple: #d07a7a ;
   --light-purple: #f09ff6 ;
   --swiper-theme-color: #f700ff;
-  --med-purple: rgb(229, 72, 72) ;
+  --med-purple: #e54848 ;
 
   --background-color3: rgb(208, 132, 132);
   --text-color2: white ;
@@ -297,7 +297,7 @@ color: var(--dark-purple);
 
 .error-container {
   font-family: 'Raleway', sans-serif;
-  background-color: var(--light-purple);
+  background-color: var(--med-purple);
   color: #555;
   height: 100vh;
   width: 100%;
@@ -313,7 +313,7 @@ color: var(--dark-purple);
 .error-code {
   font-size: 120px;
   font-family: 'Playfair Display', serif;
-  color: var(--dark-purple);
+  color: var(--text-color2);
   margin: 0;
 }
 
@@ -324,7 +324,7 @@ color: var(--dark-purple);
 
 .error-text {
   font-size: 18px;
-  color: #777;
+   color: var(--text-color2);
   margin-bottom: 30px;
 }
 

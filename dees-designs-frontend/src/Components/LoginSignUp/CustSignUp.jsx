@@ -63,12 +63,12 @@ function CustSignUp() {
               
               <div className='gender'>
              
-              <input type="radio" name="gender" value="male"  onChange={(e)=> setGender("M")}/>
+              <input required type="radio" name="gender" value="male"  onChange={(e)=> setGender("M")}/>
               <label>Male</label>
               </div>
 
               <div className='gender'>
-              <input type="radio" name="gender" value="female" onChange={(e)=> setGender("F")}/>
+              <input required type="radio" name="gender" value="female" onChange={(e)=> setGender("F")}/>
               <label>Female</label>
               </div>
               

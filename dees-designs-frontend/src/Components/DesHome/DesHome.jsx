@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function DesHome() {
   const [openUD, setOpenUD] = React.useState(false);
-  const [openUDC,setOpenUDC] = useState(true)
+  const [openUDC,setOpenUDC] = useState(false)
   const uploadFile = useRef();
   const { url } = useContext(appContext);
   const UDForm = useRef();
@@ -79,6 +79,7 @@ function DesHome() {
     UDForm.current.reset()
     setError(false)
     setEditing(false)
+    setData({})
     
   };
 
@@ -88,10 +89,11 @@ function DesHome() {
     setCustProductImg("emptyPfp.jpeg");
     UDCForm.current.reset();
     setError(false)
+    setData({})
   };
 
 
-  const { postMediaAuth, error, setError, data, loading } = useFetch(
+  const { postMediaAuth, error, setError, setData,data, loading } = useFetch(
     `/uploadDesignersProduct/${userDetails._id}`
   );
 
@@ -196,7 +198,7 @@ function DesHome() {
     }
   }
   
-  const {postMediaAuth:postUploadDesignCustomer} = useFetch(`/SendDesignToCustomer/${userDetails._id}`)
+  const {postMediaAuth:postUploadDesignCustomer,data:PostUDCData} = useFetch(`/SendDesignToCustomer/${userDetails._id}`)
   function handlePostUDC(e) {
     e.preventDefault();
     if (/[A-Za-z]/.test(UDC.price))
@@ -218,6 +220,7 @@ function DesHome() {
       setUDC({});
       setCustProductImg("emptyPfp.jpeg");
       e.target.reset();
+      alert("successfully uploaded")
     });
   }
 
@@ -233,10 +236,10 @@ function DesHome() {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>{"Upload A Design"}</DialogTitle>
-        {error && (
+        {/* {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
-        {data.error && <p className="display-error">{data.error}</p>}
+        {data.error && <p className="display-error">{data.error}</p>} */}
         <form
           id="upload-a-design-form"
           style={{ width: "550px", height: "780px" }}
@@ -504,7 +507,7 @@ function DesHome() {
         {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
-        {data.error && <p className="display-error">{data.error}</p>}
+        {PostUDCData.error && <p className="display-error">{PostUDCData.error}</p>}
         <form
           id="upload-a-design-customer-form"
           style={{ width: "550px", height: "650px" }}

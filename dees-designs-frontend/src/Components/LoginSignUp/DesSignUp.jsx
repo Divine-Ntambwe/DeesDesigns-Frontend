@@ -41,6 +41,7 @@ function DesSignUp() {
   const [pfpFile, setPfpFile] = useState("");
   const navigate = useNavigate();
   const { setIsAuthenticated,setRole,setUserDetails,setAuthCred} = useContext(Authentication);
+  const heading = useRef()
 
   
   function handleSignUp(e) {
@@ -58,6 +59,7 @@ function DesSignUp() {
     const formData = new FormData();
     formData.append("pfp", pfpFile);
     formData.append("details", JSON.stringify(details));
+     heading.current.scrollIntoView({behavior:"smooth"})
     postSignUp(formData, (d) => {
       delete d.message;
 
@@ -72,11 +74,13 @@ function DesSignUp() {
       setRole("designer");
       navigate("/DesignersHome");
     });
+
+    
   }
   return (
     <div className="loginSignUp">
       <div className="form-container" id="desSignup">
-        <h2 id="des-sign-up-heading">Sign Up</h2>
+        <h2 id="des-sign-up-heading" ref={heading}>Sign Up</h2>
      {data && <p className='cred-error'>{data.error}</p>}
      {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
          
@@ -102,7 +106,7 @@ function DesSignUp() {
         backgroundColor:"transparent"
       }}
     >
-      Upload files
+      Upload Profile Picture
        <VisuallyHiddenInput
         
         required

@@ -97,10 +97,10 @@ function AddToCart() {
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>
 
-                <p className="cart-rating">
+             {reviews && productDetails &&   <p className="cart-rating">
                   <span > {productDetails.rating.length === 0?"0":(productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length).toFixed(1)}<StarBorderIcon size="large" sx={{}}/></span>
                   <span> ({productDetails.rating.length} reviews)</span>
-                </p>
+                </p>}
                 <p className="add-to-cart-price">R{productDetails.price}.00</p>
 
                 <h3>Standard Measurement:</h3>

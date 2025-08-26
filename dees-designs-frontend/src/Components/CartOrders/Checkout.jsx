@@ -294,7 +294,7 @@ function Checkout() {
                   cartItems.map((item) => (
                     <div key={item["_id"]} className="cart-items">
                       <img
-                        src={item.productProvider === "designerProduct"?item.imgPath:`${url}/${item.imgPath}`}
+                        src={item.productProvider === "stockProduct"?item.imgPath:`${url}/${item.imgPath}`}
                         alt={`A picture of ${item.productName}`}
                       />
 

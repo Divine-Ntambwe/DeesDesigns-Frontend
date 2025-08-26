@@ -29,10 +29,10 @@ function DesignersCollection() {
         </div>
 
         <div className="categories-content">
-          <p className="category-links">
+          {/* <p className="category-links">
             <span>Graduation</span> |<span>Matric Dance</span> |
             <span>Wedding</span> |<span>Men</span> |<span>Women</span>
-          </p>
+          </p> */}
 
           <div className="categories-products" id="popular">
             {designerProducts &&
