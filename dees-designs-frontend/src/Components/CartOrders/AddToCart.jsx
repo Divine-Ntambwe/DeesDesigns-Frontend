@@ -62,15 +62,6 @@ function AddToCart() {
     return arr;
   }
 
-  function calcStarsProgress(starNum) {
-    return reviews.length === 0? 0:(
-      (reviews.filter((i) => {
-        return i.rating === starNum;
-      }).length /
-        reviews.length) *
-      100
-    );
-  }
 
   return (
     <>
@@ -98,7 +89,7 @@ function AddToCart() {
                 <h2>{productDetails.name}</h2>
 
              {reviews && productDetails &&   <p className="cart-rating">
-                  <span > {productDetails.rating.length === 0?"0":(productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length).toFixed(1)}<StarBorderIcon size="large" sx={{}}/></span>
+                  <span style={{ display:"flex",alignItems:"flex-start"}}> {productDetails.rating.length === 0?"0":(productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length).toFixed(1)}<StarBorderIcon sx={{fontSize:"1.5em"}}/></span>
                   <span> ({productDetails.rating.length} reviews)</span>
                 </p>}
                 <p className="add-to-cart-price">R{productDetails.price}.00</p>
@@ -158,17 +149,18 @@ function AddToCart() {
           type="submit"
           loading={loading}
            sx={{
+        fontSize:"0.7em",    
         backgroundColor: "var(--med-purple)",   // button color
         color: "white",            // text color
         width: "100%",            // custom width
-        height: "45px",            // custom height
+        height: "3.5em",            // custom height
         "&:hover": {
           backgroundColor: "gray", // hover color
         },
-        marginBottom: "10px"
+        marginTop: "10px"
       }}
         >
-          <ShoppingCartOutlinedIcon/> Add To Cart
+          <ShoppingCartOutlinedIcon sx={{ fontSize:"2em"}}/>Add To Cart
         </Button>
                 </form>
               </div>

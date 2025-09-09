@@ -1,8 +1,4 @@
 .women-wear {
-    /* background: linear-gradient(
-        var(--med-purple) 10%,
-        var(--background-color3) 90%
-    ) ; */
     background-color: var(--background-color1);
 
 }
@@ -13,7 +9,7 @@
     background-color: var(--background-color1);
 }
 .categories-content {
-    padding: 20px 10px;
+    padding: 20px 20px;
     min-height: 100vh;
 }
 
@@ -43,8 +39,4 @@
     padding: 10px;
     border-radius: 5px;
     border:1px solid var(--background-color1);
-}
-
-.categories-products p {
-    color: var(--text-color2) !important;
 }

@@ -8,11 +8,14 @@ import { products } from "../../Context/ProductsContext";
 import useFetch from "../../useFetch";
 import GlareHover from "../ReactBitComp/GlareHover";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
+import {themeContext} from "../../Context/ThemeContext";
 function WomenWear() {
   const { handleOpenCart } = useContext(appContext);
-  const { womenProducts } = useContext(products);
+  const {theme} = useContext(themeContext);
+  const { womenProducts,allProducts } = useContext(products);
   const cartPopUp = useRef();
-  const nav = useNavigate()
+  const nav = useNavigate();
   function handleProdHover(e, imgSrc) {
     setTimeout(() => {
       e.target.children[0].src = imgSrc;
@@ -45,6 +48,41 @@ function WomenWear() {
           </p> */}
 
           <div className="categories-products" id="popular">
+            {(allProducts && womenProducts.length === 0) && <p style={{fontSize:"2em"}}>Product Not Found</p> }
+            {(!womenProducts.length && !allProducts)&&
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
+                <>
+                  <div>
+                    <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                      }}
+                      variant="rectangular"
+                      width={340}
+                      height={500}
+                    ></Skeleton>
+                    <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                      }}
+                      variant="rectangular"
+                      width={340}
+                      height={30}
+                    ></Skeleton>
+                    <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                      }}
+                      variant="rectangular"
+                      width={250}
+                      height={30}
+                    ></Skeleton>
+                  </div>
+                </>
+              ))}
             {womenProducts &&
               womenProducts.map((product) => (
                 <div
@@ -60,7 +98,6 @@ function WomenWear() {
                   onClick={(e) => {
                     // handleGoToAddToCart(product["_id"]);
                     nav(`/AddToCart/${product._id}`);
-                      
                   }}
                 >
                   <GlareHover
@@ -77,7 +114,7 @@ function WomenWear() {
                       src={product.imagePath[0] || null}
                     />
                   </GlareHover>
-                  <p className="product-name">{product.name}</p>
+                  <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
                     <span>{product.menOrWomen}</span>

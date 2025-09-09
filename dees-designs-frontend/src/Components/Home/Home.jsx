@@ -13,9 +13,12 @@ import { products } from "../../Context/ProductsContext";
 import GlareHover from "../ReactBitComp/GlareHover";
 import Tooltip from "@mui/material/Tooltip";
 import { Authentication } from "../../App";
+import { Skeleton } from "@mui/material";
+import {themeContext} from "../../Context/ThemeContext";
 
 function HomePage() {
   const { handleOpenCart } = useContext(appContext);
+  const {theme} = useContext(themeContext);
   const cartPopUp = useRef();
   const displayedProducts = useRef()
   const nav = useNavigate();
@@ -58,7 +61,9 @@ function HomePage() {
           <Cart />
         </div>
 
-        <div className="home-header">
+       
+
+        <div className="home-header main-section">
           <div className="slides" id="slide1">
             <div>
               <h1 id="slogan">
@@ -77,11 +82,13 @@ function HomePage() {
           </div>
         </div>
 
+        
+
         <div className="home-content">
           <h2>Product Categories</h2>
           <div className="main-section" id="product-cat">
-            <div id="category">
-              <img id="category-img" src="./image copy 6.png" />
+            <div className="category">
+              <img className="category-img" src=".\@megan_milan❣️💃🏾🌹 (copy).jpeg" />
               <button
                 className="view-collection"
                 onClick={() => {
@@ -92,8 +99,8 @@ function HomePage() {
               </button>
             </div>
 
-            <div id="category">
-              <img id="category-img" src="./image copy 8.png" />
+            <div className="category">
+              <img className="category-img" src="./image copy 8.png" />
               <button
                 className="view-collection"
                 onClick={() => {
@@ -104,8 +111,8 @@ function HomePage() {
               </button>
             </div>
 
-            <div id="category">
-              <img id="category-img" src="./20250419_221038.jpg" />
+            <div className="category">
+              <img className="category-img" src="./20250419_221038.jpg" />
               <button
                 className="view-collection"
                 onClick={() => {
@@ -114,18 +121,49 @@ function HomePage() {
               >
                 View Designer's Collection
               </button>
+
+              
             </div>
+            <div className="category">
+              <img className="category-img" src=".\Accessories.jpeg" />
+              <button
+                className="view-collection"
+                onClick={() => {
+                  nav("/Accessories");
+                }}
+              >
+                View Accessories
+              </button>
+            </div>
+
           </div>
 
           <h2 ref={displayedProducts} id="home-products">Home</h2>
 
           <div className="main-section" id="popular">
+            {(allProducts && homeProducts.length === 0) && <p style={{fontSize:"2em"}}>Product Not Found</p> }
+            {(!homeProducts.length && !allProducts) &&
+               [1,2,3,4,5,6,7,8,9,10].map(()=>(
+                <>
+            
+                 <div className="popular-prod">
+                  <Skeleton animation="wave" sx={{ bgcolor:(theme === "light"?"grey.400":"grey.900"), height:"100%" }} variant="rectangular"  ></Skeleton>
+                  <Skeleton animation="wave" sx={{ bgcolor:(theme === "light"?"grey.400":"grey.900") }} variant="rectangular"  ></Skeleton>
+                  <Skeleton animation="wave" sx={{ bgcolor:(theme === "light"?"grey.400":"grey.900") }} variant="rectangular"  ></Skeleton>
+                 </div>
+                
+               
+               </>
+               ))
+               
+            }
             {homeProducts &&
               homeProducts.map((product) => (
                 <div
                   id={product["_id"]}
                   key={product["_id"]}
                   className="popular-prod"
+                  
                   onMouseOver={(e) => {
                     handleProdHover(e, product.imagePath[1]);
                   }}
@@ -150,7 +188,7 @@ function HomePage() {
                       src={product.imagePath[0] || null}
                     />
                   </GlareHover>
-                  <p className="product-name">{product.name}</p>
+                  <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
                     <span>{product.menOrWomen}</span>
@@ -194,6 +232,7 @@ function HomePage() {
               </Link>
             </Tooltip>
           </div>
+          
         </div>
       </div>
 

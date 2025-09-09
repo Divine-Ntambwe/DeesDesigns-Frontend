@@ -19,6 +19,7 @@ import TextFieldComp from "../TextField";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Checkbox from "@mui/material/Checkbox";
 import { styled } from "@mui/material/styles";
 import { appContext } from "../../Context/AppContext";
@@ -42,12 +43,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function DesHome() {
   const [openUD, setOpenUD] = React.useState(false);
-  const [openUDC,setOpenUDC] = useState(false)
+  const [openUDC, setOpenUDC] = useState(false);
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const uploadFile = useRef();
   const { url } = useContext(appContext);
   const UDForm = useRef();
   const UDCForm = useRef();
-  const { userDetails, authCred } = useContext(Authentication);
+  const editProfileForm = useRef();
+  const { userDetails, authCred,setUserDetails } = useContext(Authentication);
   const { allDesignersDesigns, setFetch } = useContext(designerContext);
   const [productImgFile, setProductImgFile] = useState(),
     [productImg, setProductImg] = useState("emptyPfp.jpeg"),
@@ -56,8 +59,13 @@ function DesHome() {
     [categories, setCategories] = useState([]),
     [editing, setEditing] = useState(false),
     [custProductImgFile, setCustProductImgFile] = useState(),
-    [custProductImg, setCustProductImg] = useState("emptyPfp.jpeg");
-
+    [custProductImg, setCustProductImg] = useState("emptyPfp.jpeg"),
+    [desPfpImg, setDesPfpImg] = useState(`${url}/${userDetails.pfpPath}`),
+    [desPfpFile, setDesPfpFile] = useState(),
+    [newProfileDetails, setNewProfileDetails] = useState({
+      phoneNumber: userDetails.phoneNumber,
+      email: userDetails.email
+    });
 
   useEffect(() => {
     setFetch(true);
@@ -71,16 +79,19 @@ function DesHome() {
     setOpenUDC(true);
   };
 
+  const handleOpenEditProfile = () => {
+    setOpenEditProfile(true);
+  };
+
   const handleCloseUD = () => {
     setOpenUD(false);
     setUD({});
     setProductImg("emptyPfp.jpeg");
     setFetch(true);
-    UDForm.current.reset()
-    setError(false)
-    setEditing(false)
-    setData({})
-    
+    UDForm.current.reset();
+    setError(false);
+    setEditing(false);
+    setData({});
   };
 
   const handleCloseUDC = () => {
@@ -88,12 +99,38 @@ function DesHome() {
     setUDC({});
     setCustProductImg("emptyPfp.jpeg");
     UDCForm.current.reset();
-    setError(false)
-    setData({})
+    setError(false);
+    setData({});
   };
 
+  const handleCloseEditProfile = () => {
+    setOpenEditProfile(false);
+  };
 
-  const { postMediaAuth, error, setError, setData,data, loading } = useFetch(
+  const {
+    putMedia: updateDesignerDetails,
+    data: PostEditedData,
+    loading: postEditedProfileLoading,
+  } = useFetch(`/editDesignerInfo/${userDetails._id}`);
+  function handlePostEditedDetails(e) {
+    e.preventDefault();
+    // if (!desPfpFile) return alert("Please select an image");
+
+    const formData = new FormData();
+    formData.append("desNewPfp", desPfpFile);
+    formData.append("details", JSON.stringify(newProfileDetails));
+      updateDesignerDetails(formData, (d) => {
+      localStorage.setItem("userDetails",JSON.stringify({...userDetails,phoneNumber:newProfileDetails.phoneNumber}));
+      desPfpFile && localStorage.setItem("userDetails",JSON.stringify({...userDetails,pfpPath:d.pfpPath}));
+      setUserDetails({...userDetails,phoneNumber:newProfileDetails.phoneNumber});
+      desPfpFile && setDesPfpImg(`${url}/${d.pfpPath}`)
+      desPfpFile && setUserDetails({...userDetails,pfpPath:d.pfpPath});
+      handleCloseEditProfile();
+      
+    });
+  }
+
+  const { postMediaAuth, error, setError, setData, data, loading } = useFetch(
     `/uploadDesignersProduct/${userDetails._id}`
   );
 
@@ -113,7 +150,7 @@ function DesHome() {
       designerEmail: userDetails.email,
       designerId: userDetails._id,
     };
-
+    
     const formData = new FormData();
     formData.append("productImage", productImgFile);
     formData.append("details", JSON.stringify(details));
@@ -142,7 +179,6 @@ function DesHome() {
     handleClickOpenUD()();
   }
 
-  
   async function handleEditProduct(e) {
     e.preventDefault();
     if (/[A-Za-z]/.test(UD.price))
@@ -175,21 +211,17 @@ function DesHome() {
     }
   }
 
-  async function handleRemoveProduct(id){
+  async function handleRemoveProduct(id) {
     try {
-      const res = await fetch(
-        url + `/removeDesignersProducts/${id}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Basic ${authCred}` }
-        }
-      );
+      const res = await fetch(url + `/removeDesignersProducts/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Basic ${authCred}` },
+      });
 
       const result = await res.json();
 
       if (res.status === 200) {
-       setFetch(true);
-
+        setFetch(true);
       } else {
         setError(res.error);
       }
@@ -197,8 +229,12 @@ function DesHome() {
       console.log(e);
     }
   }
-  
-  const {postMediaAuth:postUploadDesignCustomer,data:PostUDCData} = useFetch(`/SendDesignToCustomer/${userDetails._id}`)
+
+  const {
+    postMediaAuth: postUploadDesignCustomer,
+    data: PostUDCData,
+    loading: postForCustLoading,
+  } = useFetch(`/SendDesignToCustomer/${userDetails._id}`);
   function handlePostUDC(e) {
     e.preventDefault();
     if (/[A-Za-z]/.test(UDC.price))
@@ -208,7 +244,7 @@ function DesHome() {
     const details = {
       ...UDC,
       uploadedBy: `${userDetails.name} ${userDetails.surname}`,
-      productProvider:"designer"
+      productProvider: "designer",
     };
 
     const formData = new FormData();
@@ -216,11 +252,11 @@ function DesHome() {
     formData.append("details", JSON.stringify(details));
 
     postUploadDesignCustomer(formData, () => {
+      alert("successfully uploaded");
       handleCloseUDC();
       setUDC({});
       setCustProductImg("emptyPfp.jpeg");
       e.target.reset();
-      alert("successfully uploaded")
     });
   }
 
@@ -250,7 +286,7 @@ function DesHome() {
         >
           <DialogContent
             id="upload-a-design-content"
-            sx={{ width: "550px", height: "700px" }}
+            sx={{ width: "550px", height: "800px" }}
           >
             <div id="upload-file-cont">
               <img className="des-pfp" src={productImg} />
@@ -310,7 +346,6 @@ function DesHome() {
               label="Product Description *"
               id="UD-product-desc"
               name="UDProductDesc"
-          
               onChange={(e) => {
                 setUD({ ...UD, productDescription: e.target.value });
               }}
@@ -507,7 +542,9 @@ function DesHome() {
         {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
-        {PostUDCData.error && <p className="display-error">{PostUDCData.error}</p>}
+        {PostUDCData.error && (
+          <p className="display-error">{PostUDCData.error}</p>
+        )}
         <form
           id="upload-a-design-customer-form"
           style={{ width: "550px", height: "650px" }}
@@ -559,7 +596,6 @@ function DesHome() {
                 setUDC({ ...UDC, name: e.target.value });
               }}
               value={UDC.name}
-             
             />
             <TextFieldComp
               label="Product Price"
@@ -570,7 +606,7 @@ function DesHome() {
               }}
               value={UDC.price}
             />
-             <TextFieldComp
+            <TextFieldComp
               type="email"
               label="Customer Email"
               id="UDC-customer-email"
@@ -579,9 +615,7 @@ function DesHome() {
                 setUDC({ ...UDC, customerEmail: e.target.value });
               }}
               value={UDC.customerEmail}
-              
             />
-
           </DialogContent>
           <DialogActions>
             <Button
@@ -595,7 +629,108 @@ function DesHome() {
             <Button
               sx={{ color: "var(--med-purple)" }}
               type="submit"
-              loading={loading}
+              loading={postForCustLoading}
+            >
+              Upload
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      <Dialog
+        open={openEditProfile}
+        slots={{
+          transition: Transition,
+        }}
+        keepMounted
+        onClose={handleCloseEditProfile}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Edit your profile details"}</DialogTitle>
+        {error && (
+          <p className="display-error">Network Error, Please try again later</p>
+        )}
+        {PostEditedData.error && (
+          <p className="display-error">{PostEditedData.error}</p>
+        )}
+        <form
+          id="edit-profile-details-form"
+          style={{ width: "550px", height: "600px" }}
+          onSubmit={handlePostEditedDetails}
+          ref={editProfileForm}
+        >
+          <DialogContent
+            id="edit-profile-details"
+            sx={{ width: "550px", height: "550px" }}
+          >
+            <div id="upload-file-cont">
+              <img className="des-pfp" src={desPfpImg} />
+
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                sx={{
+                  backgroundColor: "transparent",
+                  color: "var(--med-purple)",
+                }}
+                // style={{color:"var(--med-purple)",fontSize:"2.5em"}
+              >
+                Upload files
+                <VisuallyHiddenInput
+                  ref={uploadFile}
+                  name="desNewPfp"
+                  id="upload-des-new-pfp"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setDesPfpFile(e.target.files[0]);
+                    if (e.target.files[0].type.startsWith("image")) {
+                      setDesPfpImg(URL.createObjectURL(e.target.files[0]));
+                    } else {
+                      alert("Please select an image file");
+                      setDesPfpImg("emptyPfp.jpeg");
+                    }
+                  }}
+                />
+              </Button>
+            </div>
+            <TextFieldComp
+              id="edit-email"
+              name="editEmail"
+              label="Email"
+              type="email"
+              onChange={(e) => {
+              }}
+              value={newProfileDetails.email}
+            />
+            <TextFieldComp
+              label="Phone Number"
+              id="edit-phone-number"
+              name="editPhoneNumber"
+              onChange={(e) => {
+                setNewProfileDetails({
+                  ...newProfileDetails,
+                  phoneNumber: e.target.value,
+                });
+              }}
+              value={newProfileDetails.phoneNumber}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              sx={{ color: "var(--dark-purple)" }}
+              onClick={(e) => {
+                handleCloseEditProfile();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{ color: "var(--med-purple)" }}
+              type="submit"
+              // loading={postEditedProfileLoading}
             >
               Upload
             </Button>
@@ -608,9 +743,36 @@ function DesHome() {
         </div>
 
         <div className="des-home-content">
-          <h1 style={{ color: "var(--med-purple)", fontSize: "2.5em" }}>
-            {userDetails.name} {userDetails.surname}
-          </h1>
+          <div className="designers-details">
+            <img src={`${url}/${userDetails.pfpPath}`} />
+
+            <div className="contact-info">
+              <h1 style={{ color: "var(--med-purple)", fontSize: "2.5em" }}>
+                {userDetails.name} {userDetails.surname}
+              </h1>
+              <p style={{ color: "var(--med-purple)" }}>
+                {userDetails.rating.length === 0
+                  ? "0"
+                  : (
+                      userDetails.rating.reduce((acc, i) => {
+                        return acc + i;
+                      }, 0) / userDetails.rating.length
+                    ).toFixed(1)}{" "}
+                <StarBorderIcon size="large" sx={{}} />{" "}
+                <span> ({userDetails.rating.length} reviews)</span>
+              </p>
+
+              <p>{userDetails.email}</p>
+              <p>{userDetails.phoneNumber}</p>
+            </div>
+            <span id="edit-designer-profile">
+              <EditOutlinedIcon
+                onClick={handleOpenEditProfile}
+                sx={{ fontSize: "48px", cursor: "pointer" }}
+              />
+            </span>
+          </div>
+
           <div className="upload-buttons">
             <Button
               onClick={handleClickOpenUD}
@@ -645,14 +807,12 @@ function DesHome() {
             >
               <FileUploadIcon /> Upload A Design For A Customer
             </Button>
-            <p></p>
-            <p></p>
-            <p></p>
           </div>
 
           <h2>Your Designs</h2>
 
           <div className="designers-uploads">
+  
             {allDesignersDesigns &&
               allDesignersDesigns.map((design) => (
                 <div key={design._id} className="design">
@@ -661,25 +821,30 @@ function DesHome() {
                     <div>
                       <p className="product-name">{design.name}</p>
                       <p className="price">R{design.price}.00</p>
-                      <p style={{fontSize:"1.2em"}}>{design.onSale?"On Sale":"Sold"}</p>
+                      <p style={{ fontSize: "1.2em" }}>
+                        {design.onSale ? "On Sale" : "Sold"}
+                      </p>
                     </div>
                     <p className="remove-edit">
                       <Tooltip title="Remove Design">
                         <RemoveCircleOutlineIcon
                           sx={{ cursor: "pointer", fontSize: "1.5em" }}
-                          onClick={(e)=>{handleRemoveProduct(design._id)}}
-                        />
-                      </Tooltip>
-                      {design.onSale && <Tooltip title="Edit Design">
-                        <EditOutlinedIcon
-                          sx={{ cursor: "pointer", fontSize: "1.5em" }}
-                          onClick={() => {
-                            handleOpenEditProduct(design._id);
+                          onClick={(e) => {
+                            handleRemoveProduct(design._id);
                           }}
                         />
-                      </Tooltip>}
+                      </Tooltip>
+                      {design.onSale && (
+                        <Tooltip title="Edit Design">
+                          <EditOutlinedIcon
+                            sx={{ cursor: "pointer", fontSize: "1.5em" }}
+                            onClick={() => {
+                              handleOpenEditProduct(design._id);
+                            }}
+                          />
+                        </Tooltip>
+                      )}
                     </p>
-                    
                   </div>
                 </div>
               ))}

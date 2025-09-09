@@ -1,25 +1,30 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import "./categories.modules.css";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
-import { Link, useNavigate } from "react-router-dom";
 import Cart from "../CartOrders/Cart";
 import { appContext } from "../../Context/AppContext";
 import { products } from "../../Context/ProductsContext";
-import useFetch from "../../useFetch";
 import GlareHover from "../ReactBitComp/GlareHover";
+import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
-import {themeContext} from "../../Context/ThemeContext";
-function DesignersCollection() {
-  const {theme} = useContext(themeContext);
-  const { handleOpenCart, url } = useContext(appContext);
-  const { designerProducts, handleGoToAddDesignToCart, allProducts } = useContext(products);
+import { themeContext } from "../../Context/ThemeContext";
+
+function Accessories() {
+  const { handleOpenCart } = useContext(appContext);
+  const { theme } = useContext(themeContext);
+  const { accessories, allProducts } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
+  function handleProdHover(e, imgSrc) {
+    setTimeout(() => {
+      e.target.children[0].src = imgSrc;
+    }, 300);
+  }
 
-  return (
+  return(
     <>
-      <div className="designers-collec categories">
+      <div className="accessories categories">
         <div className="navbar">
           <Navbar
             handleOpenCart={() => {
@@ -27,19 +32,22 @@ function DesignersCollection() {
             }}
           />
         </div>
+
         <div className="cart-popup" ref={cartPopUp}>
           <Cart />
         </div>
 
         <div className="categories-content">
           {/* <p className="category-links">
+            <span>Suits</span> |<span>Tuxedos</span> |<span>Blazers</span> |
             <span>Graduation</span> |<span>Matric Dance</span> |
-            <span>Wedding</span> |<span>Men</span> |<span>Women</span>
+            <span>Wedding</span> |<span>Date Night</span> |<span>Shoes</span> |
+            <span>Accessories</span>
           </p> */}
 
           <div className="categories-products" id="popular">
-            {(allProducts && designerProducts.length === 0) && <p style={{fontSize:"2em"}}>Product Not Found</p> }
-            {(!designerProducts.length && !allProducts) &&
+            {(allProducts && accessories.length === 0) && <p style={{fontSize:"2em"}}>Product Not Found</p> }
+            {(!accessories.length && !allProducts) &&
               [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
                 <>
                   <div>
@@ -73,14 +81,20 @@ function DesignersCollection() {
                   </div>
                 </>
               ))}
-            {designerProducts &&
-              designerProducts.map((product) => (
+            {accessories &&
+             accessories.map((product) => (
                 <div
                   id={product["_id"]}
                   key={product["_id"]}
                   className="popular-prod"
+                  onMouseOver={(e) => {
+                    handleProdHover(e, product.imagePath[1]);
+                  }}
+                  onMouseOut={(e) => {
+                    handleProdHover(e, product.imagePath[0]);
+                  }}
                   onClick={(e) => {
-                    nav(`/AddDesignToCart/${product["_id"]}`);
+                    nav(`/AddToCart/${product["_id"]}`);
                   }}
                 >
                   <GlareHover
@@ -94,13 +108,13 @@ function DesignersCollection() {
                   >
                     <img
                       alt={`A picture of ${product.name}`}
-                      src={`${url}/${product.imagePath}` || null}
+                      src={product.imagePath[0] || null}
                     />
                   </GlareHover>
                   <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
-                    <span>{product.uploadedBy}</span>
+                    <span>{product.menOrWomen}</span>
                   </p>
                 </div>
               ))}
@@ -112,7 +126,7 @@ function DesignersCollection() {
         <Footer />
       </div>
     </>
-  );
+  )
 }
 
-export default DesignersCollection;
+export default Accessories;

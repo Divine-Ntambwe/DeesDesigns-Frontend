@@ -33,12 +33,14 @@ function Login() {
 
         localStorage.setItem("userDetails",JSON.stringify(d));
         localStorage.setItem("role",isDesigner?"designer":"customer");
-
+       
         if (isDesigner === true){
           navigate("/DesignersHome")
         } else {
           navigate("/Home");
         }
+         window.location.reload(true);
+          
         
       })   
     }

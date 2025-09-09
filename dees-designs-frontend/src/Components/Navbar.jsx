@@ -13,12 +13,22 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import Badge, { badgeClasses } from '@mui/material/Badge';
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { themeContext } from "../Context/ThemeContext";
 import { cartContext } from "../Context/CartContext";
 import { products } from "../Context/ProductsContext";
 import { Authentication } from "../App";
+
+const CartBadge = styled(Badge)`
+  & .${badgeClasses.badge} {
+    top: -12px;
+    right: -6px;
+  }
+`;
 
 function Navbar({ handleOpenCart, displayedProducts }) {
   const sideMenuEl = useRef();
@@ -71,6 +81,7 @@ function Navbar({ handleOpenCart, displayedProducts }) {
     "/MenWear",
     "/WomenWear",
     "/DesignersCollection",
+    "/Accessories"
   ];
   function handleSearchFocus() {
     if (!searchPaths.includes(location.pathname)) {
@@ -87,15 +98,25 @@ function Navbar({ handleOpenCart, displayedProducts }) {
   }
 
   function handleLogOut() {
-    localStorage.clear();
-    nav("/Login");
-   
+    localStorage.clear(); 
+    nav("/Login"); 
+  
   }
   return (
     <>
       <div className="nav-bar-comp">
         <div className="top-navbar" ref={navBar}>
-          <span className="top-nav-links">
+          
+          
+       
+
+          <span id="nav-links-cont">
+            <p id="burger-menu"><MenuOutlinedIcon onClick={
+              handleOpenMenu
+            } /></p>
+            
+            <span id="top-nav-links" className="top-nav-links">
+           
             <Link to="/Home">Home</Link> <Link to="/Orders">Orders</Link>{" "}
             <Link
               id="basic-button"
@@ -126,8 +147,9 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 },
               }}
             >
-              <MenuItem
+              <Link  to="/WomenWear"><MenuItem
                 sx={{
+                  color:"var(--dark-purple)",
                   "&:hover": {
                     bgcolor: "transparent",
                     color: "var(--text-color2)", // hover text
@@ -135,10 +157,14 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 }}
                 onClick={handleClose}
               >
-                <Link to="/WomenWear">Women Wear</Link>
+                Women Wear
               </MenuItem>
+              </Link>
+
+              <Link to="/MenWear">
               <MenuItem
                 sx={{
+                  color:"var(--dark-purple)",
                   "&:hover": {
                     bgcolor: "transparent",
                     color: "var(--text-color2)", // hover text
@@ -146,10 +172,14 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 }}
                 onClick={handleClose}
               >
-                <Link to="/MenWear">Men Wear</Link>
+                Men Wear
               </MenuItem>
+              </Link>
+
+               <Link to="/Accessories">
               <MenuItem
                 sx={{
+                  color:"var(--dark-purple)",
                   "&:hover": {
                     bgcolor: "transparent",
                     color: "var(--text-color2)", // hover text
@@ -157,27 +187,47 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 }}
                 onClick={handleClose}
               >
-                <Link to="/DesignersCollection">Designer's Collection</Link>
+                Accessories
               </MenuItem>
+              </Link>
+
+            <Link to="/DesignersCollection">
+              <MenuItem
+                sx={{
+                  color:"var(--dark-purple)",
+                  "&:hover": {
+                    bgcolor: "transparent",
+                    color: "var(--text-color2)", // hover text
+                  },
+                }}
+                onClick={handleClose}
+              >
+                Designer's Collection
+              </MenuItem>
+            </Link>
+
             </Menu>{" "}
             <a href="#footer">Contact Us</a>{" "}
           </span>
+          </span>
 
           <span>
-            <h1>Dee's Designs</h1>
+            <Link to="/Home"><h1 style={{cursor:"pointer"}}>Dee's Designs</h1></Link>
           </span>
 
           <span className="navbar-icons">
             {" "}
             <Box
               sx={{
+                // height: "1.3em",
                 display: "flex",
                 alignItems: "flex-end",
                 border: "1px solid var(--dark-purple)",
                 borderRadius: "180px",
                 backgroundColor: "var(--background-color1)",
-                padding: "0 15px 5px",
+                padding: "0 15px 5px 15px",
               }}
+              className="search-bar"
             >
               <SearchOutlinedIcon
                 sx={{ color: { colorBW }, mr: 0.5, my: 0.5 }}
@@ -189,10 +239,11 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 onChange={(e) => {
                   handleSearchProductsInput(e);
                 }}
-                id="input-with-sx"
+                id="search-input"
                 variant="standard"
                 sx={{
-                  borderRadius: "180px",
+                  // height: 20, 
+                  // "& .MuiInputBase-root": { height: 20 },
                   "& .MuiInput-underline:hover:before": {
                     borderBottomColor: { colorBW }, // hover
                   },
@@ -218,12 +269,16 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               onClick={handleOpenMenu}
               style={{ fontSize: "1.5em" }}
             />{" "}
+            {/* <IconButton>
+  <ShoppingCartOutlinedIcon  />
+  <CartBadge badgeContent={2} color="primary" overlap="circular" />
+</IconButton> */}
             <ShoppingCartOutlinedIcon
             className="cart-profile"
               onClick={handleOpenCart}
-              style={{ fontSize: "1.3em" }}
+              style={{ fontSize: "1.5em" }}
             />
-            <span id="num-of-cart-items">{cartNum}</span>
+            {Boolean(cartNum) &&  <span id="num-of-cart-items">{cartNum}</span>}
           </span>
         </div>
 

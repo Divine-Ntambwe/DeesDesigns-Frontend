@@ -11,53 +11,72 @@ function ProductsContext({ children }) {
   const [homeProducts, setHomeProducts] = useState("");
   const [menProducts, setMenProducts] = useState("");
   const [womenProducts, setWomenProducts] = useState("");
+  const [accessories, setAaccesories] = useState("");
   const [designerProducts, setDesignerProducts] = useState("");
   const [allDesignerProducts, setAllDesignerProducts] = useState("");
   const [reviews, setReviews] = useState("");
   const { userDetails } = useContext(Authentication);
   const { get: getStockProducts } = useFetch("/stockProducts");
   const { get: getDesignerProducts } = useFetch("/allDesignerProducts");
-  const [fetchProducts,setFetchProducts] = useState(false)
+  const [fetchProducts, setFetchProducts] = useState(false);
 
   function getGenderCat() {
     return userDetails.gender === "M" ? "Men" : "Women";
   }
 
   useEffect(() => {
-    setFetchProducts(false)
+    setFetchProducts(false);
     getStockProducts((d) => {
-      
       setAllProducts(d);
       setHomeProducts(
         [
-          ...Object.groupBy(d, ({ menOrWomen }) => {
-            return menOrWomen === getGenderCat() ? "1" : "2";
+          ...Object.groupBy(d, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
           })["1"],
-          ...Object.groupBy(d, ({ menOrWomen }) => {
-            return menOrWomen === getGenderCat() ? "1" : "2";
+          ...Object.groupBy(d, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
           })["2"],
         ].slice(0, 20)
       );
       setWomenProducts(
-        Object.groupBy(d, ({ menOrWomen }) => {
-          return menOrWomen === "Women" ? "women" : "men";
+        Object.groupBy(d, ({ menOrWomen, categories }) => {
+          return menOrWomen === "Women" && !categories.includes("Accessories")
+            ? "women"
+            : "men";
         }).women
       );
       setMenProducts(
-        Object.groupBy(d, ({ menOrWomen }) => {
-          return menOrWomen === "Men" ? "men" : "women";
+        Object.groupBy(d, ({ menOrWomen, categories }) => {
+          return menOrWomen === "Men" && !categories.includes("Accessories")
+            ? "men"
+            : "women";
         }).men
+      );
+
+      setAaccesories(
+        Object.groupBy(d, ({ categories }) => {
+          return categories.includes("Accessories")
+            ? "accessories"
+            : "non-accessories";
+        }).accessories
       );
     });
 
     getDesignerProducts((d) => {
       setDesignerProducts(d);
-      setAllDesignerProducts(d)
+      setAllDesignerProducts(d);
     });
   }, [fetchProducts]);
 
   const { authCred } = useContext(Authentication);
   const { url } = useContext(appContext);
+
   async function getReviews(productId) {
     try {
       const res = await fetch(`${url}/reviews/${productId}`, {
@@ -77,6 +96,28 @@ function ProductsContext({ children }) {
       console.error("error getting reviews", e);
     }
   }
+
+  async function getDesignersReviews(designerId) {
+    console.log(designerId);
+    try {
+      const res = await fetch(`${url}/designerReviews/${designerId}`, {
+        method: "GET",
+        headers: {
+          authentication: "application/json",
+          Authorization: `Basic ${authCred}`,
+        },
+      });
+
+      const result = await res.json();
+
+      if (res.status === 200) {
+        setReviews(result);
+      }
+    } catch (e) {
+      console.error("error getting reviews", e);
+    }
+  }
+
   function handleGoToAddToCart(productId) {
     if (allProducts) {
       setProductDetails(allProducts.find((prod) => prod["_id"] === productId));
@@ -85,12 +126,10 @@ function ProductsContext({ children }) {
   }
 
   function handleGoToAddDesignToCart(productId) {
-    console.log(designerProducts);
     if (designerProducts) {
-      setProductDetails(
-        designerProducts.find((prod) => prod["_id"] === productId)
-      );
-      getReviews(productId);
+      const prod = designerProducts.find((prod) => prod["_id"] === productId);
+      setProductDetails(prod);
+      getDesignersReviews(prod.designerId);
     }
   }
 
@@ -98,20 +137,19 @@ function ProductsContext({ children }) {
     let original;
     switch (path) {
       case "/Home":
-         if (searchText.length === 0){
+        if (searchText.length === 0) {
           setHomeProducts(
             [
-          ...Object.groupBy(allProducts, ({ menOrWomen }) => {
-            return menOrWomen === getGenderCat() ? "1" : "2";
-          })["1"],
-          ...Object.groupBy(allProducts, ({ menOrWomen }) => {
-            return menOrWomen === getGenderCat() ? "1" : "2";
-          })["2"],
-        ].slice(0, 20)
-          )
-          return 
+              ...Object.groupBy(allProducts, ({ menOrWomen }) => {
+                return menOrWomen === getGenderCat() ? "1" : "2";
+              })["1"],
+              ...Object.groupBy(allProducts, ({ menOrWomen }) => {
+                return menOrWomen === getGenderCat() ? "1" : "2";
+              })["2"],
+            ].slice(0, 20)
+          );
+          return;
         }
-      
 
         setHomeProducts(
           allProducts.filter((prod) => {
@@ -120,53 +158,53 @@ function ProductsContext({ children }) {
         );
         break;
       case "/WomenWear":
-        original =  
-          Object.groupBy(allProducts, ({ menOrWomen }) => {
+        original = Object.groupBy(allProducts, ({ menOrWomen }) => {
           return menOrWomen === "Women" ? "women" : "men";
-        }).women
-        
-   
-    
-    setWomenProducts(
-      original.filter((prod)=>{
-       return prod.name.toLowerCase().includes(searchText.toLowerCase())
-      })
-      
-    )
-      break;
+        }).women;
 
-    case "/MenWear":
-        original =  
-          Object.groupBy(allProducts, ({ menOrWomen }) => {
+        setWomenProducts(
+          original.filter((prod) => {
+            return prod.name.toLowerCase().includes(searchText.toLowerCase());
+          })
+        );
+        break;
+
+      case "/MenWear":
+        original = Object.groupBy(allProducts, ({ menOrWomen }) => {
           return menOrWomen === "Men" ? "men" : "women";
-        }).men
-        
-   
-    
-    setMenProducts(
-      original.filter((prod)=>{
-       return prod.name.toLowerCase().includes(searchText.toLowerCase())
-      })
-      
-    )
-      break; 
-      
-    case "/DesignersCollection":
-        original = allDesignerProducts
-        
-   
-    
-    setDesignerProducts(
-      original.filter((prod)=>{
-       return prod.name.toLowerCase().includes(searchText.toLowerCase())
-      })
-      
-    )
-      break;   
+        }).men;
+
+        setMenProducts(
+          original.filter((prod) => {
+            return prod.name.toLowerCase().includes(searchText.toLowerCase());
+          })
+        );
+        break;
+
+      case "/DesignersCollection":
+        original = allDesignerProducts;
+
+        setDesignerProducts(
+          original.filter((prod) => {
+            return prod.name.toLowerCase().includes(searchText.toLowerCase());
+          })
+        );
+        break;
+      case "/Accessories":
+        original = Object.groupBy(allProducts, ({ categories }) => {
+          return categories.includes("Accessories")
+            ? "accessories"
+            : "non-accessories";
+        }).accessories;
+
+        setAaccesories(
+          original.filter((prod) => {
+            return prod.name.toLowerCase().includes(searchText.toLowerCase());
+          })
+        );
+        break;
     }
-
-
-  };
+  }
 
   return (
     <div>
@@ -183,7 +221,8 @@ function ProductsContext({ children }) {
           allProducts,
           reviews,
           handleSearchProducts,
-          setFetchProducts
+          setFetchProducts,
+          accessories,
         }}
       >
         {children}
