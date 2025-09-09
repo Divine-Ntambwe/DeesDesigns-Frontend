@@ -13,7 +13,7 @@ function CustSignUp() {
   [surname,setSurname] = useState(""),
   [email,setEmail] = useState(""),
   [gender,setGender] = useState(""),
-  [number,setNumber] = useState(""),
+  [mobileNumber,setNumber] = useState(""),
   [password,setPassword] = useState(""),
   [conPassword,setConPassword] = useState("");
 
@@ -23,7 +23,7 @@ function CustSignUp() {
 
   function handleSignUp(e){
     e.preventDefault()
-    const creds = {name,surname,email,number,gender,password,confirmPassword:conPassword};
+    const creds = {name,surname,email,mobileNumber,gender,password,confirmPassword:conPassword};
     postSignUp(creds,(d)=>{
         delete d.message
 
@@ -37,6 +37,7 @@ function CustSignUp() {
         setIsAuthenticated(true);
         setRole("customer")
         navigate('/Home')
+        window.location.reload(true);
 
       
      
@@ -63,17 +64,17 @@ function CustSignUp() {
               
               <div className='gender'>
              
-              <input required type="radio" name="gender" value="male"  onChange={(e)=> setGender("M")}/>
+              <input style={{accentColor:"var(--med-purple)"}} required type="radio" name="gender" value="male"  onChange={(e)=> setGender("M")}/>
               <label>Male</label>
               </div>
 
               <div className='gender'>
-              <input required type="radio" name="gender" value="female" onChange={(e)=> setGender("F")}/>
+              <input style={{accentColor:"var(--med-purple)"}}  required type="radio" name="gender" value="female" onChange={(e)=> setGender("F")}/>
               <label>Female</label>
               </div>
               
             </fieldset>
-            <TextFieldComp value={number} label="Mobile Number" id="cust-number" name="custNumber" onChange={(e)=>{setNumber(e.target.value)}}/>
+            <TextFieldComp value={mobileNumber} label="Mobile Number" id="cust-number" name="custNumber" onChange={(e)=>{setNumber(e.target.value)}}/>
             <TextFieldComp value={password} label="Password" id="password" type='password' onChange={(e)=> setPassword(e.target.value)}/>
             <TextFieldComp value={conPassword} label="Confirm Password" name="confirmPassword" id="confirm-password"type="password" onChange={(e)=> setConPassword(e.target.value)}/> 
             

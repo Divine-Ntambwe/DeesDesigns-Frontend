@@ -31,13 +31,13 @@ function Footer() {
             
             <Link to="/PrivacyPolicy"><p>Privacy Policy</p></Link>
         </div>
-
         <div className='footer-icons footer-links'>
-            <InstagramIcon/>
-            <XIcon/>
-            <PinterestIcon/>
+            <p><InstagramIcon sx={{fontSize:"1.5em"}}/></p>
+            <XIcon sx={{fontSize:"1.5em"}}/>
+            <PinterestIcon sx={{fontSize:"1.5em"}}/>
 
         </div>
+
 
        
     </div>

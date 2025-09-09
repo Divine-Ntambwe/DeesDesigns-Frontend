@@ -149,6 +149,7 @@ function useFetch(endpoint) {
 
   async function putMedia(body = {}, toDo = () => {}) {
     try {
+       
       setLoading(true);
 
       const res = await fetch(url + endpoint, {
@@ -160,7 +161,7 @@ function useFetch(endpoint) {
       const result = await res.json();
       setData(result);
       setLoading(false);
-      if (res.status === 200) {
+      if (res.ok) {
         toDo(result);
       }
     } catch (e) {

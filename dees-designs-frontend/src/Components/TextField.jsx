@@ -14,7 +14,9 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
         placeholder={placeholder}
         onChange={onChange}
         value = {value?value:""}
+  
         sx={{
+            
           "& input:-webkit-autofill": {
       WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
       WebkitTextFillColor: "var(--text-color2)"},
@@ -22,6 +24,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
           // label
           "& label": {
             color: "gray",
+            fontSize: "1em",
           },
           "& label.Mui-focused": {
             color: "var(--dark-purple)",
@@ -31,8 +34,8 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
           "& .MuiInputBase-input": {
             color: "var(--text-color2)",
             backgroundColor: "transparent",
-            fontSize: "1.3em",
-           
+            fontSize: "1em",
+           paddingLeft:"20px",
           },
 
           // outline colors

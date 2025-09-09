@@ -73,6 +73,7 @@ function DesSignUp() {
       setIsAuthenticated(true);
       setRole("designer");
       navigate("/DesignersHome");
+      window.location.reload(true);
     });
 
     
@@ -158,6 +159,7 @@ function DesSignUp() {
 
             <div className="gender">
               <input
+                style={{accentColor:"var(--med-purple)"}} 
                 required
                 type="radio"
                 name="gender"
@@ -169,6 +171,7 @@ function DesSignUp() {
 
             <div className="gender">
               <input
+                style={{accentColor:"var(--med-purple)"}} 
                 required
                 type="radio"
                 name="gender"

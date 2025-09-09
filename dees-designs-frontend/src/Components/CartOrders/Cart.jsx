@@ -8,6 +8,9 @@ import useFetch from "../../useFetch";
 import { Authentication } from "../../App";
 import { appContext } from "../../Context/AppContext";
 import Button from "@mui/material/Button";
+import { Skeleton } from "@mui/material";
+import {themeContext} from "../../Context/ThemeContext";
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 function Cart() {
   function handleCloseCart() {
@@ -16,8 +19,10 @@ function Cart() {
 
   const {cartItems,setFetch,cartNum,cartTotal} = useContext(cartContext);
   const {authCred} = useContext(Authentication);
+  const {theme} = useContext(themeContext);
+  const {url} = useContext(appContext);
+  
 
-   const {url} = useContext(appContext)
   async function handleRemoveItem(e) {
     const removeCartItemId = e.currentTarget.id;
     try {
@@ -52,6 +57,47 @@ function Cart() {
           </span>
         </h1>
         <div id="all-cart-items">
+          {
+            cartNum === 0 && <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"1.5em",gap:"5px"}}><span>No Cart Items Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
+          }
+          {!cartItems && [1,2].map(()=>
+          <div className="cart-items">
+             <Skeleton
+                animation="wave"
+                sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
+                variant="rectangular"
+                width={350}
+                height={220}
+              ></Skeleton>
+              <div style={{display:"flex",gap:"20px",flexDirection:"column"}}>
+               <Skeleton
+                animation="wave"
+                sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
+                variant="rectangular"
+                width={350}
+                height={30}
+              ></Skeleton>
+
+               <Skeleton
+                animation="wave"
+                sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
+                variant="rectangular"
+                width={100}
+                height={30}
+              ></Skeleton>
+
+               <Skeleton
+                animation="wave"
+                sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
+                variant="rectangular"
+                width={100}
+                height={30}
+              ></Skeleton>
+                </div>
+          </div>
+          
+          
+          )}
           {cartItems &&
             cartItems.map((item) => (
               <div key={item["_id"]} className="cart-items">
@@ -81,6 +127,8 @@ function Cart() {
               </div>
             ))}
         </div>
+
+        
 
        {Boolean(cartNum) &&<> <p id="cart-total">Total: R{cartTotal}.00</p>
         <Link to="/CheckOut">

@@ -29,6 +29,7 @@ import AboutUs from './Components/T&Cs/AboutUs';
 import ContactUs from './Components/T&Cs/ContactUs';
 import TermsAndConditions from './Components/T&Cs/TermsAndConditions';
 import PrivacyPolicy from './Components/T&Cs/PrivacyPolicy';
+import Accessories from './Components/Categories/Accessories';
 
 const Authentication = createContext();
 
@@ -76,6 +77,7 @@ function App() {
           <Route exact path="/Orders" element={<ProtectedRoute routeRole="customer" element={<TrackOrder/>}/>}/>
           <Route exact path="/WomenWear" element={<ProtectedRoute routeRole="customer" element={<WomenWear/>}/>}/>
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
+          <Route exact path="/Accessories" element={<ProtectedRoute routeRole="customer" element={<Accessories/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
           <Route exact path="/AddDesignToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
           <Route exact path="/DesignerProfile/:designerId" element={<ProtectedRoute routeRole="customer" element={<DesignerProfile/>}/>}/>

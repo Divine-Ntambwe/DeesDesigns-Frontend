@@ -16,7 +16,6 @@
 }
 
 .design {
-    /* border: 1px solid red; */
     height: 700px;
     color: var(--dark-purple);
 }
@@ -46,12 +45,14 @@ font-family: "Oswald", sans-serif;
 }
 
 .upload-buttons{
+    width: 50vw;
     margin: 30px 0;
     display: flex;
     justify-content: space-between;
 }
 
-#upload-a-design-content {
+#upload-a-design-content, #edit-profile-details {
+
     display: flex;
     flex-direction: column;
     gap:15px;
@@ -66,7 +67,13 @@ font-family: "Oswald", sans-serif;
 
 .designers-details{
     display: flex;
-    gap: 10px
+    gap: 10px;
+    width: 50vw;
+    /* justify-content: space-between; */
+
+}
+.contact-info{
+    width: 80%
 }
 
 .designers-details img {
@@ -79,4 +86,12 @@ font-family: "Oswald", sans-serif;
 .designers-details p {
     color: var(--text-color2);
     font-size: 2em;
+}
+
+#edit-designer-profile {
+    /* width: 55.5%; */
+    font-size: 32px;
+    text-align: right;
+    color: var(--dark-purple);
+  
 }

@@ -9,16 +9,17 @@ function ThemeContext({children}) {
     const [colorBW,setColorBW] = useState(theme === "light"?"black":"white")
 
     useEffect(()=>{
+      document.querySelector("*").classList.toggle("transition")
       if (theme === "light"){
         root.style.setProperty("--background-color1","#f1f1f1");
         root.style.setProperty("--text-color2","black");
-        root.style.setProperty("background-color3","#f09ff6");
+        root.style.setProperty("--skeleton-color","grey.900");
        
           
     } else {
         root.style.setProperty("--background-color1","black");
         root.style.setProperty("--text-color2","white");
-        root.style.setProperty("background-color3","#6a04a5");
+        root.style.setProperty("--skeleton-color","grey.900");
         
     }
 
