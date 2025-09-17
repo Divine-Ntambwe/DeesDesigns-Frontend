@@ -270,8 +270,9 @@ function DesHome() {
         keepMounted
         onClose={handleCloseUD}
         aria-describedby="alert-dialog-slide-description"
+        
       >
-        <DialogTitle>{"Upload A Design"}</DialogTitle>
+        <DialogTitle sx={{backgroundColor:"var(--background-color1)"}}>{"Upload A Design"}</DialogTitle>
         {/* {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
@@ -286,7 +287,7 @@ function DesHome() {
         >
           <DialogContent
             id="upload-a-design-content"
-            sx={{ width: "550px", height: "800px" }}
+            sx={{ width: "550px", height: "800px",backgroundColor:"var(--background-color1)" }}
           >
             <div id="upload-file-cont">
               <img className="des-pfp" src={productImg} />
@@ -468,6 +469,7 @@ function DesHome() {
                   }}
                 />
                 <FormControlLabel
+                sx={{color:"var(text-color2)"}}
                   control={
                     <Checkbox
                       sx={{
@@ -510,7 +512,7 @@ function DesHome() {
               </fieldset>
             )}
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{backgroundColor:"black"}}>
             <Button
               sx={{ color: "var(--dark-purple)" }}
               onClick={(e) => {
@@ -779,7 +781,7 @@ function DesHome() {
               sx={{
                 backgroundColor: "var(--med-purple)", // button color
                 color: "white", // text color
-                width: "400px", // custom width
+                width: "350px", // custom width
                 height: "45px", // custom height
                 "&:hover": {
                   backgroundColor: "gray", // hover color
@@ -795,7 +797,7 @@ function DesHome() {
               sx={{
                 backgroundColor: "var(--med-purple)", // button color
                 color: "white", // text color
-                width: "400px", // custom width
+                width: "350px", // custom width
                 height: "45px", // custom height
                 "&:hover": {
                   backgroundColor: "gray", // hover color

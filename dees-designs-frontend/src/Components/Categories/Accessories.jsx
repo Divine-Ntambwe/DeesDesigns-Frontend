@@ -22,7 +22,7 @@ function Accessories() {
     }, 300);
   }
 
-  return(
+  return (
     <>
       <div className="accessories categories">
         <div className="navbar">
@@ -46,8 +46,11 @@ function Accessories() {
           </p> */}
 
           <div className="categories-products" id="popular">
-            {(allProducts && accessories.length === 0) && <p style={{fontSize:"2em"}}>Product Not Found</p> }
-            {(!accessories.length && !allProducts) &&
+            {allProducts && accessories.length === 0 && (
+              <p style={{ fontSize: "2em" }}>Product Not Found</p>
+            )}
+            {!accessories.length &&
+              !allProducts &&
               [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
                 <>
                   <div>
@@ -55,10 +58,9 @@ function Accessories() {
                       animation="wave"
                       sx={{
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height: "100%",
                       }}
                       variant="rectangular"
-                      width={340}
-                      height={500}
                     ></Skeleton>
                     <Skeleton
                       animation="wave"
@@ -66,8 +68,6 @@ function Accessories() {
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
                       }}
                       variant="rectangular"
-                      width={340}
-                      height={30}
                     ></Skeleton>
                     <Skeleton
                       animation="wave"
@@ -75,14 +75,12 @@ function Accessories() {
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
                       }}
                       variant="rectangular"
-                      width={250}
-                      height={30}
                     ></Skeleton>
                   </div>
                 </>
               ))}
             {accessories &&
-             accessories.map((product) => (
+              accessories.map((product) => (
                 <div
                   id={product["_id"]}
                   key={product["_id"]}
@@ -111,7 +109,11 @@ function Accessories() {
                       src={product.imagePath[0] || null}
                     />
                   </GlareHover>
-                  <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
+                  <p className="product-name">
+                    {product.name.length >= 30
+                      ? `${product.name.slice(0, 27)}...`
+                      : product.name}
+                  </p>
                   <p>
                     <span className="price">R{product.price}.00</span>
                     <span>{product.menOrWomen}</span>
@@ -126,7 +128,7 @@ function Accessories() {
         <Footer />
       </div>
     </>
-  )
+  );
 }
 
 export default Accessories;

@@ -27,6 +27,7 @@ function useFetch(endpoint) {
         toDo(result);
       }
     } catch (e) {
+      setLoading(false);
       setError(e);
       console.error("error getting", e);
     }

@@ -55,10 +55,10 @@ function MenWear() {
                       animation="wave"
                       sx={{
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height:"100%"
                       }}
                       variant="rectangular"
-                      width={340}
-                      height={500}
+    
                     ></Skeleton>
                     <Skeleton
                       animation="wave"
@@ -66,8 +66,7 @@ function MenWear() {
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
                       }}
                       variant="rectangular"
-                      width={340}
-                      height={30}
+                     
                     ></Skeleton>
                     <Skeleton
                       animation="wave"
@@ -75,8 +74,7 @@ function MenWear() {
                         bgcolor: theme === "light" ? "grey.400" : "grey.900",
                       }}
                       variant="rectangular"
-                      width={250}
-                      height={30}
+                      
                     ></Skeleton>
                   </div>
                 </>

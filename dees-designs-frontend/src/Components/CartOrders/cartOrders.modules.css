@@ -413,6 +413,8 @@ display: none;
    overflow-y:auto;
    scroll-behavior: smooth;
    width: 100%;
+   border: 1px solid red;
+   height: 550px;
 }
 
 #cart-menu h1 {

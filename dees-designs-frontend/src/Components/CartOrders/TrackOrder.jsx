@@ -277,14 +277,14 @@ function TrackOrder() {
                 animation="wave"
                 sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
                 variant="rectangular"
-                width={440}
+                width="350px"
                 height={30}
               ></Skeleton>
               <Skeleton
                 animation="wave"
                 sx={{ bgcolor: theme === "light" ? "grey.400" : "grey.900" }}
                 variant="rectangular"
-                width={250}
+                width="200px"
                 height={500}
               ></Skeleton>
 

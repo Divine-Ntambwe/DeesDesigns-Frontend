@@ -9,7 +9,7 @@
 }
 
 :root {
-  --dark-purple: #d07a7a ;
+--dark-purple: #d07a7a ;
   --med-purple: #e54848 ;
 
   --text-color2: white ;
@@ -149,7 +149,7 @@ a:visited{
 }
 
 .top-navbar > span:nth-child(1) a:hover{
-  color: var(--text-color2);
+  color: var(--med-purple) !important;
   cursor: pointer;
   
 }
@@ -215,7 +215,7 @@ a {
 }
 
 .cart-profile:hover {
-  color: var(--text-color2);
+  color: var(--med-purple);
 }
 
 .nav-bar-comp h1 {
@@ -256,7 +256,7 @@ color: var(--dark-purple) !important  ;
 
 .side-bar-link:hover {
   cursor: pointer;
-  color: var(--med-purple);
+  color: var(--med-purple) !important;
 }
 
 .close-sidemenu{
@@ -375,7 +375,7 @@ color: var(--dark-purple);
 
 @media (max-width:1540px) and (min-width:1230px) {
   *{
-    font-size: 0.99em;
+    font-size: 0.985em;
   }
   .top-navbar{
     height: 60px !important;
@@ -397,8 +397,18 @@ color: var(--dark-purple);
 
 }
 
+
+#our-services{
+    grid-template-columns: 400px 400px 400px !important;
+
+}
+
 #product-cat img, #our-services img {
     width: 300px !important; 
+}
+
+ #our-services img {
+    width: 400px !important; 
 }
 }
 
@@ -674,6 +684,7 @@ filter: brightness(60%);
 .home-header img{
   width: 100vw;
   z-index: 0 !important;
+  padding: 100px 0 0 0!important;
 }
 
 #slogan, #short-desc {

@@ -60,7 +60,7 @@ function Cart() {
           {
             cartNum === 0 && <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"1.5em",gap:"5px"}}><span>No Cart Items Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
           }
-          {!cartItems && [1,2].map(()=>
+          {!cartItems && [1,2,3].map(()=>
           <div className="cart-items">
              <Skeleton
                 animation="wave"

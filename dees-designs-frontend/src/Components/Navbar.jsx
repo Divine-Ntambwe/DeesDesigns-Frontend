@@ -313,6 +313,8 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               <ShoppingBagOutlinedIcon style={{ fontSize: "2em" }} />
               Orders
             </Link>
+
+            
             <span
               className="side-bar-link"
               onClick={() => {
