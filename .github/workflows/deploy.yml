@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: npm Install
+        run: npm install
       - name: Build Project
         run: npm run build   
       - name: Checkout code
