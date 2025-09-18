@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { createContext } from 'react';
+import {dotenv} from 'dotenv'
 export const appContext = createContext();
 
 
 function AppContext({children}) {
-   const url = "http://localhost:5000"
+   const url = import.meta.env.VITE_ELASTIC_IP;
 
    function handleOpenCart(cart){
     cart.style.display = "flex"
