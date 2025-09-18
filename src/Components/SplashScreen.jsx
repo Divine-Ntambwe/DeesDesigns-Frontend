@@ -57,7 +57,7 @@ function SplashScreen() {
           fontWeight:"500"
         }}
       >
-       Get DEE Best For You!!
+       Get DEE Best For You!
       </motion.p>
 
       {/* Button */}
