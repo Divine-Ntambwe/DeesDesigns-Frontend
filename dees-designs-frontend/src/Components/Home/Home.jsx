@@ -73,7 +73,7 @@ function HomePage() {
                 Discover the best designer wear from top global brands to
                 skilled local creators, all crafted with style and precision to
                 fit you perfectly. Whether you prefer luxury labels or unique
-                custom pieces, you’ll enjoy fashion that reflects your taste and
+                custom pieces, you will enjoy fashion that reflects your taste and
                 enhances your look.
               </p>
             </div>
