@@ -226,7 +226,7 @@ function HomePage() {
             <Tooltip title="" placement="right-end">
               <Link>
                 <div className="services">
-                  <img id="services-img" src=".\v7d6P_vQ.jpeg" />
+                  <img id="services-img" src="./madeForYou.png" />
                   <h4 className="services-headings">Made For You</h4>
                 </div>
               </Link>
