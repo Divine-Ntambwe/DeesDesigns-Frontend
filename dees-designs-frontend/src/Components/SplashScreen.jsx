@@ -41,7 +41,7 @@ function SplashScreen() {
           marginBottom: "20px",
         }}
       >
-        Dees Designs
+        Dee's Designs
       </motion.h1>
 
       {/* Subtitle */}
@@ -57,7 +57,7 @@ function SplashScreen() {
           fontWeight:"500"
         }}
       >
-       Get DEE Best For You!
+       Get DEE Best For You!!
       </motion.p>
 
       {/* Button */}
