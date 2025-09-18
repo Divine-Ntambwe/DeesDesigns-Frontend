@@ -7,6 +7,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+        run: npm Install
+      - name: Build Project
+        run: npm run build   
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy to S3
