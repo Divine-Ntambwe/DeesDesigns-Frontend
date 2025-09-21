@@ -7,9 +7,10 @@ export const appContext = createContext();
 function AppContext({children}) {
   //  const url = import.meta.env.VITE_ELASTIC_IP;
    const fullUrl = new URL(window.location);
-   const url = `http://${fullUrl.searchParams.get('ip')}:5000`;
+   const ip = fullUrl.searchParams.get('ip') || localStorage.getItem("ip");
+   localStorage.setItem("ip",ip);
+   const url = `http://${ip}:5000`;
    window.history.pushState({}, '', fullUrl); // Updates URL without reloading
-   console.log(url)
 
    function handleOpenCart(cart){
     cart.style.display = "flex"
