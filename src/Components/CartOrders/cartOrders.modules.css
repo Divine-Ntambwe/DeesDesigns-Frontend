@@ -100,9 +100,6 @@ color: var(--dark-purple);
 #checkout-form {
 min-height: 100vh;
 }
-/* .checkout-forms div:nth-child(5){
-    grid-column: 1/3;
-} */
 
 .checkout-forms-cont label {
     font-size: 1.2em;
@@ -413,7 +410,7 @@ display: none;
    overflow-y:auto;
    scroll-behavior: smooth;
    width: 100%;
-   border: 1px solid red;
+   /* border: 1px solid red; */
    height: 550px;
 }
 
