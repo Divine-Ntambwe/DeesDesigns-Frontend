@@ -249,7 +249,7 @@ function Checkout() {
                     />
                   </div>
 
-                  {savedDetails.buildingType && (
+                  {  (
                     <div>
                       <FormControl>
                         <InputLabel
