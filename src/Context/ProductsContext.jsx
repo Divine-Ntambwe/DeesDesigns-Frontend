@@ -111,6 +111,8 @@ function ProductsContext({ children }) {
       const result = await res.json();
 
       if (res.status === 200) {
+        // if (typeofreviews)
+       
         setReviews(result);
       }
     } catch (e) {

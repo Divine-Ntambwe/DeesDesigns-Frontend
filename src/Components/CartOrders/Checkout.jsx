@@ -42,7 +42,8 @@ function Checkout() {
     [total, setTotal] = useState(),
     [subtotal, setSubtotal] = useState(),
     [shippingAmount, setShippingAmount] = useState(),
-    [mobileNumber, setMobileNumber] = useState(userDetails.mobileNumber);
+    [mobileNumber, setMobileNumber] = useState(userDetails.mobileNumber),
+    [eftPayment,setEftPayment] = useState(false);
 
   useEffect(() => {
     get((d) => {
@@ -273,6 +274,7 @@ function Checkout() {
                           id="buildingType"
                           value={savedDetails.buildingType}
                           name="buildingType"
+                          InputLabelProps={{ shrink: true }}
                           sx={{
                             // maxWidth: 200, // keep it inside
                             textOverflow: "ellipsis",
@@ -388,6 +390,7 @@ function Checkout() {
                       value="Cash On Delivery"
                       type="radio"
                       onChange={(e) => {
+                        setEftPayment(false)
                         handleOrderDetails(e);
                       }}
                     />{" "}
@@ -403,6 +406,7 @@ function Checkout() {
                       type="radio"
                       onChange={(e) => {
                         handleOrderDetails(e);
+                        setEftPayment(false)
                       }}
                     />{" "}
                     Card On Delievery
@@ -417,6 +421,7 @@ function Checkout() {
                       type="radio"
                       onChange={(e) => {
                         handleOrderDetails(e);
+                         setEftPayment(true)
                       }}
                     />{" "}
                     EFT
@@ -424,11 +429,12 @@ function Checkout() {
                 </div>
               </div>
 
-              <div className="checkout-forms-cont" id="bank-details">
+              {eftPayment &&<div className="checkout-forms-cont" id="bank-details">
                 <h2>Bank Details</h2>
                 <div className="checkout-forms">
                   <div id="card-number-cont">
-                    <TextFieldComp
+                    <TextField
+                    required
                       className="card-number-cont"
                       label="Card Number"
                       id="card-number"
@@ -440,20 +446,107 @@ function Checkout() {
                         handleOrderDetails(e);
                         handleBankDetails(e);
                       }}
+                      sx={{
+            
+          "& input:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+      WebkitTextFillColor: "var(--text-color2)"},
+           width:"100%",
+          // label
+          "& label": {
+            color: "gray",
+            fontSize: "1em",
+          },
+          "& label.Mui-focused": {
+            color: "var(--dark-purple)",
+          },
+
+          // input text + background
+          "& .MuiInputBase-input": {
+            color: "var(--text-color2)",
+            backgroundColor: "transparent",
+            fontSize: "1em",
+            paddingLeft:"35px",
+            // paddingRight:"25px"
+          },
+
+          // outline colors
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "gray",
+            },
+            "&:hover fieldset": {
+              borderColor: "var(--text-color2)",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "var(--dark-purple)",
+            },
+          },
+          "& .MuiInputBase-input::placeholder": {
+            color: "gray", // placeholder color
+            opacity: 1,
+            // keep it fully visible
+          },
+        }}
                     />
                   </div>
                   <div>
-                    <TextFieldComp
+                   
+                    <TextField
                       type="date"
                       id="exp-date"
                       label="Expiry Date"
                       placeholder="MM-YY"
                       name="expiryDate"
                       value={savedDetails.expiryDate}
+                      // style={{paddingRight: "5px"}}
                       onChange={(e) => {
                         handleOrderDetails(e);
                         handleBankDetails(e);
                       }}
+                       InputLabelProps={{ shrink: true }}
+                      sx={{
+            
+          "& input:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+      WebkitTextFillColor: "var(--text-color2)"},
+           width:"100%",
+          // label
+          "& label": {
+            color: "gray",
+            fontSize: "1em",
+          },
+          "& label.Mui-focused": {
+            color: "var(--dark-purple)",
+          },
+
+          // input text + background
+          "& .MuiInputBase-input": {
+            color: "var(--text-color2)",
+            backgroundColor: "transparent",
+            fontSize: "1em",
+            paddingLeft:"35px",
+            paddingRight:"30px"
+          },
+
+          // outline colors
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "gray",
+            },
+            "&:hover fieldset": {
+              borderColor: "var(--text-color2)",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "var(--dark-purple)",
+            },
+          },
+          "& .MuiInputBase-input::placeholder": {
+            color: "gray", // placeholder color
+            opacity: 1,
+            // keep it fully visible
+          },
+        }}
                     />
                   </div>
 
@@ -468,7 +561,7 @@ function Checkout() {
                     />
                   </div>
                 </div>
-              </div>
+              </div>}
             </div>
           )}
         </Box>

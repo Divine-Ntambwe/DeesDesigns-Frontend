@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from '@mui/material/TextField';
 
-function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,value }) {
+function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,value,style,isRequired }) {
   return (
     <>
       <TextField
@@ -14,7 +14,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
         placeholder={placeholder}
         onChange={onChange}
         value = {value?value:""}
-  
+          // InputLabelProps={{ shrink: true }}
         sx={{
             
           "& input:-webkit-autofill": {
@@ -35,7 +35,8 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
             color: "var(--text-color2)",
             backgroundColor: "transparent",
             fontSize: "1em",
-           paddingLeft:"20px",
+            paddingLeft:"35px",
+            // paddingRight:"25px"
           },
 
           // outline colors
@@ -56,6 +57,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
             // keep it fully visible
           },
         }}
+        style={style}
       />
     </>
   );

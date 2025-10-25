@@ -14,6 +14,7 @@ import { Authentication } from "../../App";
 import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
 import Button from '@mui/material/Button';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
   const { handleOpenCart } = useContext(appContext);
@@ -51,7 +52,7 @@ function AddToCart() {
 
   useEffect(() => {
     handleGoToAddToCart(productId);
-    if (productDetails)setRating(productDetails.rating.length === 0?"0":productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length)
+    if (productDetails.productId === productId)setRating(productDetails.rating.length === 0?"0":productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length)
   }, [allProducts]);
 
   function getMeasurements() {
@@ -61,6 +62,7 @@ function AddToCart() {
     }
     return arr;
   }
+
 
 
   return (
@@ -81,7 +83,7 @@ function AddToCart() {
         <div className="add-to-cart-content">
           <h1 id="AddToCart">Add To Cart</h1>
 
-          {productDetails && (
+          {productDetails.rating && (
             <div className="add-cart-prod">
               <div className="overlay"></div>
               <img src={productDetails.imagePath[0]} />
@@ -171,7 +173,12 @@ function AddToCart() {
               <h4 id="review-heading">Reviews</h4>
 
               <div className="reviews">
-                {reviews &&
+                {
+                  typeof reviews === "string"&&
+                  <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"2em",gap:"5px"}}><span>No Reviews Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
+                }
+
+                {typeof reviews !== "string" &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">

@@ -6,6 +6,11 @@
     font-size: 1em;
 }
 
+.home-content *{
+    transition: 0.5s;
+
+}
+
 .home-page {
     background-color: var(--background-color1);
 }

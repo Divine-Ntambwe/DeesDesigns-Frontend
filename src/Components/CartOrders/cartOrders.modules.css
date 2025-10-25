@@ -27,11 +27,6 @@ margin: auto;
     grid-template-rows: 45vh 10vh 30vh;
     gap: 40px 65px;
     
-    
-}
-#all-cart-items {
-    overflow-y: auto;
-    height: 65vh;
 }
 
 .checkout-forms-cont {
@@ -80,10 +75,12 @@ color: var(--dark-purple);
     padding: 10px ;
 }
 .checkout-forms{
-    width: 100%;
+    /* width: 60vw; */
     display: grid;
     grid-template-columns: 49% 49%;
     gap: 30px 25px;
+    /* height: 600px    ; */
+    /* overflow-x: auto; */
 }
 
 .text-input:invalid {
@@ -94,10 +91,11 @@ color: var(--dark-purple);
 .checkout-forms div {
     display: flex;
     flex-direction: column;
-    gap:2px
+    gap:2px;
 }
 
 #checkout-form {
+   
 min-height: 100vh;
 }
 
@@ -115,7 +113,7 @@ min-height: 100vh;
     width: 25px;
     height: 25px;
     cursor: pointer;
-    margin-right:10px;
+    margin:10px;
 }
 
 #payment {
@@ -411,7 +409,7 @@ display: none;
    scroll-behavior: smooth;
    width: 100%;
    /* border: 1px solid red; */
-   height: 550px;
+   min-height: 450px !important;
 }
 
 #cart-menu h1 {

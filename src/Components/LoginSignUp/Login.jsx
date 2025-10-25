@@ -5,6 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { Authentication } from '../../App';
 import Button from '@mui/material/Button';
 import TextFieldComp from "../TextField";
+import Tooltip from '@mui/material/Tooltip';
 
 function Login() {
     const [isDesigner,setIsDesigner] = useState(false),
@@ -73,9 +74,12 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
             <div className='gender'>
+          <Tooltip title="Only check if you have an account as a designer">
              
               <input style={{accentColor:"var(--dark-purple) !important"}}type="checkbox" onChange={(e)=> setIsDesigner(!isDesigner)}/>
+          </Tooltip>
               <label>Are you a designer?</label>
               </div>
             <Button

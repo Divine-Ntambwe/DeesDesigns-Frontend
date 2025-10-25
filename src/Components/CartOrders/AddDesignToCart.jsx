@@ -15,6 +15,7 @@ import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
 import Button from "@mui/material/Button";
 import { Authentication } from "../../App";
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 function AddDesignToCart() {
   const [progress, setProgress] = useState(90);
@@ -128,7 +129,12 @@ function AddDesignToCart() {
               <h4 id="review-heading">Reviews for Designer</h4>
 
               <div className="reviews">
-                {reviews &&
+                 {
+                  typeof reviews === "string"&&
+                  <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"2em",gap:"5px"}}><span>No Reviews Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
+                }
+
+                {typeof reviews !== "string"&&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">
