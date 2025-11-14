@@ -16,6 +16,11 @@ function WomenWear() {
   const { womenProducts, allProducts } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
+  
+  const heading = useRef()
+  useEffect(()=>{
+     heading.current.scrollIntoView({ });
+  })
   function handleProdHover(e, imgSrc) {
     setTimeout(() => {
       e.target.children[0].src = imgSrc;
@@ -46,6 +51,7 @@ function WomenWear() {
             <span>Evening Dresses</span> |<span>Date Night</span> |
             <span>Shoes</span> |<span>Accessories</span>
           </p> */}
+          <h1 ref={heading}>Women Wear</h1>
 
           <div className="categories-products" id="popular">
             {allProducts && womenProducts.length === 0 && (
@@ -119,7 +125,7 @@ function WomenWear() {
                   </p>
                   <p>
                     <span className="price">R{product.price}.00</span>
-                    <span>{product.menOrWomen}</span>
+                    {/* <span>{product.menOrWomen}</span> */}
                   </p>
                 </div>
               ))}

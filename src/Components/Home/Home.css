@@ -1,5 +1,4 @@
 .home-content{
-    background-color: var(--background-color1);
     height: fit-content;
     width: 100%;
     padding: 0 20px;
@@ -12,7 +11,12 @@
 }
 
 .home-page {
-    background-color: var(--background-color1);
+    background:linear-gradient(
+        var(--background-color1) 0%,
+        #d07a7a 60%,
+        var(--background-color1)
+    );
+    /* width: 100vw; */
 }
 
 .main-section {
@@ -25,23 +29,35 @@
 
 
 .slides {
-    height: 90vh;
+    overflow-x: hidden;
+    margin: 10px 20px;
+    height: 70vh;
+    /* width: 100vw; */
+    border-radius: 25px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* align-items: center; */
-    background:radial-gradient(
+    /* flex-direction: column; */
+    justify-content: space-between;
+    border: 1px solid var(--dark-purple);
+
+    background: linear-gradient(
+        90deg ,
+        #d07a7a 0%,
+         black 70%
+
+    ) ;
+    align-items: center;
+    /* background:radial-gradient(
          gray 1% ,
         black 25%
-    )
+    ) */
 
 }
 
 .slides img {
-    width: 100%;
-    height: 85vh;
+    /* width: 158%; */
+    height: 65vh;
     object-fit: contain;
-    position: absolute;
+    /* position: absolute; */
     z-index: 1;
 }
 
@@ -49,10 +65,12 @@
     gap: 15px;
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     padding: 0 20px;
+    
 }
 #short-desc {
-    color: white;
+    color: var(--background-color1)  ;
     width: 450px;
     font-size: 1.2em;
     line-height: 1.2;
@@ -68,17 +86,18 @@
 
 #slogan{
     font-size: 3em;
-    text-shadow: -5px 5px 15px var(--dark-purple);
+    /* text-shadow: -5px 5px 15px var(--dark-purple); */
     transition: 1s;
     pointer-events: none;
+    color: var(--background-color1);
 }
 
 
 
 #slogan span {
-    color: var(--dark-purple);
+    /* color: var(--dark-purple); */
     text-transform: uppercase;
-    animation: slogan 5s 1s infinite;
+    /* animation: slogan 5s 1s infinite; */
 }
 
 .home-page h2 {
@@ -92,7 +111,7 @@
    
 }
 
-#product-cat, #our-services{
+#our-services{
     width: 100%;
     display: grid;
     grid-template-columns: 530px 530px 530px;
@@ -116,23 +135,21 @@
    
     
 }
-#product-cat{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 23vw 23vw 23vw 23vw;
-    height: fit-content;
-    justify-content: space-between;
+.product-cat{
+border-radius: 25px;
+/* padding: 20px; */
 
+/* background-color:black; */
 }
 
-#product-cat img {
-    width: 24vw;
-    height: 80vh;   
-    position: absolute;
+.category-img {
+    width: 100%;
+    height: 60vh;   
+    /* position: absolute; */
     z-index: 0;
-    border-radius: 5px;
-    object-fit: cover;
-   box-shadow: 5px 5px 20px var(--dark-purple);
+    border-radius: 25px;
+    object-fit: fill;
+   /* box-shadow: 5px 5px 20px var(--dark-purple); */
     
 }
 
@@ -144,7 +161,6 @@
     color: var(--dark-purple);
     font-size: 2.5em;
 }
-
 .category:hover .category-img{
 border: 2px solid var(--text-color1);
 filter: brightness(60%);
@@ -154,6 +170,14 @@ filter: brightness(60%);
     display: block;
     cursor: pointer;
 }
+
+.category{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .view-collection:active{
     background-color: var(--background-color2);
@@ -176,7 +200,7 @@ filter: brightness(60%);
     grid-template-columns: 17.5% 17.5% 17.5% 17% 17.5%;
     grid-template-rows: auto;
     justify-content: space-between;
-    gap: 60px 0px;
+    gap: 30px 0px;
     color: var(--dark-purple) ;
 }
 
@@ -203,28 +227,31 @@ filter: brightness(60%);
 
 #popular p {
     font-family: "Oswald", sans-serif;
-    color: var(--dark-purple);
+    color: var(--text-color2);
     font-weight: 200;
 }
 
 
 .product-name{
-font-size: 1.5em;
+font-size:1.2em !important;
+font-weight: 500 !important;
 }
 
 .view-collection {
-    width: fit-content;
+    position: absolute;
+    /* width: fit-content; */
     padding: 0 10px;
-    height: 5vh;
+    min-height: 6vh;
     background-color: var(--background-color1);
-    z-index: 1;
+    z-index: 10;
     border: none;
-    font-size: 1.5em;
-    font-family: "Oswald", sans-serif;
+    font-size: 1.2em;
+    font-family: "Playwrite US Modern", cursive;
     font-weight: 500;
     color: var(--dark-purple);
     border-radius: 5px;
     display: none;
+    width: 90%;
 }
 
 .popular-prod p:nth-child(3){
@@ -233,7 +260,39 @@ justify-content: space-between;
 }
 
 .price {
-    font-size: 1.3em;
+    font-size: 1em;
 }
+
+
+/* SWIPER STYLES */
+.mySwiper {
+  /* width: 100%; */
+  height: 60vh;
+}
+
+.cat-slides{
+    border-radius: 25px;
+    
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: white;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+   box-shadow: 1px 1px 15px var(--dark-purple);
+  /* height: 100%; */
+  /* object-fit: contain; */
+}
+
 
 

@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Birthstone&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+US+Modern:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Birthstone&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+US+Modern:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Birthstone&family=Bitcount+Grid+Single:wght@100..900&family=Bitcount+Prop+Single+Ink:wght@100..900&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Playwrite+US+Modern:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sixtyfour&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -10,7 +11,7 @@
 
 :root {
 --dark-purple: #d07a7a ;
-  --med-purple: #e54848 ;
+  --med-purple: #f06666 ;
 
   --text-color2: white ;
   --text-color3: black;
@@ -21,9 +22,11 @@
 
 .App {
   background-color: var(--background-color1);
+  transition: 1s;
+
 }
 .App *{
-/* transition: 0.2s; */
+transition: 0.8s;
 }
 
 #user-details {
@@ -59,11 +62,11 @@
 }
 
 h1,h2,h3,h4{
-   font-family: "Playfair Display", cursive;
+   font-family: "Playwrite US Modern", cursive;
 }
 
 p {
-  font-family: "Oswald", sans-serif;
+  font-family: "Playwrite US Modern", cursive;
   font-weight: 200;
 }
 
@@ -219,7 +222,7 @@ a {
 }
 
 .nav-bar-comp h1 {
-  font-size: 2.8em;
+  font-size: 2.4em;
   color: var(--dark-purple);
   display: flex;
   justify-content: space-between;
@@ -284,8 +287,8 @@ color: var(--dark-purple) !important  ;
 
 .footer h1{
   word-wrap:break-word;
-  font-size: 10em;
-  line-height: 0.9;
+  font-size: 8em;
+  line-height: 1.1;
   text-transform: uppercase;
   color: var(--text-color2);
 }
@@ -293,6 +296,10 @@ color: var(--dark-purple) !important  ;
 .footer h1:first-child::first-letter{
 font-size: 2em;
 color: var(--dark-purple);
+}
+
+.footer h1:nth-child(2){
+  margin-left: 5vw;
 }
 
 .footer-links {
@@ -305,6 +312,7 @@ color: var(--dark-purple);
 
 .footer-links a {
   color: var(--dark-purple) !important;
+  text-decoration: underline;
 }
 
 
@@ -375,7 +383,7 @@ color: var(--dark-purple);
 
 @media (max-width:1540px) and (min-width:1230px) {
   *{
-    font-size: 0.985em;
+    font-size: 0.98em
   }
   .top-navbar{
     height: 60px !important;
@@ -411,6 +419,8 @@ color: var(--dark-purple);
     width: 400px !important; 
 }
 }
+
+
 
 @media (max-width:1231px) and (min-width:1120px)  {
   *{
@@ -574,6 +584,8 @@ filter: brightness(60%);
   .top-navbar{
     height: 40px !important;
     justify-content: space-between;
+    position: sticky !important;
+    top: 0;
   }
 
   .nav-bar-comp h1 {
@@ -602,7 +614,7 @@ filter: brightness(60%);
   }
 
   .footer h1{
-    font-size: 5.5em;
+    font-size: 5em;
     
   }
 
@@ -614,6 +626,12 @@ filter: brightness(60%);
   .footer-icons {
     /* grid-column: 3/4; */
   }
+ #our-services img{
+  height: 50vh !important;
+ }
+ #our-services div{
+  height: 60vh !important;
+ }
  
 
 
@@ -682,18 +700,42 @@ filter: brightness(60%);
 }
 
 .home-header img{
-  width: 100vw;
-  z-index: 0 !important;
-  padding: 100px 0 0 0!important;
+  z-index: -1;
+ height: 80% !important;
 }
 
 #slogan, #short-desc {
   z-index: 1;
 }
 
+#slogan {
+  color: var(--med-purple) !important;
+  text-shadow:5px 5px 8px black !important ;
+}
+
+
 .slides {
-  justify-content: end !important;
-  padding-bottom: 30px;
+  flex-direction: row !important;
+  height: 50vh !important;
+  justify-content: center !important;
+  /* align-items: flex-end !important; */
+  display: flex !important;
+  position: relative;
+  background: black !important;
+  pointer-events: none;
+
+}
+
+.slides div{
+  position: absolute !important;
+  z-index: 2;
+  align-self: flex-end !important;
+  padding: 0px 0px 20px 0!important;
+  width: 90%;
+}
+
+.slides p {
+padding-right: 35px;
 }
 
 .add-to-cart-content {
@@ -772,5 +814,17 @@ height: 150px !important;
   width: 80vw !important;
 }
 
+#track-order-page{
+overflow-x: hidden;
+}
+
+.order{
+  gap: 20px !important;
+  grid-template-columns: 50% 50% !important;
+}
+.order-id-text{
+  grid-column: 1/4 !important;
+  
+}
 }
 

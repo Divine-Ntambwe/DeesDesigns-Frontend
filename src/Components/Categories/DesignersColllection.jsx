@@ -17,6 +17,10 @@ function DesignersCollection() {
     useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
+  const heading = useRef()
+    useEffect(()=>{
+       heading.current.scrollIntoView({ });
+    })
 
   return (
     <>
@@ -33,6 +37,7 @@ function DesignersCollection() {
         </div>
 
         <div className="categories-content">
+          <h1 ref={heading}>Designer's Collection</h1>
           {/* <p className="category-links">
             <span>Graduation</span> |<span>Matric Dance</span> |
             <span>Wedding</span> |<span>Men</span> |<span>Women</span>
@@ -93,7 +98,7 @@ function DesignersCollection() {
                   >
                     <img
                       alt={`A picture of ${product.name}`}
-                      src={`${url}/${product.imagePath}` || null}
+                      src={`${product.imagePath}` || null}
                     />
                   </GlareHover>
                   <p className="product-name">

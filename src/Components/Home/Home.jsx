@@ -3,7 +3,8 @@ import Navbar from "../Navbar";
 import "./Home.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Autoplay } from "swiper/modules";
+import 'swiper/css/pagination';
+import { Pagination, Autoplay } from 'swiper/modules';
 import Footer from "../Footer";
 import { useNavigate, Link } from "react-router-dom";
 import Cart from "../CartOrders/Cart";
@@ -45,6 +46,8 @@ function HomePage() {
     }, 300);
   }
 
+  const slidesNum = window.matchMedia("(max-width: 600px)").matches?1:4 ;
+
   return (
     <>
       <div className="home-page">
@@ -66,16 +69,16 @@ function HomePage() {
         <div className="home-header main-section">
           <div className="slides" id="slide1">
             <div>
-              <h1 id="slogan">
+              <h1 data-testid="main-slogan" id="slogan">
                 Get <span>dee</span> best for You!
               </h1>
-              <p id="short-desc">
-                Discover the best designer wear from top global brands to
-                skilled local creators, all crafted with style and precision to
-                fit you perfectly. Whether you prefer luxury labels or unique
-                custom pieces, you will enjoy fashion that reflects your taste and
-                enhances your look.
-              </p>
+                <p id="short-desc">
+                  Discover the best designer wear from top global brands to
+                  skilled local creators, all crafted with style and precision to
+                  fit you perfectly. Whether you prefer luxury labels or unique
+                  custom pieces, you will enjoy fashion that reflects your taste and
+                  enhances your look.
+                </p>
             </div>
 
             <img src="./Ідеї фото для пар❤️.jpeg" />
@@ -85,10 +88,79 @@ function HomePage() {
         
 
         <div className="home-content">
-          <h2>Product Categories</h2>
-          <div className="main-section" id="product-cat">
-            <div className="category">
-              <img className="category-img" src=".\@megan_milan❣️💃🏾🌹 (copy).jpeg" />
+          <div className="main-section product-cat">
+          <h2>Shop By Categories</h2>
+            <Swiper
+        slidesPerView={slidesNum}
+        spaceBetween={90}
+        loop={true}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+         modules={[Autoplay]}
+        className="mySwiper"
+      >
+        <SwiperSlide className="cat-slides">
+           <div className="category">
+              <button
+                className="view-collection"
+                onClick={() => {
+                  nav("/WomenWear");
+                }}
+              >
+                Shop Women Wear
+              </button>
+              <img className="category-img" src=".\WomenWear.jpg" />
+            </div>
+        </SwiperSlide>
+        <SwiperSlide className="cat-slides">
+          <div className="category">
+              <img className="category-img" src=".\MenWear.jpg" />
+              <button
+                className="view-collection"
+                onClick={() => {
+                  nav("/MenWear");
+                }}
+              >
+                Shop Men Wear
+              </button>
+            </div>
+        </SwiperSlide>
+        <SwiperSlide className="cat-slides">
+          <div className="category">
+              <img className="category-img" src=".\Accessories2.jpeg" />
+              <button
+                className="view-collection"
+                onClick={() => {
+                  nav("/Accessories");
+                }}
+              >
+                Shop Accessories
+              </button>
+            </div>
+        </SwiperSlide>
+        <SwiperSlide className="cat-slides">
+          <div className="category">
+              <img className="category-img" src=".\Collection.jpg" />
+              <button
+                className="view-collection"
+                onClick={() => {
+                  nav("/DesignersCollection");
+                }}
+              >
+                Shop Designer's Collection
+              </button>
+            </div>
+        </SwiperSlide>
+       
+        
+      </Swiper>
+            {/* <div className="category">
+              <img className="category-img" src=".\Party Formal Dress Cape Black White Color Block Pearl Boat Neck Maxi D.jpeg" />
               <button
                 className="view-collection"
                 onClick={() => {
@@ -113,6 +185,7 @@ function HomePage() {
 
             <div className="category">
               <img className="category-img" src="./20250419_221038.jpg" />
+              
               <button
                 className="view-collection"
                 onClick={() => {
@@ -134,7 +207,7 @@ function HomePage() {
               >
                 View Accessories
               </button>
-            </div>
+            </div> */}
 
           </div>
 
@@ -188,10 +261,10 @@ function HomePage() {
                       src={product.imagePath[0] || null}
                     />
                   </GlareHover>
-                  <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
+                  <p className="product-name">{(product.name).length >= 35?`${product.name.slice(0,27)}...`:product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
-                    <span>{product.menOrWomen}</span>
+                    {/* <span>{product.menOrWomen}</span> */}
                   </p>
                 </div>
               ))}

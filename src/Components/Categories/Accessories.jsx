@@ -16,6 +16,10 @@ function Accessories() {
   const { accessories, allProducts } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
+  const heading = useRef()
+    useEffect(()=>{
+       heading.current.scrollIntoView({ });
+    })
   function handleProdHover(e, imgSrc) {
     setTimeout(() => {
       e.target.children[0].src = imgSrc;
@@ -44,6 +48,7 @@ function Accessories() {
             <span>Wedding</span> |<span>Date Night</span> |<span>Shoes</span> |
             <span>Accessories</span>
           </p> */}
+          <h1 ref={heading}>Accessories</h1>
 
           <div className="categories-products" id="popular">
             {allProducts && accessories.length === 0 && (

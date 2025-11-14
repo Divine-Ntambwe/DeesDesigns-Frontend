@@ -1,6 +1,6 @@
+import "./DesHome.modular.css";
 import React, { useState, useRef, useContext, useEffect } from "react";
 import DesNavbar from "../DesNavbar";
-import "./DesHome.modular.css";
 import Footer from "../Footer";
 import { Authentication } from "../../App";
 import Button from "@mui/material/Button";
@@ -50,7 +50,8 @@ function DesHome() {
   const UDForm = useRef();
   const UDCForm = useRef();
   const editProfileForm = useRef();
-  const { userDetails, authCred,setUserDetails } = useContext(Authentication);
+  const { userDetails, authCred, setUserDetails } = useContext(Authentication);
+  console.log(userDetails)
   const { allDesignersDesigns, setFetch } = useContext(designerContext);
   const [productImgFile, setProductImgFile] = useState(),
     [productImg, setProductImg] = useState("emptyPfp.jpeg"),
@@ -60,11 +61,11 @@ function DesHome() {
     [editing, setEditing] = useState(false),
     [custProductImgFile, setCustProductImgFile] = useState(),
     [custProductImg, setCustProductImg] = useState("emptyPfp.jpeg"),
-    [desPfpImg, setDesPfpImg] = useState(`${url}/${userDetails.pfpPath}`),
+    [desPfpImg, setDesPfpImg] = useState(`${userDetails.pfpPath}`),
     [desPfpFile, setDesPfpFile] = useState(),
     [newProfileDetails, setNewProfileDetails] = useState({
       phoneNumber: userDetails.phoneNumber,
-      email: userDetails.email
+      email: userDetails.email,
     });
 
   useEffect(() => {
@@ -108,39 +109,81 @@ function DesHome() {
   };
 
   const {
-    putMedia: updateDesignerDetails,
+    put: updateDesignerDetails,
     data: PostEditedData,
     loading: postEditedProfileLoading,
   } = useFetch(`/editDesignerInfo/${userDetails._id}`);
-  function handlePostEditedDetails(e) {
+  async function handlePostEditedDetails(e) {
     e.preventDefault();
-    // if (!desPfpFile) return alert("Please select an image");
+    const res = await fetch(`${url}/s3Url`);
+    const { url: secureUrl } = await res.json();
 
-    const formData = new FormData();
-    formData.append("desNewPfp", desPfpFile);
-    formData.append("details", JSON.stringify(newProfileDetails));
-      updateDesignerDetails(formData, (d) => {
-      localStorage.setItem("userDetails",JSON.stringify({...userDetails,phoneNumber:newProfileDetails.phoneNumber}));
-      desPfpFile && localStorage.setItem("userDetails",JSON.stringify({...userDetails,pfpPath:d.pfpPath}));
-      setUserDetails({...userDetails,phoneNumber:newProfileDetails.phoneNumber});
-      desPfpFile && setDesPfpImg(`${url}/${d.pfpPath}`)
-      desPfpFile && setUserDetails({...userDetails,pfpPath:d.pfpPath});
+    try {
+      await fetch(secureUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body:desPfpFile,
+      });
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    const pfpPath = secureUrl.split("?")[0];
+
+
+    updateDesignerDetails({...newProfileDetails,pfpPath}, (d) => {
+      localStorage.setItem(
+        "userDetails",
+        JSON.stringify({
+          ...userDetails,
+          phoneNumber: newProfileDetails.phoneNumber,
+        })
+      );
+      desPfpFile &&
+        localStorage.setItem(
+          "userDetails",
+          JSON.stringify({ ...userDetails, pfpPath})
+        );
+      setUserDetails({
+        ...userDetails,
+        phoneNumber: newProfileDetails.phoneNumber,
+      });
+      desPfpFile && setDesPfpImg(`${d.pfpPath}`);
+      desPfpFile && setUserDetails({ ...userDetails, pfpPath: d.pfpPath });
       handleCloseEditProfile();
-      
     });
   }
 
-  const { postMediaAuth, error, setError, setData, data, loading } = useFetch(
+  const { postAuth, error, setError, setData, data, loading } = useFetch(
     `/uploadDesignersProduct/${userDetails._id}`
   );
 
-  function handlePostUD(e) {
+  //upload a design/product
+  async function handlePostUD(e) {
     e.preventDefault();
     if (!categories.length) return alert("Please select atleast one category");
     if (/[A-Za-z]/.test(UD.price))
       return alert("Your price should only include numbers");
     if (!productImgFile) return alert("Please select an image");
 
+    const res = await fetch(`${url}/s3Url`);
+    const { url: secureUrl } = await res.json();
+
+    try {
+      await fetch(secureUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: productImgFile,
+      });
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    const imagePath = secureUrl.split("?")[0];
     const details = {
       ...UD,
       itemsInStock: { M: 1 },
@@ -149,13 +192,10 @@ function DesHome() {
       uploadedBy: `${userDetails.name} ${userDetails.surname}`,
       designerEmail: userDetails.email,
       designerId: userDetails._id,
+      imagePath,
     };
-    
-    const formData = new FormData();
-    formData.append("productImage", productImgFile);
-    formData.append("details", JSON.stringify(details));
 
-    postMediaAuth(formData, () => {
+    postAuth(details, () => {
       handleCloseUD();
       setFetch(true);
       setUD({});
@@ -175,7 +215,7 @@ function DesHome() {
       }),
     };
     setUD({ name, price, productDescription });
-    setProductImg(`${url}/${imagePath}`);
+    setProductImg(`${imagePath}`);
     handleClickOpenUD()();
   }
 
@@ -184,16 +224,34 @@ function DesHome() {
     if (/[A-Za-z]/.test(UD.price))
       return alert("Your price should only include numbers");
 
-    const formData = new FormData();
-    formData.append("productImage", productImgFile);
-    formData.append("details", JSON.stringify(UD));
+    const res = await fetch(`${url}/s3Url`);
+    const { url: secureUrl } = await res.json();
+
+    try {
+      await fetch(secureUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: productImgFile,
+      });
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    const imagePath = secureUrl.split("?")[0];
+
+    const details = { ...UD, imagePath };
     try {
       const res = await fetch(
         url + `/editDesignerProductDetails/${editedProductId}`,
         {
           method: "PUT",
-          headers: { Authorization: `Basic ${authCred}` },
-          body: formData,
+          headers: {
+            Authorization: `Basic ${authCred}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(details),
         }
       );
 
@@ -231,27 +289,42 @@ function DesHome() {
   }
 
   const {
-    postMediaAuth: postUploadDesignCustomer,
+    postAuth: postUploadDesignCustomer,
     data: PostUDCData,
     loading: postForCustLoading,
   } = useFetch(`/SendDesignToCustomer/${userDetails._id}`);
-  function handlePostUDC(e) {
+
+  async function handlePostUDC(e) {
     e.preventDefault();
     if (/[A-Za-z]/.test(UDC.price))
       return alert("Your price should only include numbers");
     if (!custProductImgFile) return alert("Please select an image");
 
+    const res = await fetch(`${url}/s3Url`);
+    const { url: secureUrl } = await res.json();
+
+    try {
+      await fetch(secureUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: custProductImgFile,
+      });
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    const imagePath = secureUrl.split("?")[0];
+
     const details = {
       ...UDC,
+      imagePath,
       uploadedBy: `${userDetails.name} ${userDetails.surname}`,
       productProvider: "designer",
     };
 
-    const formData = new FormData();
-    formData.append("custProductImage", custProductImgFile);
-    formData.append("details", JSON.stringify(details));
-
-    postUploadDesignCustomer(formData, () => {
+    postUploadDesignCustomer(details, () => {
       alert("successfully uploaded");
       handleCloseUDC();
       setUDC({});
@@ -270,9 +343,10 @@ function DesHome() {
         keepMounted
         onClose={handleCloseUD}
         aria-describedby="alert-dialog-slide-description"
-        
       >
-        <DialogTitle sx={{backgroundColor:"var(--background-color1)"}}>{"Upload A Design"}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "var(--background-color1)" }}>
+          {"Upload A Design"}
+        </DialogTitle>
         {/* {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
@@ -287,7 +361,11 @@ function DesHome() {
         >
           <DialogContent
             id="upload-a-design-content"
-            sx={{ width: "550px", height: "800px",backgroundColor:"var(--background-color1)" }}
+            sx={{
+              width: "550px",
+              height: "800px",
+              backgroundColor: "var(--background-color1)",
+            }}
           >
             <div id="upload-file-cont">
               <img className="des-pfp" src={productImg} />
@@ -469,7 +547,7 @@ function DesHome() {
                   }}
                 />
                 <FormControlLabel
-                sx={{color:"var(text-color2)"}}
+                  sx={{ color: "var(text-color2)" }}
                   control={
                     <Checkbox
                       sx={{
@@ -512,7 +590,7 @@ function DesHome() {
               </fieldset>
             )}
           </DialogContent>
-          <DialogActions sx={{backgroundColor:"black"}}>
+          <DialogActions sx={{ backgroundColor: "black" }}>
             <Button
               sx={{ color: "var(--dark-purple)" }}
               onClick={(e) => {
@@ -703,8 +781,7 @@ function DesHome() {
               name="editEmail"
               label="Email"
               type="email"
-              onChange={(e) => {
-              }}
+              onChange={(e) => {}}
               value={newProfileDetails.email}
             />
             <TextFieldComp
@@ -746,7 +823,7 @@ function DesHome() {
 
         <div className="des-home-content">
           <div className="designers-details">
-            <img src={`${url}/${userDetails.pfpPath}`} />
+            <img src={`${userDetails.pfpPath}`} />
 
             <div className="contact-info">
               <h1 style={{ color: "var(--med-purple)", fontSize: "2.5em" }}>
@@ -764,7 +841,7 @@ function DesHome() {
                 <span> ({userDetails.rating.length} reviews)</span>
               </p>
 
-              <p>{userDetails.email}</p>
+              <p id="designer-home-email">{userDetails.email}</p>
               <p>{userDetails.phoneNumber}</p>
             </div>
             <span id="edit-designer-profile">
@@ -814,14 +891,15 @@ function DesHome() {
           <h2>Your Designs</h2>
 
           <div className="designers-uploads">
-  
             {allDesignersDesigns &&
               allDesignersDesigns.map((design) => (
                 <div key={design._id} className="design">
-                  <img src={`${url}/${design.imagePath}`} />
+                  <img src={`${design.imagePath}`} />
                   <div className="product-details">
                     <div>
-                      <p className="product-name">{design.name}</p>
+                      <p id="designer-home-name" className="product-name">
+                        {design.name}
+                      </p>
                       <p className="price">R{design.price}.00</p>
                       <p style={{ fontSize: "1.2em" }}>
                         {design.onSale ? "On Sale" : "Sold"}

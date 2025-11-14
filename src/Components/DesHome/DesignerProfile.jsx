@@ -45,7 +45,7 @@ function DesignerProfile() {
 
       <div className="des-home-content">
          {designer && <><div className="designers-details" >
-            <img src={`${url}/${designer.pfpPath}`}/>
+            <img src={`${designer.pfpPath}`}/>
 
           <div className="contact-info">
             <h1 style={{ color: "var(--med-purple)", fontSize: "2.5em" }}>
@@ -71,7 +71,7 @@ function DesignerProfile() {
             {designersUploads &&
               designersUploads.map((design) => (
                 <div key={design._id} className="design" style={{cursor:"pointer"}}onClick={()=>{nav("/AddDesignToCart/" + design._id)}}>
-                  <img src={`${url}/${design.imagePath}`} />
+                  <img src={`${design.imagePath}`} />
                   <div className="product-details">
                     <div>
                       <p className="product-name">{design.name}</p>
@@ -83,6 +83,9 @@ function DesignerProfile() {
               ))}
           </div>
         </div>
+            <div id="footer">
+        <Footer />
+      </div>
       </div>
   )
 }

@@ -17,35 +17,13 @@ function Cart() {
     document.querySelector(".cart-popup").style.display = "none";
   }
 
-  const {cartItems,setFetch,cartNum,cartTotal} = useContext(cartContext);
+  const {cartItems,cartNum,cartTotal,handleRemoveItem,loading} = useContext(cartContext);
   const {authCred} = useContext(Authentication);
   const {theme} = useContext(themeContext);
   const {url} = useContext(appContext);
   
 
-  async function handleRemoveItem(e) {
-    const removeCartItemId = e.currentTarget.id;
-    try {
-      const res = await fetch(
-        `${url}/removeCartItem/${removeCartItemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            authentication: "application/json",
-            Authorization: `Basic ${authCred}`,
-          },
-        }
-      );
-
-      const result = await res.json();
-
-      if (res.status === 200) {
-        setFetch(true)
-      }
-    } catch (e) {
-      console.error("error getting", e);
-    }
-  }
+  
 
   return (
     <div className="cart-page">
@@ -102,20 +80,21 @@ function Cart() {
             cartItems.map((item) => (
               <div key={item["_id"]} className="cart-items">
                 <img
-                  src={item.productProvider === "stockProduct"?item.imgPath:`${url}/${item.imgPath}`}
+                  src={item.productProvider === "stockProduct"?item.imgPath:`${item.imgPath}`}
                   alt={`A picture of ${item.productName}`}
                 />
 
                 <div>
-                  <h4 className="cart-item-name">{item.productName}</h4>
+                  <h4 id={`cart-item-${item.productId}`} className="cart-item-name">{item.productName}</h4>
                   <p>R{item.price}.00</p>
                   <p>Size: {item.size}</p>
                   <p>Qty: {item.quantity}</p>
                 </div>
                 <Tooltip title="Remove from Cart" placement="top">
                   <DeleteOutlineIcon
+                  loading={loading}
                     id={item["_id"]}
-                    onClick={handleRemoveItem}
+                    onClick={(e)=>{handleRemoveItem(e.target.id)}}
                     sx={{
                       cursor: "pointer",
                       "&:hover": {

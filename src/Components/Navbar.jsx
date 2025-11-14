@@ -22,6 +22,7 @@ import { themeContext } from "../Context/ThemeContext";
 import { cartContext } from "../Context/CartContext";
 import { products } from "../Context/ProductsContext";
 import { Authentication } from "../App";
+import GradientText from "./ReactBitComp/GradientText"
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -211,8 +212,21 @@ function Navbar({ handleOpenCart, displayedProducts }) {
           </span>
           </span>
 
+
           <span>
-            <Link to="/Home"><h1 style={{cursor:"pointer"}}>Dee's Designs</h1></Link>
+            <Link to="/Home">
+            <h1 style={{cursor:"pointer"}}>
+              
+          <GradientText
+ colors = {['#d07a7a','#e54848','#9b4f4f','#c49a9a']}
+  animationSpeed={8}
+  showBorder={false}
+  className="custom-class"
+>
+  Dee's Designs
+</GradientText>
+              
+              </h1></Link>
           </span>
 
           <span className="navbar-icons">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import "./LoginSignUp.css";
-import '../../App.css'
+import "../../App.css";
 import useFetch from "../../useFetch";
 import { Link, useNavigate } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,17 +11,18 @@ import { Pagination, Navigation } from "swiper/modules";
 import { Authentication } from "../../App";
 import Button from "@mui/material/Button";
 import TextFieldComp from "../TextField";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
+import { appContext } from "../../Context/AppContext";
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
 
@@ -35,18 +36,43 @@ function DesSignUp() {
     [conPassword, setConPassword] = useState("");
 
   const [pfpPicture, setPfp] = useState("emptyPfp.jpeg");
-  const { postMedia: postSignUp, loading, data,error } = useFetch("/designersSignUp");
+  const {
+    postAuth: postSignUp,
+    loading,
+    data,
+    error,
+  } = useFetch("/designersSignUp");
   const uploadFile = useRef();
   const [displayErr, setDisplayErr] = useState("");
   const [pfpFile, setPfpFile] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated,setRole,setUserDetails,setAuthCred} = useContext(Authentication);
-  const heading = useRef()
+  const { setIsAuthenticated, setRole, setUserDetails, setAuthCred } =
+    useContext(Authentication);
+  const { url } = useContext(appContext);
+  const heading = useRef();
 
-  
-  function handleSignUp(e) {
-    
+  async function handleSignUp(e) {
     e.preventDefault();
+    heading.current.scrollIntoView({ behavior: "smooth" });
+    const res = await fetch(`${url}/s3Url`);
+    const {url:secureUrl} = await res.json() ;
+    
+
+    try{
+      await fetch(secureUrl,{
+        method:"PUT",
+        headers:{
+          "Content-Type":"multipart/form-data"
+        },
+        body: pfpFile
+      })
+    } catch(e){
+      console.log(e)
+      return
+    }
+
+    const pfpPath = secureUrl.split('?')[0]
+    
     const details = {
       name,
       surname,
@@ -55,12 +81,13 @@ function DesSignUp() {
       phoneNumber: number,
       password,
       confirmPassword: conPassword,
+      pfpPath
     };
     const formData = new FormData();
-    formData.append("pfp", pfpFile);
     formData.append("details", JSON.stringify(details));
-     heading.current.scrollIntoView({behavior:"smooth"})
-    postSignUp(formData, (d) => {
+    
+
+    postSignUp(details, (d) => {
       delete d.message;
 
       const { email, password } = d;
@@ -75,58 +102,58 @@ function DesSignUp() {
       navigate("/DesignersHome");
       window.location.reload(true);
     });
-
-    
   }
   return (
     <div className="loginSignUp">
       <div className="form-container" id="desSignup">
-        <h2 id="des-sign-up-heading" ref={heading}>Sign Up</h2>
-     {data && <p className='cred-error'>{data.error}</p>}
-     {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
-         
+        <h2 id="des-sign-up-heading" ref={heading}>
+          Sign Up
+        </h2>
+        {data && <p className="cred-error">{data.error}</p>}
+        {error && (
+          <p className="cred-error">
+            Network Error Please Refresh Or Try Again Later
+          </p>
+        )}
+
         <form
           method="POST"
           onSubmit={handleSignUp}
           className="signup-login-form"
         >
           <div id="upload-file-cont">
-             
-            <img
-              className="des-pfp"
-              src={pfpPicture}
-              
-            ></img>
-            
-   <Button
-      component="label"
-      role={undefined}
-      variant="contained"
-      tabIndex={-1}
-      sx={{
-        backgroundColor:"transparent"
-      }}
-    >
-      Upload Profile Picture
-       <VisuallyHiddenInput
-        
-        required
-              ref={uploadFile}
-              name="pfp"
-              id="upload-file"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setPfpFile(e.target.files[0]);
-                if (e.target.files[0].type.startsWith("image")) {
-                  setPfp(URL.createObjectURL(e.target.files[0]));
-                } else {
-                  alert("Please select an image file");
-                  setPfp("emptyPfp.jpeg");
-                }
+            <img className="des-pfp" src={pfpPicture}></img>
+
+            <Button
+              name="upload-pfp"
+              id="upload-pfp"
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              sx={{
+                backgroundColor: "transparent",
               }}
-      />
-    </Button>        
+            >
+              Upload Profile Picture
+              <VisuallyHiddenInput
+                required
+                ref={uploadFile}
+                name="pfp"
+                id="upload-file"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  setPfpFile(e.target.files[0]);
+                  if (e.target.files[0].type.startsWith("image")) {
+                    setPfp(URL.createObjectURL(e.target.files[0]));
+                  } else {
+                    alert("Please select an image file");
+                    setPfp("emptyPfp.jpeg");
+                  }
+                }}
+              />
+            </Button>
           </div>
 
           <TextFieldComp
@@ -159,7 +186,7 @@ function DesSignUp() {
 
             <div className="gender">
               <input
-                style={{accentColor:"var(--med-purple)"}} 
+                style={{ accentColor: "var(--med-purple)" }}
                 required
                 type="radio"
                 name="gender"
@@ -171,7 +198,7 @@ function DesSignUp() {
 
             <div className="gender">
               <input
-                style={{accentColor:"var(--med-purple)"}} 
+                style={{ accentColor: "var(--med-purple)" }}
                 required
                 type="radio"
                 name="gender"
@@ -208,6 +235,7 @@ function DesSignUp() {
           />
 
           <Button
+            id="des-signup"
             type="submit"
             loading={loading}
             sx={{

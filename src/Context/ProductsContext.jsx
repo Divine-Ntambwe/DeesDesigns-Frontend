@@ -14,10 +14,12 @@ function ProductsContext({ children }) {
   const [accessories, setAaccesories] = useState("");
   const [designerProducts, setDesignerProducts] = useState("");
   const [allDesignerProducts, setAllDesignerProducts] = useState("");
+  const [orders, setOrders] = useState(null);
   const [reviews, setReviews] = useState("");
   const { userDetails } = useContext(Authentication);
   const { get: getStockProducts } = useFetch("/stockProducts");
   const { get: getDesignerProducts } = useFetch("/allDesignerProducts");
+  const { get:getOrders } = useFetch(`/customerOrders/${userDetails["_id"]}`);
   const [fetchProducts, setFetchProducts] = useState(false);
 
   function getGenderCat() {
@@ -25,6 +27,7 @@ function ProductsContext({ children }) {
   }
 
   useEffect(() => {
+    if (!userDetails) return ;
     setFetchProducts(false);
     getStockProducts((d) => {
       setAllProducts(d);
@@ -72,6 +75,9 @@ function ProductsContext({ children }) {
       setDesignerProducts(d);
       setAllDesignerProducts(d);
     });
+    getOrders((d)=>{
+      setOrders(d)
+    })
   }, [fetchProducts]);
 
   const { authCred } = useContext(Authentication);
@@ -225,6 +231,7 @@ function ProductsContext({ children }) {
           handleSearchProducts,
           setFetchProducts,
           accessories,
+          orders
         }}
       >
         {children}

@@ -91,12 +91,13 @@ function Checkout() {
   const { postAuth, loading, error } = useFetch(
     `/orders/${userDetails["_id"]}`
   );
+  const [orderId,setOrderId] = useState("")
   function handleCheckOut(e) {
     e.preventDefault();
     const orderDetails = {
       customerId: userDetails["_id"],
       address: { ...addressDetails },
-      bankDetails: { ...bankDetails },
+      bankDetails: eftPayment?{ ...bankDetails }:null,
       customerDetails: {
         fullName: `${userDetails.name} ${userDetails.surname}`,
         email: userDetails.email,
@@ -107,9 +108,11 @@ function Checkout() {
       totalAmount: total,
     };
     postAuth(orderDetails, (d) => {
+      console.log(d.orderResult.insertedId)
       handleClickOpen();
       setFetch(true);
       setFetchProducts(true);
+      setOrderId(d.orderResult.insertedId)
     });
   }
   const [open, setOpen] = React.useState(false);
@@ -121,7 +124,7 @@ function Checkout() {
   const nav = useNavigate();
   const handleClose = () => {
     setOpen(false);
-    nav("/Orders");
+    nav(`/Orders?orderId=${orderId}`);
   };
 
   return (
@@ -330,11 +333,7 @@ function Checkout() {
                     cartItems.map((item) => (
                       <div key={item["_id"]} className="cart-items">
                         <img
-                          src={
-                            item.productProvider === "stockProduct"
-                              ? item.imgPath
-                              : `${url}/${item.imgPath}`
-                          }
+                          src={item.imgPath}
                           alt={`A picture of ${item.productName}`}
                         />
 

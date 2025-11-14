@@ -53,7 +53,7 @@ function Login() {
     <div className='Login loginSignUp'>
      
         <div className='form-container'>
-          <h2>Log In</h2>
+          <h2 data-testid="login-title">Log In</h2>
            {data && <p className='cred-error'>{data.error}</p>}
           {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleLogin}>  
@@ -84,6 +84,7 @@ function Login() {
               </div>
             <Button
           type="submit"
+          id="login"
           loading={loading}
            sx={{
         backgroundColor: "var(--med-purple)",   // button color

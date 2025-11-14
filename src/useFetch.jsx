@@ -8,6 +8,9 @@ function useFetch(endpoint) {
   const { authCred } = useContext(Authentication);
   const { url } = useContext(appContext);
 
+
+  
+
   async function get(toDo = () => {}) {
     setLoading(true);
     try {
@@ -73,6 +76,7 @@ function useFetch(endpoint) {
 
       if (res.status === 200) {
         toDo(result);
+        console.log(result)
       } else {
         setError(result.error);
         console.error("error posting", result.error);
@@ -132,7 +136,7 @@ function useFetch(endpoint) {
 
       const res = await fetch(url + endpoint, {
         method: "POST",
-        headers: { Authorization: `Basic ${authCred}` },
+        headers: { Authorization: `Basic ${authCred}`, "Content-Type": "application/json"  },
         body: body,
       });
 
@@ -148,25 +152,30 @@ function useFetch(endpoint) {
     }
   }
 
-  async function putMedia(body = {}, toDo = () => {}) {
+  async function put(body = {}, toDo = () => {}) {
+    setLoading(true);
     try {
-       
-      setLoading(true);
-
       const res = await fetch(url + endpoint, {
         method: "PUT",
-        headers: { Authorization: `Basic ${authCred}` },
-        body: body,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${authCred}`,
+        },
+        body: JSON.stringify(body),
       });
 
       const result = await res.json();
       setData(result);
       setLoading(false);
-      if (res.ok) {
+
+      if (res.status === 200) {
         toDo(result);
+      } else {
+        setError(result.error);
+        console.error("error posting", result.error);
       }
     } catch (e) {
-      console.error(e);
+      console.error("error posting", e);
       setError(e);
     }
   }
@@ -178,7 +187,7 @@ function useFetch(endpoint) {
     deleteApi,
     postMedia,
     postMediaAuth,
-    putMedia,
+    put,
     data,
     loading,
     error,

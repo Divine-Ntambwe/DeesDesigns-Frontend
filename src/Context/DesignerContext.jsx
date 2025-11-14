@@ -4,28 +4,29 @@ export const designerContext = createContext();
 import { Authentication } from "../App";
 function DesignerContext({ children }) {
   const { userDetails, role } = useContext(Authentication);
-  const { get:getDP } = useFetch(`/designersProducts/${userDetails._id}`);
+  const { get: getDP } = useFetch(`/designersProducts/${userDetails._id}`);
   const [allDesignersDesigns, setAllDesignersDesigns] = useState();
-  const [allDesigners,setAllDesigners] = useState();
+  const [allDesigners, setAllDesigners] = useState();
   const [fetch, setFetch] = useState(false);
-  const { get:getD } = useFetch(`/designersContactInfo`);
+  const { get: getDesignerInfo } = useFetch(`/designersContactInfo`);
   useEffect(() => {
+    if (!userDetails) return ;
+
     if (role === "designer") {
       getDP((d) => {
         setFetch(false);
         setAllDesignersDesigns(d);
-        
       });
-
-
     }
 
-    getD((data)=>{
-      setAllDesigners(data)
-    })
+    getDesignerInfo((data) => {
+      setAllDesigners(data);
+    });
   }, [fetch]);
   return (
-    <designerContext.Provider value={{ allDesignersDesigns, setFetch,allDesigners }}>
+    <designerContext.Provider
+      value={{ allDesignersDesigns, setFetch, allDesigners }}
+    >
       {children}
     </designerContext.Provider>
   );

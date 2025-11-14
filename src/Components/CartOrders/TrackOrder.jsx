@@ -31,6 +31,7 @@ import Rating from "@mui/material/Rating";
 import Snackbar from "@mui/material/Snackbar";
 import Tooltip from "@mui/material/Tooltip";
 import { Skeleton } from "@mui/material";
+import { products } from "../../Context/ProductsContext";
 
 const LongConnector = styled(StepConnector)(({ theme }) => ({
   [`& .MuiStepConnector-line`]: {
@@ -51,15 +52,26 @@ function TrackOrder() {
     "has hit the road!",
     "delivered",
   ];
-  const [orders, setOrders] = useState("");
+  
+  const {orders} = useContext(products)
   const { userDetails } = useContext(Authentication);
-  const { get } = useFetch(`/customerOrders/${userDetails["_id"]}`);
+  const heading = useRef()
+  useEffect(()=>{
+    const params = new URLSearchParams(window.location.search)
+    if (params.has("orderId")){
+      console.log(params.get("orderId"))
+      setTimeout(()=>{
 
-  useEffect(() => {
-    get((d) => {
-      setOrders(d);
-    });
-  }, []);
+        console.log(params.get("orderId"))
+        document.getElementById(params.get("orderId")).scrollIntoView({behavior:"smooth",block: 'start'})
+
+      },2000)
+    }else{
+      heading.current.scrollIntoView({})
+    }
+  },[orders])
+
+ 
 
   const nav = useNavigate();
   function handleViewPurchasedProduct(id) {
@@ -160,7 +172,7 @@ function TrackOrder() {
   }
 
   return (
-    <>
+    <div id="track-order-page">
       <Snackbar
         anchorOrigin={{ vertical, horizontal, m }}
         open={openSnackBar}
@@ -227,8 +239,8 @@ function TrackOrder() {
         </div>
 
         <div className="order-content">
-          <h1 id="orders-heading">Orders</h1>
-          <br />
+          <h1 ref={heading}  id="orders-heading">Orders</h1>
+          {/* <br /> */}
           {/* <Box sx={{ minWidth: 120 }}>
             <FormControl>
               <InputLabel
@@ -269,8 +281,8 @@ function TrackOrder() {
               </Select>
             </FormControl>
           </Box> */}
-          {(!orders.length && orders !== "") && <p style={{fontSize:"1.5em"}}>No Orders Yet</p>}
-          {orders === "" && [1,2].map(()=>(
+          {(orders !== null && !orders.length) && <p style={{fontSize:"1.5em"}}>No Orders Yet</p>}
+          {orders === null && [1,2].map(()=>(
             <>
             <div className="order">
               <Skeleton
@@ -326,8 +338,10 @@ function TrackOrder() {
           {orders &&
             orders.map((order) => (
               <>
+              <hr style={{scrollMarginTop: "80px"}}id={order._id}/>
+
                 <div className="order">
-                  <h2 className="order-id-text">Order ID: {order._id}</h2>
+                  <h2 className="order-id-text">Order ID: <br/>{order._id}</h2>
                   <Stepper
                     connector={<LongConnector />}
                     activeStep={orderStatus.indexOf(order.statusOfExchange)}
@@ -406,9 +420,8 @@ function TrackOrder() {
                               <img
                                style={{cursor:"pointer"}}
                                 src={
-                                  prod.productProvider === "stockProduct"
-                                    ? prod.imgPath
-                                    : `${url}/${prod.imgPath}`
+                                  prod.imgPath
+                                   
                                 }
                                 onClick={(e) => {
                                   if (prod.productProvider === "stockProduct")
@@ -419,7 +432,7 @@ function TrackOrder() {
 
                             {prod.productProvider !== "stockProduct" && (
                               <img
-                                src={`${url}/${prod.imgPath}`}
+                                src={`${prod.imgPath}`}
                                 
                               />
                             )}
@@ -453,7 +466,7 @@ function TrackOrder() {
                     </div>
                   </div>
                 </div>
-                <hr />
+                
               </>
             ))}
         </div>
@@ -462,7 +475,7 @@ function TrackOrder() {
       <div id="footer">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 

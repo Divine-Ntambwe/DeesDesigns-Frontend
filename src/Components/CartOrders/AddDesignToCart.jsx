@@ -78,7 +78,7 @@ function AddDesignToCart() {
 
           {productDetails && (
             <div className="add-cart-prod">
-              <img src={`${url}/${productDetails.imagePath}`} />
+              <img src={`${productDetails.imagePath}`} />
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>
                 <p className="cart-rating">

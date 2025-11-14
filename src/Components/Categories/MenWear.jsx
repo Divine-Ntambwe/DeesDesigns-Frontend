@@ -16,6 +16,10 @@ function MenWear() {
   const { menProducts,allProducts } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
+  const heading = useRef()
+    useEffect(()=>{
+       heading.current.scrollIntoView({ });
+    })
   function handleProdHover(e, imgSrc) {
     setTimeout(() => {
       e.target.children[0].src = imgSrc;
@@ -38,6 +42,7 @@ function MenWear() {
         </div>
 
         <div className="categories-content">
+           <h1 ref={heading}>Men Wear</h1>
           {/* <p className="category-links">
             <span>Suits</span> |<span>Tuxedos</span> |<span>Blazers</span> |
             <span>Graduation</span> |<span>Matric Dance</span> |
@@ -112,7 +117,7 @@ function MenWear() {
                   <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
                   <p>
                     <span className="price">R{product.price}.00</span>
-                    <span>{product.menOrWomen}</span>
+                    {/* <span>{product.menOrWomen}</span> */}
                   </p>
                 </div>
               ))}

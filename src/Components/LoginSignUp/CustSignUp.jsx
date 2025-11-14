@@ -51,7 +51,7 @@ function CustSignUp() {
   return (
     <div className='CustSignUp loginSignUp'>
         <div className='form-container'>
-          <h2>Sign Up</h2>
+          <h2 data-testid="cust-signup-title">Sign Up</h2>
           {data && <p className='cred-error'>{data.error}</p>}
           {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleSignUp} id="customer-signup-form" className='signup-login-form'>
@@ -80,6 +80,7 @@ function CustSignUp() {
             
            
             <Button
+            id="cust-signup"
           type="submit"
           loading={loading}
            sx={{

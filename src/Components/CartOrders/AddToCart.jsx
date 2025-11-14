@@ -50,6 +50,10 @@ function AddToCart() {
     
   }
 
+  const heading = useRef()
+    useEffect(()=>{
+       heading.current.scrollIntoView({ behavior: "smooth" });
+    })
   useEffect(() => {
     handleGoToAddToCart(productId);
     if (productDetails.productId === productId)setRating(productDetails.rating.length === 0?"0":productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length)
@@ -81,7 +85,7 @@ function AddToCart() {
         </div>
 
         <div className="add-to-cart-content">
-          <h1 id="AddToCart">Add To Cart</h1>
+          <h1 ref={heading} id="AddToCart">Add To Cart</h1>
 
           {productDetails.rating && (
             <div className="add-cart-prod">
@@ -148,6 +152,7 @@ function AddToCart() {
                   </span>
 {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
                   <Button
+                  id="add-to-cart-btn"
           type="submit"
           loading={loading}
            sx={{

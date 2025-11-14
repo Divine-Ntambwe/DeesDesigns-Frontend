@@ -1,5 +1,6 @@
 // AboutUs.jsx
 import React from "react";
+import Navbar from "../Navbar";
 
 export default function AboutUs() {
   return (
@@ -14,7 +15,7 @@ export default function AboutUs() {
     }}>
       <h1 style={{
         color: "#e54848",
-        fontFamily: "'Playfair Display', serif",
+        fontFamily:  '"Playwrite US Modern", cursive',
         marginBottom: "20px",
         fontSize: "3.5rem"
       }}>
@@ -35,11 +36,11 @@ export default function AboutUs() {
       </section>
 
       <section style={{ marginBottom: "40px" }}>
-        <h2 style={{ color: "#d07a7a", fontFamily: "'Playfair Display', serif" }}>
+        <h2 style={{ color: "#d07a7a", fontFamily: '"Playwrite US Modern", cursive' }}>
           Supporting Local Designers
         </h2>
         <p>
-          We proudly open our platform to <span style={{ color: "#e54848" }}>local fashion designers</span>  
+          We proudly open our platform to <span style={{ color: "#e54848" }}> local fashion designers </span>  
           who want to showcase their creations.  
         </p>
         <p>
@@ -50,17 +51,17 @@ export default function AboutUs() {
       </section>
 
       <section>
-        <h2 style={{ color: "#d07a7a", fontFamily: "'Playfair Display', serif" }}>
+        <h2 style={{ color: "#d07a7a", fontFamily: '"Playwrite US Modern", cursive' }}>
           How to Upload Your Designs
         </h2>
         <ol>
-          <li>Create a designer account on LuxeWear.</li>
+          <li>Create a designer account on Dees Designs.</li>
           <li>Upload high-quality images of your designs.</li>
           <li>Provide product details (name, category, price, and description).</li>
-          <li>Submit for approval by our team.</li>
+
         </ol>
         <p style={{ marginTop: "10px" }}>
-          Once approved, your designs will appear on the platform alongside global fashion brands,  
+         Your designs will appear on the platform alongside global fashion brands,  
           giving you the opportunity to reach new customers and grow your brand.
         </p>
       </section>
