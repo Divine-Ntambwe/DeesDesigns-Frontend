@@ -65,7 +65,7 @@ function TrackOrder() {
         console.log(params.get("orderId"))
         document.getElementById(params.get("orderId")).scrollIntoView({behavior:"smooth",block: 'start'})
 
-      },2000)
+      },500)
     }else{
       heading.current.scrollIntoView({})
     }
@@ -185,7 +185,7 @@ function TrackOrder() {
         <DialogContent>
           <form onSubmit={handleSubmit} id="subscription-form">
             <p style={{ width: "550px", fontSize: "1.3em" }}>
-              Rate the product
+              Rate the {product.provider === "designerProduct"?"designer":"product"}
             </p>
             <Rating
               required
@@ -240,7 +240,7 @@ function TrackOrder() {
 
         <div className="order-content">
           <h1 ref={heading}  id="orders-heading">Orders</h1>
-          {/* <br /> */}
+          <br />
           {/* <Box sx={{ minWidth: 120 }}>
             <FormControl>
               <InputLabel
@@ -432,8 +432,11 @@ function TrackOrder() {
 
                             {prod.productProvider !== "stockProduct" && (
                               <img
+                                style={{cursor:"pointer"}}
                                 src={`${prod.imgPath}`}
-                                
+                                onClick={()=>{
+                                  nav(`/DesignerProfile/${prod.designerId}`)
+                                }}
                               />
                             )}
 

@@ -18,7 +18,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
         sx={{
             
           "& input:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+      WebkitBoxShadow: "0 0 0 100px var(--background-color1) inset", // background color
       WebkitTextFillColor: "var(--text-color2)"},
            width:"100%",
           // label
@@ -38,6 +38,11 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
             paddingLeft:"35px",
             // paddingRight:"25px"
           },
+          '& .MuiFormLabel-asterisk': {
+    color: '#e54848',
+    fontWeight: 'bold',
+    fontSize: '1.2em',
+  },
 
           // outline colors
           "& .MuiOutlinedInput-root": {

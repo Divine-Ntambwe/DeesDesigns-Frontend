@@ -36,14 +36,16 @@ function useFetch(endpoint) {
     }
   }
 
-  async function deleteApi(toDo = () => {}) {
+  async function deleteApi(toDo = () => {},body = {}) {
     try {
       const res = await fetch(url + endpoint, {
         method: "DELETE",
         headers: {
+            "Content-Type": "application/json",
           authentication: "application/json",
           Authorization: `Basic ${authCred}`,
         },
+        body: JSON.stringify(body)
       });
 
       const result = await res.json();
@@ -104,6 +106,7 @@ function useFetch(endpoint) {
         toDo(result);
       }
     } catch (e) {
+      setLoading(false)
       console.error(e);
       setError(e);
     }

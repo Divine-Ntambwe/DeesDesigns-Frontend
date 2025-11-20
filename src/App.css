@@ -6,11 +6,13 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 1em;
+  scrollbar-width: thin;
+  scrollbar-color: #d07a7a #1a1a1a;
   /* transition: 0.5s; */
 }
 
 :root {
---dark-purple: #d07a7a ;
+--dark-purple: rgb(208, 122, 122) ;
   --med-purple: #f06666 ;
 
   --text-color2: white ;
@@ -21,7 +23,7 @@
 }
 
 .App {
-  background-color: var(--background-color1);
+  /* background-color: var(--background-color1); */
   transition: 1s;
 
 }
@@ -37,9 +39,10 @@ transition: 0.8s;
 
 
 .splash-screen {
-  background-color: #2f004a;
+  /* background-color: #2f004a; */
   height: 100vh;
   width: 100vw;
+  z-index: 100;
 }
 
 #splash-navbar{
@@ -177,6 +180,7 @@ a {
 
 .top-navbar {
   background-color: var(--background-color1);
+  /* filter: blur(1px); */
   height: 80px;
   width: 100%;
   display: grid;

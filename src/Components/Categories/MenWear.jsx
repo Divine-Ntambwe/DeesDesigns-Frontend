@@ -9,17 +9,21 @@ import GlareHover from "../ReactBitComp/GlareHover";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 import {themeContext} from "../../Context/ThemeContext";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 function MenWear() {
   const { handleOpenCart } = useContext(appContext);
   const {theme} = useContext(themeContext);
-  const { menProducts,allProducts } = useContext(products);
+  const { menProducts,allProducts,handleLikeProduct,
+    likedProducts,
+    handleRemoveLikedItem, } = useContext(products);
   const cartPopUp = useRef();
   const nav = useNavigate();
   const heading = useRef()
     useEffect(()=>{
        heading.current.scrollIntoView({ });
-    })
+    },[])
   function handleProdHover(e, imgSrc) {
     setTimeout(() => {
       e.target.children[0].src = imgSrc;
@@ -87,39 +91,66 @@ function MenWear() {
             {menProducts &&
               menProducts.map((product) => (
                 <div
-                  id={product["_id"]}
-                  key={product["_id"]}
-                  className="popular-prod"
-                  onMouseOver={(e) => {
-                    handleProdHover(e, product.imagePath[1]);
-                  }}
-                  onMouseOut={(e) => {
-                    handleProdHover(e, product.imagePath[0]);
-                  }}
-                  onClick={(e) => {
-                    nav(`/AddToCart/${product["_id"]}`);
-                  }}
-                >
-                  <GlareHover
-                    glareColor="#ffffff"
-                    glareOpacity={0.3}
-                    glareAngle={-30}
-                    glareSize={300}
-                    transitionDuration={800}
-                    playOnce={false}
+                    id={product["_id"]}
+                    key={product["_id"]}
                     className="popular-prod"
+                    onMouseOver={(e) => {
+                      handleProdHover(e, product.imagePath[1]);
+                    }}
+                    onMouseOut={(e) => {
+                      handleProdHover(e, product.imagePath[0]);
+                    }}
                   >
-                    <img
-                      alt={`A picture of ${product.name}`}
-                      src={product.imagePath[0] || null}
-                    />
-                  </GlareHover>
-                  <p className="product-name">{(product.name).length >= 30?`${product.name.slice(0,27)}...`:product.name}</p>
-                  <p>
-                    <span className="price">R{product.price}.00</span>
-                    {/* <span>{product.menOrWomen}</span> */}
-                  </p>
-                </div>
+                    <div
+                      onClick={(e) => {
+                        nav(`/AddToCart/${product["_id"]}`);
+                      }}
+                    >
+                      <GlareHover
+                        glareColor="#ffffff"
+                        glareOpacity={0.3}
+                        glareAngle={-30}
+                        glareSize={300}
+                        transitionDuration={800}
+                        playOnce={false}
+                        className="popular-prod"
+                      >
+                        <img
+                          alt={`A picture of ${product.name}`}
+                          src={product.imagePath[0] || null}
+                          loading="lazy"
+                        />
+                      </GlareHover>
+                    </div>
+                    <p className="product-name">
+                      {product.name.length >= 35
+                        ? `${product.name.slice(0, 27)}...`
+                        : product.name}
+                    </p>
+                    <p>
+                      <span className="price">R{product.price}.00</span>
+                      {likedProducts && (
+                        <span style={{ zIndex: 1 }}>
+                          {!likedProducts.find((liked) => {
+                            return liked.productId === product._id;
+                          }) ? (
+                            <FavoriteBorderIcon
+                              onClick={() => {
+                                handleLikeProduct(product);
+                              }}
+                            />
+                          ) : (
+                            <FavoriteIcon
+                              onClick={() => {
+                                handleRemoveLikedItem(product);
+                              }}
+                            />
+                          )}
+                        </span>
+                      )}
+                    </p>
+                  
+                  </div>
               ))}
           </div>
         </div>

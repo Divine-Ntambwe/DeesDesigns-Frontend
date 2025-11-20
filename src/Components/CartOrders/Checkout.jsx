@@ -23,6 +23,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { useNavigate } from "react-router-dom";
 import { products } from "../../Context/ProductsContext";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -31,7 +32,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function Checkout() {
   const { handleOpenCart, url } = useContext(appContext);
   const cartPopUp = useRef();
-  const { cartItems, cartTotal, setFetch, cartNum } = useContext(cartContext);
+  const { cartItems, cartTotal, setFetch, cartNum, handleRemoveItem } =
+    useContext(cartContext);
   const { userDetails } = useContext(Authentication);
   const { setFetchProducts } = useContext(products);
   const { get } = useFetch(`/getAddressAndBankDetails/${userDetails["_id"]}`);
@@ -43,7 +45,7 @@ function Checkout() {
     [subtotal, setSubtotal] = useState(),
     [shippingAmount, setShippingAmount] = useState(),
     [mobileNumber, setMobileNumber] = useState(userDetails.mobileNumber),
-    [eftPayment,setEftPayment] = useState(false);
+    [eftPayment, setEftPayment] = useState(false);
 
   useEffect(() => {
     get((d) => {
@@ -91,13 +93,13 @@ function Checkout() {
   const { postAuth, loading, error } = useFetch(
     `/orders/${userDetails["_id"]}`
   );
-  const [orderId,setOrderId] = useState("")
+  const [orderId, setOrderId] = useState("");
   function handleCheckOut(e) {
     e.preventDefault();
     const orderDetails = {
       customerId: userDetails["_id"],
       address: { ...addressDetails },
-      bankDetails: eftPayment?{ ...bankDetails }:null,
+      bankDetails: eftPayment ? { ...bankDetails } : null,
       customerDetails: {
         fullName: `${userDetails.name} ${userDetails.surname}`,
         email: userDetails.email,
@@ -108,11 +110,11 @@ function Checkout() {
       totalAmount: total,
     };
     postAuth(orderDetails, (d) => {
-      console.log(d.orderResult.insertedId)
+      console.log(d.orderResult.insertedId);
       handleClickOpen();
       setFetch(true);
       setFetchProducts(true);
-      setOrderId(d.orderResult.insertedId)
+      setOrderId(d.orderResult.insertedId);
     });
   }
   const [open, setOpen] = React.useState(false);
@@ -142,7 +144,7 @@ function Checkout() {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             <b>Thank You For Your Purchase!</b> you'll recieve your package with
-            in 5-7 days
+            in 5-7 days. Please check your email.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -253,14 +255,14 @@ function Checkout() {
                     />
                   </div>
 
-                  {  (
+                  {
                     <div>
                       <FormControl>
                         <InputLabel
                           id="demo-simple-select-label"
                           sx={{
                             color: "gray",
-                            fontSize:"1em !important",
+                            fontSize: "1em !important",
                             "&.Mui-focused": {
                               color: "var(--dark-purple)", // when focused
                             },
@@ -283,8 +285,8 @@ function Checkout() {
                             textOverflow: "ellipsis",
                             overflow: "hidden",
                             whiteSpace: "nowrap",
-                            paddingLeft:"20px",
-                            color:"var(--text-color2)",
+                            paddingLeft: "20px",
+                            color: "var(--text-color2)",
                             "& .MuiSvgIcon-root": {
                               color: "var(--text-color2)", // arrow
                             },
@@ -300,17 +302,20 @@ function Checkout() {
                           }}
                         >
                           <MenuItem value="apartment">Apartment</MenuItem>
-                          <MenuItem sx={{ whiteSpace: "normal" }} value="officeBuliding">
+                          <MenuItem
+                            sx={{ whiteSpace: "normal" }}
+                            value="officeBuliding"
+                          >
                             Office Buliding
                           </MenuItem>
                           <MenuItem value="school">School</MenuItem>
                         </Select>
                       </FormControl>
                     </div>
-                  )}
+                  }
 
                   <div>
-                    <TextFieldComp
+                    <TextField
                       label="Unit No"
                       pattern={/\d/}
                       id="unit-no"
@@ -321,14 +326,75 @@ function Checkout() {
                         handleAddressDetails(e);
                         handleOrderDetails(e);
                       }}
+                      // InputLabelProps={{ shrink: true }}
+                      sx={{
+                        "& input:-webkit-autofill": {
+                          WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+                          WebkitTextFillColor: "var(--text-color2)",
+                        },
+                        width: "100%",
+                        // label
+                        "& label": {
+                          color: "gray",
+                          fontSize: "1em",
+                        },
+                        "& label.Mui-focused": {
+                          color: "var(--dark-purple)",
+                        },
+
+                        // input text + background
+                        "& .MuiInputBase-input": {
+                          color: "var(--text-color2)",
+                          backgroundColor: "transparent",
+                          fontSize: "1em",
+                          paddingLeft: "35px",
+                          // paddingRight:"25px"
+                        },
+                        "& .MuiFormLabel-asterisk": {
+                          color: "#e54848",
+                          fontWeight: "bold",
+                          fontSize: "1.2em",
+                        },
+
+                        // outline colors
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: "gray",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "var(--text-color2)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "var(--dark-purple)",
+                          },
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          color: "gray", // placeholder color
+                          opacity: 1,
+                          // keep it fully visible
+                        },
+                      }}
+                      // style={style}
                     />
+                    {/* <TextFieldComp
+                      label="Unit No"
+                      pattern={/\d/}
+                      id="unit-no"
+                      placeholder="e.g) 1"
+                      value={savedDetails.unitNo || " "}
+                      name="unitNo"
+                      onChange={(e) => {
+                        handleAddressDetails(e);
+                        handleOrderDetails(e);
+                      }}
+                    /> */}
                   </div>
                 </div>
               </div>
 
               <div className="checkout-forms-cont" id="order-summary">
                 <h2>Order Summary</h2>
-                <div id="all-cart-items">
+                <div className="order-sum-items">
                   {cartItems &&
                     cartItems.map((item) => (
                       <div key={item["_id"]} className="cart-items">
@@ -343,6 +409,17 @@ function Checkout() {
                           <p>Size: {item.size}</p>
                           <p>Qty: {item.quantity}</p>
                         </div>
+                        <DeleteOutlineIcon
+                          onClick={(e) => {
+                            handleRemoveItem(item._id);
+                          }}
+                          sx={{
+                            cursor: "pointer",
+                            "&:hover": {
+                              color: "red", // on hover
+                            },
+                          }}
+                        />
                       </div>
                     ))}
                 </div>
@@ -389,7 +466,7 @@ function Checkout() {
                       value="Cash On Delivery"
                       type="radio"
                       onChange={(e) => {
-                        setEftPayment(false)
+                        setEftPayment(false);
                         handleOrderDetails(e);
                       }}
                     />{" "}
@@ -405,7 +482,7 @@ function Checkout() {
                       type="radio"
                       onChange={(e) => {
                         handleOrderDetails(e);
-                        setEftPayment(false)
+                        setEftPayment(false);
                       }}
                     />{" "}
                     Card On Delievery
@@ -420,7 +497,7 @@ function Checkout() {
                       type="radio"
                       onChange={(e) => {
                         handleOrderDetails(e);
-                         setEftPayment(true)
+                        setEftPayment(true);
                       }}
                     />{" "}
                     EFT
@@ -428,139 +505,140 @@ function Checkout() {
                 </div>
               </div>
 
-              {eftPayment &&<div className="checkout-forms-cont" id="bank-details">
-                <h2>Bank Details</h2>
-                <div className="checkout-forms">
-                  <div id="card-number-cont">
-                    <TextField
-                    required
-                      className="card-number-cont"
-                      label="Card Number"
-                      id="card-number"
-                      name="cardNumber"
-                      pattern={/(\d{4}\s){4}/}
-                      placeholder="XXXX XXXX XXXX XXXX"
-                      value={savedDetails.cardNumber}
-                      onChange={(e) => {
-                        handleOrderDetails(e);
-                        handleBankDetails(e);
-                      }}
-                      sx={{
-            
-          "& input:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
-      WebkitTextFillColor: "var(--text-color2)"},
-           width:"100%",
-          // label
-          "& label": {
-            color: "gray",
-            fontSize: "1em",
-          },
-          "& label.Mui-focused": {
-            color: "var(--dark-purple)",
-          },
+              {eftPayment && (
+                <div className="checkout-forms-cont" id="bank-details">
+                  <h2>Bank Details</h2>
+                  <div className="checkout-forms">
+                    <div id="card-number-cont">
+                      <TextField
+                        required
+                        className="card-number-cont"
+                        label="Card Number"
+                        id="card-number"
+                        name="cardNumber"
+                        pattern={/(\d{4}\s){4}/}
+                        placeholder="XXXX XXXX XXXX XXXX"
+                        value={savedDetails.cardNumber}
+                        onChange={(e) => {
+                          handleOrderDetails(e);
+                          handleBankDetails(e);
+                        }}
+                        sx={{
+                          "& input:-webkit-autofill": {
+                            WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+                            WebkitTextFillColor: "var(--text-color2)",
+                          },
+                          width: "100%",
+                          // label
+                          "& label": {
+                            color: "gray",
+                            fontSize: "1em",
+                          },
+                          "& label.Mui-focused": {
+                            color: "var(--dark-purple)",
+                          },
 
-          // input text + background
-          "& .MuiInputBase-input": {
-            color: "var(--text-color2)",
-            backgroundColor: "transparent",
-            fontSize: "1em",
-            paddingLeft:"35px",
-            // paddingRight:"25px"
-          },
+                          // input text + background
+                          "& .MuiInputBase-input": {
+                            color: "var(--text-color2)",
+                            backgroundColor: "transparent",
+                            fontSize: "1em",
+                            paddingLeft: "35px",
+                            // paddingRight:"25px"
+                          },
 
-          // outline colors
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "gray",
-            },
-            "&:hover fieldset": {
-              borderColor: "var(--text-color2)",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "var(--dark-purple)",
-            },
-          },
-          "& .MuiInputBase-input::placeholder": {
-            color: "gray", // placeholder color
-            opacity: 1,
-            // keep it fully visible
-          },
-        }}
-                    />
-                  </div>
-                  <div>
-                   
-                    <TextField
-                      type="date"
-                      id="exp-date"
-                      label="Expiry Date"
-                      placeholder="MM-YY"
-                      name="expiryDate"
-                      value={savedDetails.expiryDate}
-                      // style={{paddingRight: "5px"}}
-                      onChange={(e) => {
-                        handleOrderDetails(e);
-                        handleBankDetails(e);
-                      }}
-                       InputLabelProps={{ shrink: true }}
-                      sx={{
-            
-          "& input:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
-      WebkitTextFillColor: "var(--text-color2)"},
-           width:"100%",
-          // label
-          "& label": {
-            color: "gray",
-            fontSize: "1em",
-          },
-          "& label.Mui-focused": {
-            color: "var(--dark-purple)",
-          },
+                          // outline colors
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "gray",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "var(--text-color2)",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "var(--dark-purple)",
+                            },
+                          },
+                          "& .MuiInputBase-input::placeholder": {
+                            color: "gray", // placeholder color
+                            opacity: 1,
+                            // keep it fully visible
+                          },
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <TextField
+                        type="date"
+                        id="exp-date"
+                        label="Expiry Date"
+                        placeholder="MM-YY"
+                        name="expiryDate"
+                        value={savedDetails.expiryDate}
+                        // style={{paddingRight: "5px"}}
+                        onChange={(e) => {
+                          handleOrderDetails(e);
+                          handleBankDetails(e);
+                        }}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{
+                          "& input:-webkit-autofill": {
+                            WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
+                            WebkitTextFillColor: "var(--text-color2)",
+                          },
+                          width: "100%",
+                          // label
+                          "& label": {
+                            color: "gray",
+                            fontSize: "1em",
+                          },
+                          "& label.Mui-focused": {
+                            color: "var(--dark-purple)",
+                          },
 
-          // input text + background
-          "& .MuiInputBase-input": {
-            color: "var(--text-color2)",
-            backgroundColor: "transparent",
-            fontSize: "1em",
-            paddingLeft:"35px",
-            paddingRight:"30px"
-          },
+                          // input text + background
+                          "& .MuiInputBase-input": {
+                            color: "var(--text-color2)",
+                            backgroundColor: "transparent",
+                            fontSize: "1em",
+                            paddingLeft: "35px",
+                            paddingRight: "30px",
+                          },
 
-          // outline colors
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "gray",
-            },
-            "&:hover fieldset": {
-              borderColor: "var(--text-color2)",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "var(--dark-purple)",
-            },
-          },
-          "& .MuiInputBase-input::placeholder": {
-            color: "gray", // placeholder color
-            opacity: 1,
-            // keep it fully visible
-          },
-        }}
-                    />
-                  </div>
+                          // outline colors
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "gray",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "var(--text-color2)",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "var(--dark-purple)",
+                            },
+                          },
+                          "& .MuiInputBase-input::placeholder": {
+                            color: "gray", // placeholder color
+                            opacity: 1,
+                            // keep it fully visible
+                          },
+                        }}
+                      />
+                    </div>
 
-                  <div>
-                    <TextFieldComp
-                      label="CVV"
-                      id="cvv"
-                      value={savedDetails.cvv}
-                      onChange={(e) => {
-                        handleOrderDetails(e), handleBankDetails(e);
-                      }}
-                    />
+                    <div>
+                      <TextFieldComp
+                        label="CVV"
+                        id="cvv"
+                        value={savedDetails.cvv}
+                        onChange={(e) => {
+                          handleOrderDetails(e), handleBankDetails(e);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>}
+              )}
             </div>
           )}
         </Box>

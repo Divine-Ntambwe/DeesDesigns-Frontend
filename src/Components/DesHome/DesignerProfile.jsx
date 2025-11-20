@@ -17,11 +17,15 @@ function DesignerProfile() {
   const { url,handleOpenCart } = useContext(appContext);
   const [designersUploads,setDesignersUploads] = useState();
   const {designerProducts, reviews} = useContext(products);
-  const {allDesigners} = useContext(designerContext)
+  const {allDesigners} = useContext(designerContext);
   const [designerId,setDesignerId] = useState(useParams().designerId);
   const [designer,setDesigner] = useState()
   const cartPopUp = useRef();
    const nav = useNavigate();
+   const heading = useRef();
+     useEffect(() => {
+       heading.current.scrollIntoView({});
+     },[]);
 
 
   useEffect(()=>{
@@ -43,7 +47,7 @@ function DesignerProfile() {
           <Cart />
         </div>
 
-      <div className="des-home-content">
+      <div ref={heading} className="des-home-content">
          {designer && <><div className="designers-details" >
             <img src={`${designer.pfpPath}`}/>
 

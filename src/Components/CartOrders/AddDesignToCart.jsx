@@ -15,7 +15,7 @@ import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
 import Button from "@mui/material/Button";
 import { Authentication } from "../../App";
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 function AddDesignToCart() {
   const [progress, setProgress] = useState(90);
@@ -38,6 +38,10 @@ function AddDesignToCart() {
       nav("/ProductNotFound");
   }, [designerProducts]);
 
+  const heading = useRef();
+  useEffect(() => {
+    heading.current.scrollIntoView({});
+  }, []);
   const { postAuth, loading, error } = useFetch("/addToCart");
 
   function handleAddToCart(e) {
@@ -45,6 +49,7 @@ function AddDesignToCart() {
     const cartItem = {
       customerId: userDetails["_id"],
       productId,
+      designerId:productDetails.designerId,
       productName: productDetails.name,
       price: productDetails.price,
       size: "M",
@@ -74,7 +79,7 @@ function AddDesignToCart() {
         </div>
 
         <div className="add-to-cart-content">
-          <h1>Add To Cart</h1>
+          <h1 ref={heading}>Add To Cart</h1>
 
           {productDetails && (
             <div className="add-cart-prod">
@@ -82,7 +87,7 @@ function AddDesignToCart() {
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>
                 <p className="cart-rating">
-                  <b>Uploaded By:</b>{" "}
+                  <b>Uploaded By: </b>{" "}
                   <Link
                     to={`/DesignerProfile/${productDetails["designerId"]}`}
                     style={{ textDecoration: "underline" }}
@@ -97,7 +102,7 @@ function AddDesignToCart() {
                   rows={10}
                   cols={20}
                   value={productDetails.productDescription}
-                  style={{ pointerEvents: "none",fontSize:"1.5em" }}
+                  style={{ pointerEvents: "none", fontSize: "1.5em" }}
                 ></textarea>
 
                 {error && (
@@ -129,12 +134,22 @@ function AddDesignToCart() {
               <h4 id="review-heading">Reviews for Designer</h4>
 
               <div className="reviews">
-                 {
-                  typeof reviews === "string"&&
-                  <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"2em",gap:"5px"}}><span>No Reviews Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
-                }
+                {typeof reviews === "string" && (
+                  <span
+                    style={{
+                      color: "var(--text-color2)",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "2em",
+                      gap: "5px",
+                    }}
+                  >
+                    <span>No Reviews Yet</span>{" "}
+                    <SentimentVeryDissatisfiedIcon size="large" />
+                  </span>
+                )}
 
-                {typeof reviews !== "string"&&
+                {typeof reviews !== "string" &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">

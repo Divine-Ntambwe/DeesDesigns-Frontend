@@ -90,7 +90,7 @@ function DesHome() {
     setProductImg("emptyPfp.jpeg");
     setFetch(true);
     UDForm.current.reset();
-    setError(false);
+    setError("");
     setEditing(false);
     setData({});
   };
@@ -100,12 +100,13 @@ function DesHome() {
     setUDC({});
     setCustProductImg("emptyPfp.jpeg");
     UDCForm.current.reset();
-    setError(false);
+    setError("");
     setData({});
   };
 
   const handleCloseEditProfile = () => {
     setOpenEditProfile(false);
+    setError("")
   };
 
   const {
@@ -196,12 +197,15 @@ function DesHome() {
     };
 
     postAuth(details, () => {
-      handleCloseUD();
       setFetch(true);
-      setUD({});
-      multiline.current.value = "";
-      setProductImg("emptyPfp.jpeg");
-      e.target.reset();
+      setTimeout(()=>{
+
+        handleCloseUD();
+        setUD({});
+        multiline.current.value = "";
+        setProductImg("emptyPfp.jpeg");
+        e.target.reset();
+      },1000)
     });
   }
 

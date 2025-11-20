@@ -9,6 +9,9 @@ import BedtimeOutlinedIcon from "@mui/icons-material/BedtimeOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Menu from "@mui/material/Menu";
@@ -177,7 +180,7 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               </MenuItem>
               </Link>
 
-               <Link to="/Accessories">
+               <Link to="/WomenAccessories">
               <MenuItem
                 sx={{
                   color:"var(--dark-purple)",
@@ -188,7 +191,22 @@ function Navbar({ handleOpenCart, displayedProducts }) {
                 }}
                 onClick={handleClose}
               >
-                Accessories
+                Women Accessories
+              </MenuItem>
+              </Link>
+
+                <Link to="/MenAccessories">
+              <MenuItem
+                sx={{
+                  color:"var(--dark-purple)",
+                  "&:hover": {
+                    bgcolor: "transparent",
+                    color: "var(--text-color2)", // hover text
+                  },
+                }}
+                onClick={handleClose}
+              >
+                Men Accessories
               </MenuItem>
               </Link>
 
@@ -283,6 +301,12 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               onClick={handleOpenMenu}
               style={{ fontSize: "1.5em" }}
             />{" "}
+            <FavoriteBorderIcon
+            onClick={()=>{nav("/likes")}}
+            style={{ fontSize: "1.5em" }}
+            />
+            <ShoppingBagOutlinedIcon  onClick={()=>{nav("/orders")}} style={{ fontSize: "1.5em" }} />
+           
             {/* <IconButton>
   <ShoppingCartOutlinedIcon  />
   <CartBadge badgeContent={2} color="primary" overlap="circular" />
@@ -292,6 +316,7 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               onClick={handleOpenCart}
               style={{ fontSize: "1.5em" }}
             />
+            
             {Boolean(cartNum) &&  <span id="num-of-cart-items">{cartNum}</span>}
           </span>
         </div>
@@ -326,6 +351,15 @@ function Navbar({ handleOpenCart, displayedProducts }) {
             <Link className="side-bar-link" to="/Orders">
               <ShoppingBagOutlinedIcon style={{ fontSize: "2em" }} />
               Orders
+            </Link>
+            <Link className="side-bar-link" to="/Likes">
+              <FavoriteBorderIcon  style={{ fontSize: "2em" }} />
+              Likes
+            </Link>
+
+             <Link className="side-bar-link" to="/Designers">
+              <PeopleOutlineIcon  style={{ fontSize: "2em" }} />
+              Local Designers
             </Link>
 
             

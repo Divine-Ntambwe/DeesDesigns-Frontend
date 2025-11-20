@@ -92,7 +92,7 @@ function Cart() {
                 </div>
                 <Tooltip title="Remove from Cart" placement="top">
                   <DeleteOutlineIcon
-                  loading={loading}
+            
                     id={item["_id"]}
                     onClick={(e)=>{handleRemoveItem(e.target.id)}}
                     sx={{

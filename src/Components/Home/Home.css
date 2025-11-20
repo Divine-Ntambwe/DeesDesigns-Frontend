@@ -29,7 +29,7 @@
 
 
 .slides {
-    overflow-x: hidden;
+    overflow: hidden;
     margin: 10px 20px;
     height: 70vh;
     /* width: 100vw; */
@@ -55,41 +55,53 @@
 
 .slides img {
     /* width: 158%; */
-    height: 65vh;
+    height: 120%;
     object-fit: contain;
     /* position: absolute; */
     z-index: 1;
+    /* border: 5px solid black; */
 }
 
-.slides div {
+.home-info {
     gap: 15px;
     display: flex;
     flex-direction: column;
+    /* z-index: 2; */
+    position: absolute;
     /* align-items: center; */
-    padding: 0 20px;
+    /* padding: 0 20px; */
     
-}
-#short-desc {
-    color: var(--background-color1)  ;
-    width: 450px;
-    font-size: 1.2em;
-    line-height: 1.2;
+    
+    color: var(--med-purple)  ;
 }
 
-@keyframes slogan {
-    0% {text-shadow: -5px -5px 15px var(--dark-purple);}
-    25% {text-shadow: 5px -5px 15px var(--dark-purple);}
-    50% {text-shadow: 5px 5px 15px var(--dark-purple);}
-    75% {text-shadow: -5px -5px 15px var(--dark-purple);}
-    100% {text-shadow: -5px -5px 15px var(--dark-purple);}
+.home-swiper{
+    
+    width: 30vw;
+    /* height: 100%; */
+    margin: 0 !important;
+    /* padding: 0!important; */
+    display: block !important;
+}
+
+.home-swiper div{
+    border: none;
+    /* background-color: black !important; */
+}
+#short-desc {
+    width: 500px;
+    font-size: 1.5em;
+    line-height: 1.2;
+    margin-left: 1.5vw !important;
 }
 
 #slogan{
     font-size: 3em;
-    /* text-shadow: -5px 5px 15px var(--dark-purple); */
+    text-shadow: -5px 5px 15px var(--dark-purple);
     transition: 1s;
     pointer-events: none;
-    color: var(--background-color1);
+    /* color: var(--background-color1); */
+    margin-left: 1.5vw !important;
 }
 
 
@@ -143,6 +155,8 @@ border-radius: 25px;
 }
 
 .category-img {
+    border: 2px solid var(--text-color1);
+filter: brightness(80%);
     width: 100%;
     height: 60vh;   
     /* position: absolute; */
@@ -163,7 +177,7 @@ border-radius: 25px;
 }
 .category:hover .category-img{
 border: 2px solid var(--text-color1);
-filter: brightness(60%);
+filter: brightness(100%);
 }
 
 .category:hover .view-collection{
@@ -250,7 +264,7 @@ font-weight: 500 !important;
     font-weight: 500;
     color: var(--dark-purple);
     border-radius: 5px;
-    display: none;
+    /* display: none; */
     width: 90%;
 }
 
@@ -261,6 +275,28 @@ justify-content: space-between;
 
 .price {
     font-size: 1em;
+}
+
+.see-more-btn {
+  background: linear-gradient(135deg, #e54848, #d07a7a);
+  color: white;
+  border: none;
+  padding: 16px 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s;
+  margin: auto;
+}
+
+
+
+.see-more-btn:active {
+  opacity: 0.5;
+
 }
 
 

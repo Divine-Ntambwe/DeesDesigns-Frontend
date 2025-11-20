@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useState, useContext } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  Profiler,
+} from "react";
 import useFetch from "../useFetch";
 import { Authentication } from "../App";
 import { appContext } from "./AppContext";
@@ -11,23 +17,29 @@ function ProductsContext({ children }) {
   const [homeProducts, setHomeProducts] = useState("");
   const [menProducts, setMenProducts] = useState("");
   const [womenProducts, setWomenProducts] = useState("");
-  const [accessories, setAaccesories] = useState("");
+  const [womenAccessories, setWomenAccessories] = useState("");
+  const [menAccessories, setMenAccessories] = useState("");
   const [designerProducts, setDesignerProducts] = useState("");
+  const [likedProducts, setLikedProducts] = useState(null);
   const [allDesignerProducts, setAllDesignerProducts] = useState("");
   const [orders, setOrders] = useState(null);
   const [reviews, setReviews] = useState("");
   const { userDetails } = useContext(Authentication);
   const { get: getStockProducts } = useFetch("/stockProducts");
   const { get: getDesignerProducts } = useFetch("/allDesignerProducts");
-  const { get:getOrders } = useFetch(`/customerOrders/${userDetails["_id"]}`);
+  const { get: getOrders } = useFetch(`/customerOrders/${userDetails["_id"]}`);
+  const { get: getLikes } = useFetch(`/likes/${userDetails["_id"]}`);
+  const [numOfHomeProducts,setNumOfHomeProducts] = useState(10)
+
   const [fetchProducts, setFetchProducts] = useState(false);
+  const [random,setRandom] = useState(Math.floor(Math.random()*21));
 
   function getGenderCat() {
     return userDetails.gender === "M" ? "Men" : "Women";
   }
 
   useEffect(() => {
-    if (!userDetails) return ;
+    if (!userDetails) return;
     setFetchProducts(false);
     getStockProducts((d) => {
       setAllProducts(d);
@@ -45,7 +57,7 @@ function ProductsContext({ children }) {
               ? "1"
               : "2";
           })["2"],
-        ].slice(0, 20)
+        ].slice(random, random+numOfHomeProducts)
       );
       setWomenProducts(
         Object.groupBy(d, ({ menOrWomen, categories }) => {
@@ -62,9 +74,16 @@ function ProductsContext({ children }) {
         }).men
       );
 
-      setAaccesories(
-        Object.groupBy(d, ({ categories }) => {
-          return categories.includes("Accessories")
+      setWomenAccessories(
+        Object.groupBy(d, ({ categories,menOrWomen }) => {
+          return categories.includes("Accessories") && menOrWomen === "Women"
+            ? "accessories"
+            : "non-accessories";
+        }).accessories
+      );
+      setMenAccessories(
+        Object.groupBy(d, ({ categories,menOrWomen }) => {
+          return categories.includes("Accessories") && menOrWomen === "Men"
             ? "accessories"
             : "non-accessories";
         }).accessories
@@ -75,10 +94,33 @@ function ProductsContext({ children }) {
       setDesignerProducts(d);
       setAllDesignerProducts(d);
     });
-    getOrders((d)=>{
-      setOrders(d)
-    })
+    getOrders((d) => {
+      setOrders(d);
+    });
+    getLikes((d) => {
+      setLikedProducts(d);
+      console.log(d)
+    });
   }, [fetchProducts]);
+
+  useEffect(()=>{
+allProducts && setHomeProducts(
+        [
+          ...Object.groupBy(allProducts, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
+          })["1"],
+          ...Object.groupBy(allProducts, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
+          })["2"],
+        ].slice(random, random+numOfHomeProducts)
+      );
+  },[numOfHomeProducts])
 
   const { authCred } = useContext(Authentication);
   const { url } = useContext(appContext);
@@ -118,7 +160,7 @@ function ProductsContext({ children }) {
 
       if (res.status === 200) {
         // if (typeofreviews)
-       
+
         setReviews(result);
       }
     } catch (e) {
@@ -147,17 +189,23 @@ function ProductsContext({ children }) {
       case "/Home":
         if (searchText.length === 0) {
           setHomeProducts(
-            [
-              ...Object.groupBy(allProducts, ({ menOrWomen }) => {
-                return menOrWomen === getGenderCat() ? "1" : "2";
-              })["1"],
-              ...Object.groupBy(allProducts, ({ menOrWomen }) => {
-                return menOrWomen === getGenderCat() ? "1" : "2";
-              })["2"],
-            ].slice(0, 20)
-          );
+         [
+          ...Object.groupBy(allProducts, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
+          })["1"],
+          ...Object.groupBy(allProducts, ({ menOrWomen, categories }) => {
+            return menOrWomen === getGenderCat() &&
+              !categories.includes("Accessories")
+              ? "1"
+              : "2";
+          })["2"],
+        ].slice(random, random+numOfHomeProducts)
+      );
           return;
-        }
+        } 
 
         setHomeProducts(
           allProducts.filter((prod) => {
@@ -198,20 +246,73 @@ function ProductsContext({ children }) {
           })
         );
         break;
-      case "/Accessories":
-        original = Object.groupBy(allProducts, ({ categories }) => {
-          return categories.includes("Accessories")
+      case "/WomenAccessories":
+        original =
+        Object.groupBy(allProducts, ({ categories,menOrWomen }) => {
+          return categories.includes("Accessories") && menOrWomen === "Women"
             ? "accessories"
             : "non-accessories";
-        }).accessories;
+        }).accessories
+      
 
-        setAaccesories(
+        setWomenAccessories(
+          original.filter((prod) => {
+            return prod.name.toLowerCase().includes(searchText.toLowerCase());
+          })
+        );
+        break;
+
+        case "/MenAccessories":
+        original =
+        Object.groupBy(allProducts, ({ categories,menOrWomen }) => {
+          return categories.includes("Accessories") && menOrWomen === "Men"
+            ? "accessories"
+            : "non-accessories";
+        }).accessories
+      
+
+        setMenAccessories(
           original.filter((prod) => {
             return prod.name.toLowerCase().includes(searchText.toLowerCase());
           })
         );
         break;
     }
+  }
+
+  const { postAuth } = useFetch(`/addToLikes`);
+  function handleLikeProduct(product) {
+    const { name, price, imagePath,_id } = product;
+    postAuth(
+      {
+        customerId: userDetails._id,
+        productId: _id,
+        name,
+        price,
+        imagePath,
+      },
+      () => {
+        setLikedProducts([...likedProducts, {
+          customerId: userDetails._id,
+          productId: _id,
+          name,
+          price,
+          imagePath,
+        }]);
+      }
+    );
+  }
+
+  const {deleteApi} = useFetch("/removeLikedItem");
+  function handleRemoveLikedItem(product){
+    deleteApi(()=>{
+      likedProducts.splice(likedProducts.findIndex((liked)=>{return liked.productId === product._id}),1)
+   
+      setLikedProducts(likedProducts)
+    },
+    {productId: product._id}
+  );
+
   }
 
   return (
@@ -230,8 +331,14 @@ function ProductsContext({ children }) {
           reviews,
           handleSearchProducts,
           setFetchProducts,
-          accessories,
-          orders
+          womenAccessories,
+          menAccessories,
+          orders,
+          handleLikeProduct,
+          likedProducts,
+          handleRemoveLikedItem,
+          setNumOfHomeProducts,
+          numOfHomeProducts
         }}
       >
         {children}

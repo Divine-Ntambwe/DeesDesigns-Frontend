@@ -74,7 +74,7 @@ function CartContext({children}) {
 
     
   return (
-    <cartContext.Provider value = {{loading,cartItems,setFetch,cartNum,cartTotal,handleRemoveItem}}>
+    <cartContext.Provider value = {{loading,cartItems,setFetch,cartNum,cartTotal,handleRemoveItem,setCartItems}}>
         {children}
     </cartContext.Provider>
   )

@@ -29,7 +29,10 @@ import AboutUs from './Components/T&Cs/AboutUs';
 import ContactUs from './Components/T&Cs/ContactUs';
 import TermsAndConditions from './Components/T&Cs/TermsAndConditions';
 import PrivacyPolicy from './Components/T&Cs/PrivacyPolicy';
-import Accessories from './Components/Categories/Accessories';
+import WomenAccessories from './Components/Categories/WomenAccessories';
+import Likes from './Components/Categories/Likes';
+import MenAccessories from './Components/Categories/MenAccessories';
+import Designers from './Components/DesHome/Designers';
 
 const Authentication = createContext();
 
@@ -77,10 +80,13 @@ function App() {
           <Route exact path="/Orders" element={<ProtectedRoute routeRole="customer" element={<TrackOrder/>}/>}/>
           <Route exact path="/WomenWear" element={<ProtectedRoute routeRole="customer" element={<WomenWear/>}/>}/>
           <Route exact path="/MenWear" element={<ProtectedRoute routeRole="customer" element={<MenWear/>}/>}/>
-          <Route exact path="/Accessories" element={<ProtectedRoute routeRole="customer" element={<Accessories/>}/>}/>
+          <Route exact path="/WomenAccessories" element={<ProtectedRoute routeRole="customer" element={<WomenAccessories/>}/>}/>
+          <Route exact path="/MenAccessories" element={<ProtectedRoute routeRole="customer" element={<MenAccessories/>}/>}/>
           <Route exact path="/DesignersCollection" element={<ProtectedRoute routeRole="customer" element={<DesignersCollection/>}/>}/>
+          <Route exact path="/Likes" element={<ProtectedRoute routeRole="customer" element={<Likes/>}/>}/>
           <Route exact path="/AddDesignToCart/:productId" element={<ProtectedRoute routeRole="customer" element={<AddDesignToCart/>}/>}/>
           <Route exact path="/DesignerProfile/:designerId" element={<ProtectedRoute routeRole="customer" element={<DesignerProfile/>}/>}/>
+          <Route exact path="/Designers" element={<ProtectedRoute routeRole="customer" element={<Designers/>}/>}/>
           <Route exact path="/confirmCartRequest/:token" element={<ProtectedRoute routeRole="customer" element={<ConfirmPage/>}/>}/>
           <Route exact path="/ShippingAndReturns" element={<ProtectedRoute routeRole="customer" element={<ShippingReturns />}/>}/>
           <Route exact path="/AboutUs" element={<ProtectedRoute routeRole="customer" element={<AboutUs />}/>}/>

@@ -13,19 +13,20 @@ import { useParams } from "react-router-dom";
 import { Authentication } from "../../App";
 import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
-import Button from '@mui/material/Button';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import Button from "@mui/material/Button";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
   const { handleOpenCart } = useContext(appContext);
   const cartPopUp = useRef();
-  const { productDetails, handleGoToAddToCart, allProducts, reviews } = useContext(products);
+  const { productDetails, handleGoToAddToCart, allProducts, reviews } =
+    useContext(products);
   const [size, setSize] = useState("XS");
   const [quantity, setQuantity] = useState(1);
   const { userDetails } = useContext(Authentication);
   const productId = useParams().productId;
-  const {setFetch} = useContext(cartContext)
-  const [rating,setRating] = useState()
+  const { setFetch, setCartItems, cartItems } = useContext(cartContext);
+  const [rating, setRating] = useState();
 
   const increase = () => setQuantity((q) => (q < 10 ? q + 1 : 10));
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -41,22 +42,32 @@ function AddToCart() {
       size,
       quantity,
       imgPath: productDetails.imagePath[0],
-      productProvider:"stockProduct"
+      productProvider: "stockProduct",
     };
-    postAuth(cartItem,(d)=>{
+    postAuth(cartItem, (d) => {
       setFetch(true);
-      handleOpenCart(cartPopUp.current);
+      
+     setTimeout(()=>{
+
+       handleOpenCart(cartPopUp.current);
+     },100)
     });
-    
   }
 
-  const heading = useRef()
-    useEffect(()=>{
-       heading.current.scrollIntoView({ behavior: "smooth" });
-    })
+  const heading = useRef();
+  useEffect(() => {
+    heading.current.scrollIntoView({ behavior: "smooth" });
+  });
   useEffect(() => {
     handleGoToAddToCart(productId);
-    if (productDetails.productId === productId)setRating(productDetails.rating.length === 0?"0":productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length)
+    if (productDetails.productId === productId)
+      setRating(
+        productDetails.rating.length === 0
+          ? "0"
+          : productDetails.rating.reduce((acc, i) => {
+              return acc + i;
+            }, 0) / productDetails.rating.length
+      );
   }, [allProducts]);
 
   function getMeasurements() {
@@ -66,8 +77,6 @@ function AddToCart() {
     }
     return arr;
   }
-
-
 
   return (
     <>
@@ -85,7 +94,9 @@ function AddToCart() {
         </div>
 
         <div className="add-to-cart-content">
-          <h1 ref={heading} id="AddToCart">Add To Cart</h1>
+          <h1 ref={heading} id="AddToCart">
+            Add To Cart
+          </h1>
 
           {productDetails.rating && (
             <div className="add-cart-prod">
@@ -94,10 +105,22 @@ function AddToCart() {
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>
 
-             {reviews && productDetails &&   <p className="cart-rating">
-                  <span style={{ display:"flex",alignItems:"flex-start"}}> {productDetails.rating.length === 0?"0":(productDetails.rating.reduce((acc,i)=>{return acc +i},0)/productDetails.rating.length).toFixed(1)}<StarBorderIcon sx={{fontSize:"1.5em"}}/></span>
-                  <span> ({productDetails.rating.length} reviews)</span>
-                </p>}
+                {reviews && productDetails && (
+                  <p className="cart-rating">
+                    <span style={{ display: "flex", alignItems: "flex-start" }}>
+                      {" "}
+                      {productDetails.rating.length === 0
+                        ? "0"
+                        : (
+                            productDetails.rating.reduce((acc, i) => {
+                              return acc + i;
+                            }, 0) / productDetails.rating.length
+                          ).toFixed(1)}
+                      <StarBorderIcon sx={{ fontSize: "1.5em" }} />
+                    </span>
+                    <span> ({productDetails.rating.length} reviews)</span>
+                  </p>
+                )}
                 <p className="add-to-cart-price">R{productDetails.price}.00</p>
 
                 <h3>Standard Measurement:</h3>
@@ -136,7 +159,8 @@ function AddToCart() {
                               for (let i of e.target.parentElement.children) {
                                 i.style.backgroundColor = "transparent";
                               }
-                              e.target.style.backgroundColor = "var(--dark-purple)";
+                              e.target.style.backgroundColor =
+                                "var(--dark-purple)";
                               setSize(e.target.textContent);
                             }}
                             // onMouseOver={(e) => {
@@ -150,25 +174,30 @@ function AddToCart() {
                           </span>
                         ))}
                   </span>
-{error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
+                  {error && (
+                    <p className="cred-error">
+                      Network Error Please Refresh Or Try Again Later
+                    </p>
+                  )}
                   <Button
-                  id="add-to-cart-btn"
-          type="submit"
-          loading={loading}
-           sx={{
-        fontSize:"0.7em",    
-        backgroundColor: "var(--med-purple)",   // button color
-        color: "white",            // text color
-        width: "100%",            // custom width
-        height: "3.5em",            // custom height
-        "&:hover": {
-          backgroundColor: "gray", // hover color
-        },
-        marginTop: "10px"
-      }}
-        >
-          <ShoppingCartOutlinedIcon sx={{ fontSize:"2em"}}/>Add To Cart
-        </Button>
+                    id="add-to-cart-btn"
+                    type="submit"
+                    loading={loading}
+                    sx={{
+                      fontSize: "0.7em",
+                      backgroundColor: "var(--med-purple)", // button color
+                      color: "white", // text color
+                      width: "100%", // custom width
+                      height: "3.5em", // custom height
+                      "&:hover": {
+                        backgroundColor: "gray", // hover color
+                      },
+                      marginTop: "10px",
+                    }}
+                  >
+                    <ShoppingCartOutlinedIcon sx={{ fontSize: "2em" }} />
+                    Add To Cart
+                  </Button>
                 </form>
               </div>
             </div>
@@ -178,10 +207,20 @@ function AddToCart() {
               <h4 id="review-heading">Reviews</h4>
 
               <div className="reviews">
-                {
-                  typeof reviews === "string"&&
-                  <span style={{color:"var(--text-color2)",display:"flex",alignItems:"center", fontSize:"2em",gap:"5px"}}><span>No Reviews Yet</span> <SentimentVeryDissatisfiedIcon size= "large"/></span>
-                }
+                {typeof reviews === "string" && (
+                  <span
+                    style={{
+                      color: "var(--text-color2)",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "2em",
+                      gap: "5px",
+                    }}
+                  >
+                    <span>No Reviews Yet</span>{" "}
+                    <SentimentVeryDissatisfiedIcon size="large" />
+                  </span>
+                )}
 
                 {typeof reviews !== "string" &&
                   reviews.map((review) => (
@@ -194,7 +233,7 @@ function AddToCart() {
                           {new Date(review.dateOfUpload).toLocaleDateString()}
                         </span>
                       </span>
-                     
+
                       <Rating
                         sx={{
                           "& .MuiRating-iconFilled": {
@@ -212,7 +251,7 @@ function AddToCart() {
                         precision={0.5}
                         readOnly
                       />
-                       <p className="review">{review.review}</p>
+                      <p className="review">{review.review}</p>
                       <hr />
                     </div>
                   ))}

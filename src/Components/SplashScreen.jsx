@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { Authentication } from '../App'
 import { motion } from "framer-motion";
+import DomeGallery from './ReactBitComp/DomeGallery';
+
 
 function SplashScreen() {
   const {isAuthenticated,role} = useContext(Authentication);
@@ -17,28 +19,47 @@ function SplashScreen() {
   
   return (
 <>
+  <div style={{ width: '100vw', height: '100vh',position:"absolute",zIndex:-1}}>
+
+      <DomeGallery />
+    </div>
   { !isAuthenticated && <div className='splash-screen'>
       <div style={{
-      backgroundColor: "#f1f1f1f1",
-      color: "white",
+      // backgroundColor: "white",
+      backdropFilter: "blur(2px)",
+      // color: "white",
       height: "100vh",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      overflow: "hidden"
+      overflow: "hidden",
+      zIndex:"10",
+      // width:"10vw"
     }}>
-      {/* Logo / Title */}
+      <div
+      style={{
+        // backgroundColor: "white",
+        
+        // width:"30vw",
+         display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      }}
+      >
+
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
         style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: "3.5rem",
+          fontFamily: "'Playwrite US Modern', cursive",
+          fontSize: "4.5rem",
           letterSpacing: "2px",
-          color: "#e54848",
           marginBottom: "20px",
+          color: "var(--med-purple)",
+          textShadow:"10px 5px 10px black"
         }}
       >
         Dee's Designs
@@ -50,11 +71,13 @@ function SplashScreen() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 1 }}
         style={{
-          fontFamily: "'Raleway', sans-serif",
+          fontFamily: "'Playwrite US Modern', cursive",
           fontSize: "1.5rem",
           color: "#d07a7a",
           marginBottom: "40px",
-          fontWeight:"500"
+          fontWeight:"500",
+          color: "black",
+          textShadow:"10px 5px 10px var(--med-purple)"
         }}
       >
        Get DEE Best For You!
@@ -65,12 +88,12 @@ function SplashScreen() {
         href="/customerSignUp"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 1.2, type: "spring", stiffness: 120 }}
+        transition={{ delay: 0.1, type: "spring", stiffness: 120 }}
         style={{
           fontFamily: "'Raleway', sans-serif",
           padding: "12px 30px",
           backgroundColor: "#e54848",
-          color: "white",
+          color: "black",
           borderRadius: "30px",
           textDecoration: "none",
           fontWeight: "600",
@@ -112,6 +135,8 @@ function SplashScreen() {
           zIndex: -1
         }}
       />
+      </div>
+      {/* Logo / Title */}
     </div> 
     </div>}
     </>
