@@ -100,7 +100,7 @@ function AddToCart() {
 
           {productDetails.rating && (
             <div className="add-cart-prod">
-              <div className="overlay"></div>
+              {/* <div className="overlay"></div> */}
               <img src={productDetails.imagePath[0]} />
               <div className="add-cart-prod-details">
                 <h2>{productDetails.name}</h2>

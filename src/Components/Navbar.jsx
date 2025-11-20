@@ -121,7 +121,8 @@ function Navbar({ handleOpenCart, displayedProducts }) {
             
             <span id="top-nav-links" className="top-nav-links">
            
-            <Link to="/Home">Home</Link> <Link to="/Orders">Orders</Link>{" "}
+            <Link to="/Home">Home</Link>
+             {/* <Link to="/Orders">Orders</Link>{" "} */}
             <Link
               id="basic-button"
               aria-controls={open ? "basic-menu" : undefined}
