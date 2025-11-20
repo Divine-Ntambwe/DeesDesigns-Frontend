@@ -1,10 +1,12 @@
-.women-wear {
-    background-color: var(--background-color1);
+.categories {
+     background: linear-gradient(
+        var(--background-color1),
+        var(--dark-purple),
+        var(--background-color1)
+    );
 
 }
-.men-wear{
-      background-color: var(--background-color1);
-}
+
 .designers-collec {
     background-color: var(--background-color1);
 }

@@ -38,13 +38,6 @@
     /* flex-direction: column; */
     justify-content: space-between;
     border: 1px solid var(--dark-purple);
-
-    background: linear-gradient(
-        90deg ,
-        #d07a7a 0%,
-         black 70%
-
-    ) ;
     align-items: center;
     /* background:radial-gradient(
          gray 1% ,

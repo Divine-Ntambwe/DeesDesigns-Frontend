@@ -56,7 +56,7 @@ function WomenAccessories() {
             <span>Wedding</span> |<span>Date Night</span> |<span>Shoes</span> |
             <span>Accessories</span>
           </p> */}
-          <h1 ref={heading}>Accessories</h1>
+          <h1 ref={heading}>Women Accessories</h1>
 
           <div className="categories-products" id="popular">
             {allProducts && womenAccessories.length === 0 && (

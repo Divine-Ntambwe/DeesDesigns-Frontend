@@ -18,6 +18,7 @@ import Footer from "../Footer";
 import Cart from "./Cart";
 import { appContext } from "../../Context/AppContext";
 import { themeContext } from "../../Context/ThemeContext";
+import { designerContext } from "../../Context/DesignerContext";
 import useFetch from "../../useFetch";
 import { Authentication } from "../../App";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +54,8 @@ function TrackOrder() {
     "delivered",
   ];
   
-  const {orders} = useContext(products)
+  const {orders,setFetchProducts} = useContext(products);
+  const {setFetch} = useContext(designerContext)
   const { userDetails } = useContext(Authentication);
   const heading = useRef()
   useEffect(()=>{
@@ -150,6 +152,7 @@ function TrackOrder() {
         })();
         handleClose();
         setRating(0);
+        setFetchProducts(true)
       }
     ): postDesignerReview(
       {
@@ -167,6 +170,7 @@ function TrackOrder() {
         })();
         handleClose();
         setRating(0);
+        setFetch(true)
       }
     )
   }
