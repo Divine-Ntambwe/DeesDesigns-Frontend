@@ -32,7 +32,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
 
           // input text + background
           "& .MuiInputBase-input": {
-            color: "var(--text-color2)",
+            color: "var(--text-color2) !important",
             backgroundColor: "transparent",
             fontSize: "1em",
             paddingLeft:"35px",
@@ -60,7 +60,7 @@ function TextFieldComp({type, label, pattern, id, placeholder,onChange,name,valu
             color: "gray", // placeholder color
             opacity: 1,
             // keep it fully visible
-          },
+          }
         }}
         style={style}
       />
