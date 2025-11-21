@@ -129,7 +129,7 @@ function AddDesignToCart() {
               </div>
             </div>
           )}
-          <div className="review-rating">
+          {/* <div className="review-rating">
             <div className="cart-reviews">
               <h4 id="review-heading">Reviews for Designer</h4>
 
@@ -184,7 +184,7 @@ function AddDesignToCart() {
                   ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div id="footer">

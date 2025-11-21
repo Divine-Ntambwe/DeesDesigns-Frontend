@@ -179,7 +179,7 @@ allProducts && setHomeProducts(
     if (designerProducts) {
       const prod = designerProducts.find((prod) => prod["_id"] === productId);
       setProductDetails(prod);
-      getDesignersReviews(prod.designerId);
+      // getDesignersReviews(prod.designerId);
     }
   }
 
@@ -338,7 +338,8 @@ allProducts && setHomeProducts(
           likedProducts,
           handleRemoveLikedItem,
           setNumOfHomeProducts,
-          numOfHomeProducts
+          numOfHomeProducts,
+          getDesignersReviews
         }}
       >
         {children}
