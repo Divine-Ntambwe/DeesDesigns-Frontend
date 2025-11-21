@@ -4,11 +4,11 @@ import './ReactBit.css';
 
 const DEFAULT_IMAGES = [
   {
-    src: './home2.jpg',
+    src: './splashImg2.jpg',
     alt: 'Abstract art'
   },
   {
-    src: './splashImg2.jpg',
+    src: './home2.jpg',
     alt: 'Modern sculpture'
   },
   {

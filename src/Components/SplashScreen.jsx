@@ -72,12 +72,11 @@ function SplashScreen() {
         transition={{ delay: 0.8, duration: 1 }}
         style={{
           fontFamily: "'Playwrite US Modern', cursive",
-          fontSize: "1.5rem",
-          color: "#d07a7a",
+          fontSize: "2.5rem",
           marginBottom: "40px",
           fontWeight:"500",
-          color: "black",
-          textShadow:"10px 5px 10px var(--med-purple)"
+          color: "white",
+          textShadow:"5px 5px 10px black"
         }}
       >
        Get DEE Best For You!
