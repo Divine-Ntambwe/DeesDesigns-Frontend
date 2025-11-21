@@ -587,14 +587,19 @@ filter: brightness(60%);
   }
   .top-navbar{
     height: 40px !important;
-    justify-content: space-between;
+    align-items: center !important;
     position: sticky !important;
     top: 0;
   }
 
   .nav-bar-comp h1 {
-  font-size: 2.5em
+  font-size: 2.5em;
+  /* margin-left: -50vw; */
+  margin-bottom: 0.5vw;
   
+}
+.home-info{
+  z-index: 1 !important;
 }
 
   .search-bar {
@@ -602,12 +607,17 @@ filter: brightness(60%);
     width: 120px;
     align-items: center !important;
     padding-bottom: 0 !important;
-    display: none !important;
+    /* display: none !important; */
     /* padding: 0 !important; */
+  }
+  .hideOnMob{
+    display: none !important;
   }
   
   #search-input{
     height: 4px;
+    width: 50px !important;
+    border: none;
   }
 
   .footer{
@@ -675,6 +685,9 @@ filter: brightness(60%);
 #burger-menu {
   display: block;
 }
+#slogan {
+  margin-bottom: 5vh !important;
+}
 
 .category-img{
 border: 2px solid var(--text-color1);
@@ -687,8 +700,9 @@ filter: brightness(60%);
 
 .nav-dropdown{
   width: 100vw;
-  height: 350px !important;
+  height: 430px !important;
   background-color: var(--background-color1);
+  z-index: 10 !important;
 }
 
 #cart-menu{

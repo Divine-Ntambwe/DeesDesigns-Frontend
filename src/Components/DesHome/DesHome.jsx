@@ -51,7 +51,7 @@ function DesHome() {
   const UDCForm = useRef();
   const editProfileForm = useRef();
   const { userDetails, authCred, setUserDetails } = useContext(Authentication);
-  console.log(userDetails)
+  console.log(userDetails);
   const { allDesignersDesigns, setFetch } = useContext(designerContext);
   const [productImgFile, setProductImgFile] = useState(),
     [productImg, setProductImg] = useState("emptyPfp.jpeg"),
@@ -106,7 +106,7 @@ function DesHome() {
 
   const handleCloseEditProfile = () => {
     setOpenEditProfile(false);
-    setError("")
+    setError("");
   };
 
   const {
@@ -125,7 +125,7 @@ function DesHome() {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        body:desPfpFile,
+        body: desPfpFile,
       });
     } catch (e) {
       console.log(e);
@@ -133,8 +133,7 @@ function DesHome() {
     }
     const pfpPath = secureUrl.split("?")[0];
 
-
-    updateDesignerDetails({...newProfileDetails,pfpPath}, (d) => {
+    updateDesignerDetails({ ...newProfileDetails, pfpPath }, (d) => {
       localStorage.setItem(
         "userDetails",
         JSON.stringify({
@@ -145,7 +144,7 @@ function DesHome() {
       desPfpFile &&
         localStorage.setItem(
           "userDetails",
-          JSON.stringify({ ...userDetails, pfpPath})
+          JSON.stringify({ ...userDetails, pfpPath })
         );
       setUserDetails({
         ...userDetails,
@@ -198,14 +197,13 @@ function DesHome() {
 
     postAuth(details, () => {
       setFetch(true);
-      setTimeout(()=>{
-
+      setTimeout(() => {
         handleCloseUD();
         setUD({});
         multiline.current.value = "";
         setProductImg("emptyPfp.jpeg");
         e.target.reset();
-      },1000)
+      }, 1000);
     });
   }
 
@@ -435,6 +433,7 @@ function DesHome() {
               value={UD.productDescription}
               multiline
               rows={4}
+              placeholder="e.g"
               sx={{
                 "& input:-webkit-autofill": {
                   WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
@@ -485,6 +484,7 @@ function DesHome() {
                 </legend>
 
                 <FormControlLabel
+                sx={{color:"var(--text-color2)"}}
                   control={
                     <Checkbox
                       sx={{
@@ -508,6 +508,7 @@ function DesHome() {
                   }}
                 />
                 <FormControlLabel
+                sx={{color:"var(--text-color2)"}}
                   control={
                     <Checkbox
                       sx={{
@@ -531,6 +532,7 @@ function DesHome() {
                   label="Men"
                 />
                 <FormControlLabel
+                sx={{color:"var(--text-color2)"}}
                   control={
                     <Checkbox
                       sx={{
@@ -551,7 +553,7 @@ function DesHome() {
                   }}
                 />
                 <FormControlLabel
-                  sx={{ color: "var(text-color2)" }}
+                  sx={{ color: "var(--text-color2)" }}
                   control={
                     <Checkbox
                       sx={{
@@ -572,6 +574,7 @@ function DesHome() {
                   }}
                 />
                 <FormControlLabel
+                 sx={{color:"var(--text-color2)"}}
                   control={
                     <Checkbox
                       sx={{
@@ -594,7 +597,7 @@ function DesHome() {
               </fieldset>
             )}
           </DialogContent>
-          <DialogActions sx={{ backgroundColor: "black" }}>
+          <DialogActions sx={{ backgroundColor:"var(--background-color1)" }}>
             <Button
               sx={{ color: "var(--dark-purple)" }}
               onClick={(e) => {
@@ -622,7 +625,9 @@ function DesHome() {
         onClose={handleCloseUDC}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Upload A Design For Customer"}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "var(--background-color1)" }}>
+          {"Upload A Design For Customer"}
+        </DialogTitle>
         {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
@@ -637,7 +642,11 @@ function DesHome() {
         >
           <DialogContent
             id="upload-a-design-content"
-            sx={{ width: "550px", height: "550px" }}
+            sx={{
+              width: "550px",
+              height: "550px",
+              backgroundColor: "var(--background-color1)",
+            }}
           >
             <div id="upload-file-cont">
               <img className="des-pfp" src={custProductImg} />
@@ -701,7 +710,7 @@ function DesHome() {
               value={UDC.customerEmail}
             />
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ backgroundColor: "var(--background-color1)" }}>
             <Button
               sx={{ color: "var(--dark-purple)" }}
               onClick={(e) => {
@@ -730,7 +739,9 @@ function DesHome() {
         onClose={handleCloseEditProfile}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Edit your profile details"}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "var(--background-color1)" }}>
+          {"Edit your profile details"}
+        </DialogTitle>
         {error && (
           <p className="display-error">Network Error, Please try again later</p>
         )}
@@ -739,13 +750,19 @@ function DesHome() {
         )}
         <form
           id="edit-profile-details-form"
-          style={{ width: "550px", height: "600px" }}
+          style={{ overflow: "hidden", width: "550px", height: "600px" }}
           onSubmit={handlePostEditedDetails}
           ref={editProfileForm}
         >
           <DialogContent
             id="edit-profile-details"
-            sx={{ width: "550px", height: "550px" }}
+            // sx={{backgroundColor:"var(--background-color1)"}}
+            sx={{
+              overflowX: "hidden",
+              width: "550px",
+              height: "550px",
+              backgroundColor: "var(--background-color1)",
+            }}
           >
             <div id="upload-file-cont">
               <img className="des-pfp" src={desPfpImg} />
@@ -801,7 +818,7 @@ function DesHome() {
               value={newProfileDetails.phoneNumber}
             />
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ backgroundColor: "var(--background-color1)" }}>
             <Button
               sx={{ color: "var(--dark-purple)" }}
               onClick={(e) => {
@@ -893,6 +910,7 @@ function DesHome() {
           </div>
 
           <h2>Your Designs</h2>
+          <br />
 
           <div className="designers-uploads">
             {allDesignersDesigns &&

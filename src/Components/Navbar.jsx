@@ -234,7 +234,7 @@ function Navbar({ handleOpenCart, displayedProducts }) {
 
           <span>
             <Link to="/Home">
-            <h1 style={{cursor:"pointer"}}>
+            <h1 id="navbar-heading" style={{cursor:"pointer"}}>
               
           <GradientText
  colors = {['#d07a7a','#e54848','#9b4f4f','#c49a9a']}
@@ -298,22 +298,23 @@ function Navbar({ handleOpenCart, displayedProducts }) {
               />
             </Box>{" "}
             <AccountCircleOutlinedIcon
-              className="cart-profile"
+              className="cart-profile hideOnMob"
               onClick={handleOpenMenu}
               style={{ fontSize: "1.5em" }}
             />{" "}
             <FavoriteBorderIcon
+            className="hideOnMob"
             onClick={()=>{nav("/likes")}}
             style={{ fontSize: "1.5em" }}
             />
-            <ShoppingBagOutlinedIcon  onClick={()=>{nav("/orders")}} style={{ fontSize: "1.5em" }} />
+            <ShoppingBagOutlinedIcon className="hideOnMob"  onClick={()=>{nav("/orders")}} style={{ fontSize: "1.5em" }} />
            
             {/* <IconButton>
   <ShoppingCartOutlinedIcon  />
   <CartBadge badgeContent={2} color="primary" overlap="circular" />
 </IconButton> */}
             <ShoppingCartOutlinedIcon
-            className="cart-profile"
+            className="cart-profile "
               onClick={handleOpenCart}
               style={{ fontSize: "1.5em" }}
             />

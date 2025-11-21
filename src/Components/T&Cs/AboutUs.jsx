@@ -1,9 +1,15 @@
 // AboutUs.jsx
 import React from "react";
 import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 export default function AboutUs() {
   return (
+    <>
+    <div className="navbar">
+<Navbar/>
+    </div>
+    
     <div style={{
       backgroundColor: "var(--background-color1)",
       color: "var(--text-color2)",
@@ -66,5 +72,9 @@ export default function AboutUs() {
         </p>
       </section>
     </div>
+    <div id="footer">
+<Footer/>
+    </div>
+    </>
   );
 }

@@ -1,8 +1,14 @@
 // ContactUs.jsx
 import React from "react";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 export default function ContactUs() {
   return (
+    <>
+    <div className="navbar">
+      <Navbar/>
+    </div>
     <div
       style={{
         backgroundColor: "black",
@@ -41,5 +47,10 @@ export default function ContactUs() {
         </a>
       </div>
     </div>
+     <div id="footer">
+        <Footer/>
+      </div>
+
+    </>
   );
 }

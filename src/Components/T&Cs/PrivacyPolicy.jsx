@@ -1,8 +1,14 @@
 // PrivacyPolicy.jsx
 import React from "react";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 export default function PrivacyPolicy() {
   return (
+    <>
+    <div className="navbar">
+      <Navbar/>
+    </div>
     <div
       style={{
         backgroundColor: "var(--background-color1)",
@@ -85,5 +91,9 @@ export default function PrivacyPolicy() {
         </p>
       </div>
     </div>
+     <div id="footer">
+        <Footer/>
+      </div>
+    </>
   );
 }

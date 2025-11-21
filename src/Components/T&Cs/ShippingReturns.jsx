@@ -1,8 +1,14 @@
 // ShippingReturns.jsx
 import React from "react";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
 
 export default function ShippingReturns() {
   return (
+    <>
+    <div className="navbar">
+      <Navbar/>
+    </div>
     <div style={{
       backgroundColor: "var(--background-color1)",
       color: "var(--text-color2)",
@@ -57,5 +63,9 @@ export default function ShippingReturns() {
         </p>
       </section>
     </div>
+     <div id="footer">
+        <Footer/>
+      </div>
+    </>
   );
 }
