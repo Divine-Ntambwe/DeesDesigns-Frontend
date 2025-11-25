@@ -38,7 +38,7 @@
 .form-container h2 {
     font-size: 3.2em;
     text-align: center;
-    color: var(--dark-purple);
+    color: var(--med-purple);
     margin-bottom: 2%;
 }
 
@@ -193,8 +193,9 @@ legend{
 }
 
 .login-signup-link a {
-    color: var(--dark-purple);
+    color: var(--med-purple) !important;
     text-decoration: underline;
     font-size: 1.2em;
     cursor: pointer;
+    font-weight: 500;
 }

@@ -53,7 +53,6 @@ function DesSignUp() {
 
   async function handleSignUp(e) {
     e.preventDefault();
-    heading.current.scrollIntoView({ behavior: "smooth" });
     const res = await fetch(`${url}/s3Url`);
     const {url:secureUrl} = await res.json() ;
     
@@ -109,12 +108,7 @@ function DesSignUp() {
         <h2 id="des-sign-up-heading" ref={heading}>
           Sign Up
         </h2>
-        {data && <p className="cred-error">{data.error}</p>}
-        {error && (
-          <p className="cred-error">
-            Network Error Please Refresh Or Try Again Later
-          </p>
-        )}
+      
 
         <form
           method="POST"
@@ -233,6 +227,8 @@ function DesSignUp() {
             value={conPassword}
             onChange={(e) => setConPassword(e.target.value)}
           />
+            {data && <p className="cred-error">{data.error}</p>}
+       
 
           <Button
             id="des-signup"
@@ -253,6 +249,9 @@ function DesSignUp() {
           </Button>
           <p className="login-signup-link">
             Already Have An Account? <Link to="/Login">Log In</Link>
+          </p>
+          <p className="login-signup-link">
+            Don't Have An Account? <Link to="/customerSignUp">Sign Up as a customer</Link>
           </p>
 
           {/* <Swiper

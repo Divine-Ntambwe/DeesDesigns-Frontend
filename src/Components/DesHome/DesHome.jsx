@@ -433,7 +433,7 @@ function DesHome() {
               value={UD.productDescription}
               multiline
               rows={4}
-              placeholder="e.g"
+              placeholder="e.g length:180cm, shoulder:80cm, waist: 39cm hips:43cm"
               sx={{
                 "& input:-webkit-autofill": {
                   WebkitBoxShadow: "0 0 0 100px #f1f1f1f1 inset", // background color
@@ -628,18 +628,18 @@ function DesHome() {
         <DialogTitle sx={{ backgroundColor: "var(--background-color1)" }}>
           {"Upload A Design For Customer"}
         </DialogTitle>
-        {error && (
-          <p className="display-error">Network Error, Please try again later</p>
-        )}
-        {PostUDCData.error && (
-          <p className="display-error">{PostUDCData.error}</p>
-        )}
         <form
           id="upload-a-design-customer-form"
-          style={{ width: "550px", height: "650px" }}
+          style={{ width: "550px", height: "650px",backgroundColor:"var(--background-color1)" }}
           onSubmit={handlePostUDC}
           ref={UDCForm}
-        >
+          >
+            {error && (
+              <p className="display-error">Network Error, Please try again later</p>
+            )}
+            {PostUDCData.error && (
+              <p className="display-error">{PostUDCData.error}</p>
+            )}
           <DialogContent
             id="upload-a-design-content"
             sx={{
