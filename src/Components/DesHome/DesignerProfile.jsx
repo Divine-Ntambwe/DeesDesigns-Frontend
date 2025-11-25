@@ -97,7 +97,7 @@ function DesignerProfile() {
               <h4 id="review-heading">Reviews for Designer</h4>
 
               <div className="reviews">
-                {reviews && reviews.length===0 && (
+                {typeof reviews === "string" && (
                   <span
                     style={{
                       color: "var(--text-color2)",
@@ -112,7 +112,7 @@ function DesignerProfile() {
                   </span>
                 )}
 
-                {reviews &&
+                {typeof reviews !== "string" &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">
