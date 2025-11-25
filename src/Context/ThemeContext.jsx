@@ -4,7 +4,7 @@ export const themeContext = createContext()
 
 function ThemeContext({children}) {
 
-    const [theme,setTheme] = useState(localStorage.getItem("theme")||"dark"); 
+    const [theme,setTheme] = useState(localStorage.getItem("theme")||"light"); 
     const root = document.querySelector(':root');
     const [colorBW,setColorBW] = useState(theme === "light"?"black":"white")
 
