@@ -417,7 +417,7 @@ display: none;
    scroll-behavior: smooth;
    width: 100%;
    /* border: 1px solid red; */
-   min-height: 450px;
+   min-height: 60vh;
 }
 
 #cart-menu h1 {

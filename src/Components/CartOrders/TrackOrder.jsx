@@ -289,7 +289,7 @@ function TrackOrder() {
               </Select>
             </FormControl>
           </Box> */}
-          {(orders !== null && !orders.length) && <p style={{fontSize:"1.5em"}}>No Orders Yet</p>}
+          {(orders !== null && !orders.length) && <h2 style={{fontSize:"1.5em"}}>No Orders Yet</h2>}
           {orders === null && [1,2].map(()=>(
             <>
             <div className="order">
