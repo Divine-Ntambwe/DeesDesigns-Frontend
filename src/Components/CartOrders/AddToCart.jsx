@@ -210,7 +210,28 @@ function AddToCart() {
               <h4 id="review-heading">Reviews</h4>
 
               <div className="reviews">
-                {typeof reviews === "string" && (
+                {!reviews && (
+                  <>
+                  ...loading
+                    {/* <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height: "100%",
+                      }}
+                      variant="rectangular"
+                    ></Skeleton>
+                    <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height: "100%",
+                      }}
+                      variant="rectangular"
+                    ></Skeleton> */}
+                  </>
+                )}
+                {reviews && reviews.length === 0 && (
                   <span
                     style={{
                       color: "var(--text-color2)",
@@ -225,7 +246,7 @@ function AddToCart() {
                   </span>
                 )}
 
-                {typeof reviews !=="string" &&
+                {reviews &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">
