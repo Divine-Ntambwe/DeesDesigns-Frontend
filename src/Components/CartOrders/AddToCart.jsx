@@ -15,6 +15,9 @@ import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
 import Button from "@mui/material/Button";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { Skeleton } from "@mui/material";
+import { themeContext } from "../../Context/ThemeContext";
+
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
   const { handleOpenCart } = useContext(appContext);
@@ -27,6 +30,7 @@ function AddToCart() {
   const productId = useParams().productId;
   const { setFetch, setCartItems, cartItems } = useContext(cartContext);
   const [rating, setRating] = useState();
+  const { theme } = useContext(themeContext);
 
   const increase = () => setQuantity((q) => (q < 10 ? q + 1 : 10));
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -46,11 +50,10 @@ function AddToCart() {
     };
     postAuth(cartItem, (d) => {
       setFetch(true);
-      
-     setTimeout(()=>{
 
-       handleOpenCart(cartPopUp.current);
-     },100)
+      setTimeout(() => {
+        handleOpenCart(cartPopUp.current);
+      }, 100);
     });
   }
 
@@ -222,7 +225,7 @@ function AddToCart() {
                   </span>
                 )}
 
-                {typeof reviews !== "string" &&
+                {typeof reviews !=="string" &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">

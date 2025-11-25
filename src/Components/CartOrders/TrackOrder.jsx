@@ -121,10 +121,10 @@ function TrackOrder() {
 
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
-  const { postAuth:postProductReview, loading } = useFetch(
+  const { postAuth:postProductReview, loading:reviewLoading } = useFetch(
     `/uploadReview/:${userDetails._id}`
   );
-  const { postAuth:postDesignerReview} = useFetch(
+  const { postAuth:postDesignerReview, loading:designerReviewLoading} = useFetch(
     `/uploadReviewForDesigner`
   );
   const [product, setProduct] = useState("");
@@ -153,6 +153,8 @@ function TrackOrder() {
         handleClose();
         setRating(0);
         setFetchProducts(true)
+        setReview("")
+
       }
     ): postDesignerReview(
       {
@@ -171,6 +173,7 @@ function TrackOrder() {
         handleClose();
         setRating(0);
         setFetch(true)
+        setReview("")
       }
     )
   }
@@ -224,6 +227,7 @@ function TrackOrder() {
             sx={{ color: "var(--med-purple)" }}
             onClick={handleWriteReview}
             form="subscription-form"
+            loading={reviewLoading || designerReviewLoading}
           >
             Submit
           </Button>
