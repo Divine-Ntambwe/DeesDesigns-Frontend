@@ -21,7 +21,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { products } from "../../Context/ProductsContext";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
@@ -175,7 +175,9 @@ function Checkout() {
           onSubmit={handleCheckOut}
         >
           <h1>Checkout</h1>
-          {Boolean(cartNum) && (
+          {!Boolean(cartNum)?<>
+          <h2>Your cart is empty <Link style={{textDecoration:"underline"}}to="/Home">continue shopping</Link></h2>
+          </>: (
             <div className="checkout">
               <div className="checkout-forms-cont" id="delivery-info">
                 <h2>Delivery Information</h2>

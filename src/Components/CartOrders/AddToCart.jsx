@@ -15,6 +15,9 @@ import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
 import Button from "@mui/material/Button";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { Skeleton } from "@mui/material";
+import { themeContext } from "../../Context/ThemeContext";
+
 function AddToCart() {
   const [progress, setProgress] = React.useState(90);
   const { handleOpenCart } = useContext(appContext);
@@ -27,6 +30,7 @@ function AddToCart() {
   const productId = useParams().productId;
   const { setFetch, setCartItems, cartItems } = useContext(cartContext);
   const [rating, setRating] = useState();
+  const { theme } = useContext(themeContext);
 
   const increase = () => setQuantity((q) => (q < 10 ? q + 1 : 10));
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -46,11 +50,10 @@ function AddToCart() {
     };
     postAuth(cartItem, (d) => {
       setFetch(true);
-      
-     setTimeout(()=>{
 
-       handleOpenCart(cartPopUp.current);
-     },100)
+      setTimeout(() => {
+        handleOpenCart(cartPopUp.current);
+      }, 100);
     });
   }
 
@@ -207,7 +210,28 @@ function AddToCart() {
               <h4 id="review-heading">Reviews</h4>
 
               <div className="reviews">
-                {typeof reviews === "string" && (
+                {!reviews && (
+                  <>
+                  ...loading
+                    {/* <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height: "100%",
+                      }}
+                      variant="rectangular"
+                    ></Skeleton>
+                    <Skeleton
+                      animation="wave"
+                      sx={{
+                        bgcolor: theme === "light" ? "grey.400" : "grey.900",
+                        height: "100%",
+                      }}
+                      variant="rectangular"
+                    ></Skeleton> */}
+                  </>
+                )}
+                {reviews && reviews.length === 0 && (
                   <span
                     style={{
                       color: "var(--text-color2)",
@@ -222,7 +246,7 @@ function AddToCart() {
                   </span>
                 )}
 
-                {typeof reviews !== "string" &&
+                {reviews &&
                   reviews.map((review) => (
                     <div id="review-details">
                       <span className="review-title">

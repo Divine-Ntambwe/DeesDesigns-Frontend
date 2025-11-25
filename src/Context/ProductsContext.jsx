@@ -23,7 +23,7 @@ function ProductsContext({ children }) {
   const [likedProducts, setLikedProducts] = useState(null);
   const [allDesignerProducts, setAllDesignerProducts] = useState("");
   const [orders, setOrders] = useState(null);
-  const [reviews, setReviews] = useState("");
+  const [reviews, setReviews] = useState(null);
   const { userDetails } = useContext(Authentication);
   const { get: getStockProducts } = useFetch("/stockProducts");
   const { get: getDesignerProducts } = useFetch("/allDesignerProducts");
