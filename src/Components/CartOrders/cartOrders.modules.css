@@ -157,29 +157,7 @@ min-height: 100vh;
    grid-column: 1/3;
 }
 
-.add-cart-prod{
-    margin: 15px 0;
-    display: flex;
-    gap: 20px;
-    /* justify-content: space-between; */
-}
-.add-cart-prod img {
-    width: 27vw;
-    height: 80vh;
-    object-fit: cover;
-    position: relative;
-    border-radius: 10px;
-}
-
-.overlay{
-    width: 27vw;
-    height: 80vh;
-    background-color: var(--dark-purple);
-    position: absolute;
-    z-index: 1;
-    opacity: 10%;
-    border-radius: 10px;
-}
+/* legacy .add-cart-prod styles removed — image sizing is now handled by MUI */
  
 
 h2{

@@ -145,30 +145,31 @@ function AddToCart() {
                 }}
               >
                 {/* Product Image */}
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} sm={12} md={6}>
                   <Card
                     sx={{
                       borderRadius: 2,
                       overflow: "hidden",
                       boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                      height: "100%",
                     }}
                   >
-                    <CardMedia
+                    <Box
                       component="img"
-                      image={productDetails.imagePath[0]}
+                      src={productDetails.imagePath[0]}
                       alt={productDetails.name}
                       sx={{
                         width: "100%",
-                        height: { xs: 300, sm: 400, md: 500 },
+                        // height: { xs: 260, sm: 300, md: 420 },
+                        maxHeight: 520,
                         objectFit: "cover",
+                        display: "block",
                       }}
                     />
                   </Card>
                 </Grid>
 
                 {/* Product Details */}
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12} sm={12} md={6}>
                   <Paper
                     elevation={0}
                     sx={{
