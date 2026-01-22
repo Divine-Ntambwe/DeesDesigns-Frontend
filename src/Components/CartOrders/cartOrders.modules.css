@@ -2,7 +2,19 @@
     width: 100%;
     min-height: 100vh;
     background: var(--background-color1);
-   
+}
+
+/* ============ Responsive Padding for Add to Cart Content ============ */
+@media (max-width: 900px) {
+    .add-to-cart-content {
+        padding: 15px 4em;
+    }
+}
+
+@media (max-width: 600px) {
+    .add-to-cart-content {
+        padding: 15px 1em;
+    }
 }
 
 .checkout-page {
