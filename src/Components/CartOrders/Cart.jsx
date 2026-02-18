@@ -11,16 +11,43 @@ import Button from "@mui/material/Button";
 import { Skeleton } from "@mui/material";
 import {themeContext} from "../../Context/ThemeContext";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-
+import {
+  Container,
+  Grid,
+  Box,
+  Card,
+  CardMedia,
+  Typography,
+  Chip,
+  TextField,
+  IconButton,
+  Paper,
+  Divider,
+  Stack,
+  Alert,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 function Cart() {
   function handleCloseCart() {
     document.querySelector(".cart-popup").style.display = "none";
   }
 
-  const {cartItems,cartNum,cartTotal,handleRemoveItem,loading} = useContext(cartContext);
+  const {cartItems,cartNum,cartTotal,handleRemoveItem,loading,handleUpdateCartItem} = useContext(cartContext);
   const {authCred} = useContext(Authentication);
   const {theme} = useContext(themeContext);
   const {url} = useContext(appContext);
+  const handleChangeQuantity = (isInc,cartItem)=>{
+    const newItem = {...cartItem}
+    if (isInc){
+      newItem.quantity = cartItem.quantity +1
+    } else {
+      newItem.quantity = cartItem.quantity -1
+    }
+    handleUpdateCartItem(cartItem._id,newItem)
+  }
   
 
   
@@ -84,11 +111,42 @@ function Cart() {
                   alt={`A picture of ${item.productName}`}
                 />
 
-                <div>
+                <div style={{display:"flex",flexDirection:"column",gap:"20px"}}>
+                  <div>
+
                   <h4 id={`cart-item-${item.productId}`} className="cart-item-name">{item.productName}</h4>
                   <p>R{item.price}.00</p>
                   <p>Size: {item.size}</p>
-                  <p>Qty: {item.quantity}</p>
+                  </div>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                      <IconButton
+                     
+                        disabled={item.quantity === 1 || loading}
+                        onClick={handleChangeQuantity.bind(null,false,item)}
+                        color="var(--dark-purple)"
+                        size="small"
+                        sx={{ border: 1, borderColor: "divider",color:"var(--dark-purple)" }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      <TextField
+                        value={item.quantity}
+                        size="small"
+                        sx={{ width: 80, mx: 1 }}
+                        inputProps={{ style: { textAlign: "center" } }}
+                        disabled
+
+                      />
+                      <IconButton
+                        
+                        disabled={item.quantity === 10 || loading}
+                        onClick={handleChangeQuantity.bind(null,true,item)}
+                        size="small"
+                        sx={{ border: 1, borderColor: "divider",color:"var(--dark-purple)" }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
                 </div>
                 <Tooltip title="Remove from Cart" placement="top">
                   <DeleteOutlineIcon

@@ -14,6 +14,24 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Cart from "../CartOrders/Cart";
 import Rating from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import {
+  Container,
+  Grid,
+  Box,
+  Card,
+  CardMedia,
+  Typography,
+  Chip,
+  TextField,
+  IconButton,
+  Paper,
+  Divider,
+  Stack,
+  Alert,  
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 
 
 function DesignerProfile() {
@@ -114,36 +132,44 @@ function DesignerProfile() {
 
                 {typeof reviews !== "string" &&
                   reviews.map((review) => (
-                    <div id="review-details">
-                      <span className="review-title">
-                        <h4 className="writer-name">
-                          {review.name} {review.surname}
-                        </h4>{" "}
-                        <span className="review-date">
-                          {new Date(review.dateOfUpload).toLocaleDateString()}
-                        </span>
-                      </span>
+                    <Stack spacing={3}>
+              {reviews.map((review, idx) => (
+                <Paper
+                  key={idx}
+                  variant="outlined"
+                  sx={{
+                    p: 3,
+                    borderLeft: 5,
+                    borderColor: "var(--dark-purple)",
+                    bgcolor: "background.paper",
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    mb={1.5}
+                  >
+                    <Typography variant="h6" fontWeight={600} color="var(--dark-purple)">
+                      {review.name} {review.surname}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {new Date(review.dateOfUpload).toLocaleDateString()}
+                    </Typography>
+                  </Stack>
 
-                      <Rating
-                        sx={{
-                          "& .MuiRating-iconFilled": {
-                            color: "orange", // filled stars
-                          },
-                          "& .MuiRating-iconEmpty": {
-                            color: "lightgray", // empty stars
-                          },
-                          "& .MuiRating-iconHover": {
-                            color: "darkviolet", // on hover
-                          },
-                        }}
-                        name="half-rating-read"
-                        defaultValue={review.rating}
-                        precision={0.5}
-                        readOnly
-                      />
-                      <p className="review">{review.review}</p>
-                      <hr />
-                    </div>
+                  <Rating
+                    value={review.rating}
+                    precision={0.5}
+                    readOnly
+                    sx={{ mb: 1.5, "& .MuiRating-iconFilled": { color: "orange" } }}
+                  />
+
+                  <Typography variant="body1" color="text.primary" lineHeight={1.7}>
+                    {review.review}
+                  </Typography>
+                </Paper>
+              ))}
+            </Stack>
                   ))}
               </div>
             </div>

@@ -9,13 +9,10 @@ import TextFieldComp from '../TextField';
 
 
 function CustSignUp() {
-  const [name,setName] = useState(""), 
-  [surname,setSurname] = useState(""),
+  const [fullname,setFullName] = useState(""), 
   [email,setEmail] = useState(""),
   [gender,setGender] = useState(""),
-  [mobileNumber,setNumber] = useState(""),
-  [password,setPassword] = useState(""),
-  [conPassword,setConPassword] = useState("");
+  [password,setPassword] = useState("")
 
   const {post:postSignUp,loading,data,error} = useFetch("/customersSignUp");
   const navigate = useNavigate();
@@ -23,7 +20,7 @@ function CustSignUp() {
 
   function handleSignUp(e){
     e.preventDefault()
-    const creds = {name,surname,email,mobileNumber,gender,password,confirmPassword:conPassword};
+    const creds = {fullname,email,gender,password};
     postSignUp(creds,(d)=>{
         delete d.message
 
@@ -38,8 +35,6 @@ function CustSignUp() {
         setRole("customer")
         navigate('/Home')
         window.location.reload(true);
-
-      
      
     })
     console.log(error.toString())
@@ -56,8 +51,7 @@ function CustSignUp() {
           {error && <p className='cred-error'>Network Error Please Refresh Or Try Again Later</p>}
           <form onSubmit={handleSignUp} id="customer-signup-form" className='signup-login-form'>
 
-            <TextFieldComp value={name}id="cust-name" name="custName" label="Name" onChange={(e)=> setName(e.target.value)}/>
-            <TextFieldComp value={surname} id="cust-surname" name="custSurname" label="Surname" onChange={(e)=> setSurname(e.target.value)}/>
+            <TextFieldComp value={fullname}id="cust-name" name="custName" label="Name" onChange={(e)=> setFullName(e.target.value)}/>
             <TextFieldComp value={email} id="cust-email" name="custEmail" label="Email" type='email' onChange={(e)=> setEmail(e.target.value)}/>  
               <fieldset>
               <legend>Gender:</legend>
@@ -74,9 +68,8 @@ function CustSignUp() {
               </div>
               
             </fieldset>
-            <TextFieldComp value={mobileNumber} label="Mobile Number" id="cust-number" name="custNumber" onChange={(e)=>{setNumber(e.target.value)}}/>
             <TextFieldComp value={password} label="Password" id="password" type='password' onChange={(e)=> setPassword(e.target.value)}/>
-            <TextFieldComp value={conPassword} label="Confirm Password" name="confirmPassword" id="confirm-password"type="password" onChange={(e)=> setConPassword(e.target.value)}/> 
+
             
            
             <Button

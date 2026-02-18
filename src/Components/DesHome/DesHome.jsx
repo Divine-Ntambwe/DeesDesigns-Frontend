@@ -189,7 +189,7 @@ function DesHome() {
       itemsInStock: { M: 1 },
       categories,
       onSale: true,
-      uploadedBy: `${userDetails.name} ${userDetails.surname}`,
+      uploadedBy: userDetails.name?`${userDetails.name} ${userDetails.surname}`: userDetails.fullname,
       designerEmail: userDetails.email,
       designerId: userDetails._id,
       imagePath,
@@ -322,7 +322,7 @@ function DesHome() {
     const details = {
       ...UDC,
       imagePath,
-      uploadedBy: `${userDetails.name} ${userDetails.surname}`,
+      uploadedBy:userDetails.name?`${userDetails.name} ${userDetails.surname}`: userDetails.fullname,
       productProvider: "designer",
     };
 

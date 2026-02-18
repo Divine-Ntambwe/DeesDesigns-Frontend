@@ -1,18 +1,16 @@
-.CustSignUp{
-   
-}
 
 .loginSignUp {
-    background: radial-gradient(
-         var(--background-color1),
-        var(--dark-purple)
+    background: linear-gradient(
+        90deg,
+        var(--dark-purple),
+         var(--background-color1) 60%
     );
     min-height: 100vh;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content:flex-end;
     align-items: center;
-    padding: 20px 0;
+    padding: 20px 150px;
     
 }
 
@@ -21,18 +19,13 @@
     background-color:transparent;
     width: 500px;
     height: fit-content;
-    border: 8px solid var(--med-purple);
+    /* border: 8px solid var(--med-purple); */
     border-radius: 25px;
     padding: 20px 15px;
     font-family: "Oswald",sans-serif;
-    overflow-y: auto;
+    /* box-shadow: 0px 0px 19px 8px rgb(67, 66, 66); */
 
    
-}
-
-#desSignup{
-    height: 700px;
-    
 }
 
 .form-container h2 {
@@ -199,3 +192,4 @@ legend{
     cursor: pointer;
     font-weight: 500;
 }
+

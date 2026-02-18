@@ -27,13 +27,11 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 function DesSignUp() {
-  const [name, setName] = useState(""),
-    [surname, setSurname] = useState(""),
+  const [fullname, setFullname] = useState(""),
     [email, setEmail] = useState(""),
     [gender, setGender] = useState(""),
     [number, setNumber] = useState(""),
-    [password, setPassword] = useState(""),
-    [conPassword, setConPassword] = useState("");
+    [password, setPassword] = useState("");
 
   const [pfpPicture, setPfp] = useState("emptyPfp.jpeg");
   const {
@@ -73,13 +71,11 @@ function DesSignUp() {
     const pfpPath = secureUrl.split('?')[0]
     
     const details = {
-      name,
-      surname,
+      fullname,
       email,
       gender,
       phoneNumber: number,
       password,
-      confirmPassword: conPassword,
       pfpPath
     };
     const formData = new FormData();
@@ -155,17 +151,10 @@ function DesSignUp() {
             name="desName"
             label="Name"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
           />
-          <TextFieldComp
-            id="des-surname"
-            name="desSurname"
-            label="Surname"
-            type="text"
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-          />
+
           <TextFieldComp
             id="des-signup-email"
             name="desSignUpEmail"
@@ -219,14 +208,7 @@ function DesSignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <TextFieldComp
-            id="des-signup-con-password"
-            name="desSignUpConPassword"
-            label="Confirm Password"
-            type="password"
-            value={conPassword}
-            onChange={(e) => setConPassword(e.target.value)}
-          />
+          
             {data && <p className="cred-error">{data.error}</p>}
        
 

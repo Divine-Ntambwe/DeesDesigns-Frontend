@@ -188,7 +188,7 @@ function Checkout() {
                       id="checkout-name"
                       label="Name"
                       name="name"
-                      value={userDetails.name}
+                      value={userDetails.fullname || `${userDetails.name} ${userDetails.surname}`}
                     />
                   </div>
 

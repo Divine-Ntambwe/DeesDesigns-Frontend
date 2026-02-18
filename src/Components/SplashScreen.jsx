@@ -54,7 +54,7 @@ function SplashScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
         style={{
-          fontFamily: "'Playwrite US Modern', cursive",
+          fontFamily: "'Playfair Display', cursive",
           fontSize: "4.5rem",
           letterSpacing: "2px",
           marginBottom: "20px",
@@ -71,7 +71,7 @@ function SplashScreen() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 1 }}
         style={{
-          fontFamily: "'Playwrite US Modern', cursive",
+          fontFamily: "'Playfair Display', cursive",
           fontSize: "2.5rem",
           marginBottom: "40px",
           fontWeight:"500",

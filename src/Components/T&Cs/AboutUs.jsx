@@ -21,7 +21,7 @@ export default function AboutUs() {
     }}>
       <h1 style={{
         color: "#e54848",
-        fontFamily:  '"Playwrite US Modern", cursive',
+        fontFamily:  '"Playfair Display", cursive',
         marginBottom: "20px",
         fontSize: "3.5rem"
       }}>
@@ -42,7 +42,7 @@ export default function AboutUs() {
       </section>
 
       <section style={{ marginBottom: "40px" }}>
-        <h2 style={{ color: "#d07a7a", fontFamily: '"Playwrite US Modern", cursive' }}>
+        <h2 style={{ color: "#d07a7a", fontFamily: '"Playfair Display", cursive' }}>
           Supporting Local Designers
         </h2>
         <p>
@@ -57,7 +57,7 @@ export default function AboutUs() {
       </section>
 
       <section>
-        <h2 style={{ color: "#d07a7a", fontFamily: '"Playwrite US Modern", cursive' }}>
+        <h2 style={{ color: "#d07a7a", fontFamily: '"Playfair Display", cursive' }}>
           How to Upload Your Designs
         </h2>
         <ol>

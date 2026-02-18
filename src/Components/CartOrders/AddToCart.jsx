@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "../Navbar";
-import "./cartOrders.modules.css";
 import Rating from "@mui/material/Rating";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import LinearProgress from "@mui/material/LinearProgress";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Footer from "../Footer";
 import Cart from "./Cart";
 import { appContext } from "../../Context/AppContext";
@@ -13,17 +10,12 @@ import { useParams } from "react-router-dom";
 import { Authentication } from "../../App";
 import useFetch from "../../useFetch";
 import { cartContext } from "../../Context/CartContext";
-import Button from "@mui/material/Button";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import { Skeleton } from "@mui/material";
-import { themeContext } from "../../Context/ThemeContext";
 import {
   Container,
   Grid,
   Box,
   Card,
   CardMedia,
-  CardContent,
   Typography,
   Chip,
   TextField,
@@ -32,571 +24,423 @@ import {
   Divider,
   Stack,
   Alert,
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 function AddToCart() {
-  const [progress, setProgress] = React.useState(90);
+  const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState("XS");
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [stockForSelectedSize, setStockForSelectedSize] = useState(null);
+
   const { handleOpenCart } = useContext(appContext);
-  const cartPopUp = useRef();
+  const cartPopUp = useRef(null);
   const { productDetails, handleGoToAddToCart, allProducts, reviews } =
     useContext(products);
-  const [size, setSize] = useState("XS");
-  const [quantity, setQuantity] = useState(1);
   const { userDetails } = useContext(Authentication);
-  const productId = useParams().productId;
-  const { setFetch, setCartItems, cartItems } = useContext(cartContext);
-  const [rating, setRating] = useState();
-  const { theme } = useContext(themeContext);
+  const { productId } = useParams();
+  const { setFetch } = useContext(cartContext);
+  const { postAuth, loading, error } = useFetch("/addToCart");
 
   const increase = () => setQuantity((q) => (q < 10 ? q + 1 : 10));
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
-  const { postAuth, loading, error } = useFetch("/addToCart");
+
+  const headingRef = useRef(null);
+
+  useEffect(() => {
+    headingRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    handleGoToAddToCart(productId);
+    setSelectedImageIndex(0);
+  }, [productId, allProducts]);
+
+  // Update stock info when size changes
+  useEffect(() => {
+    if (productDetails?.itemsInStock && size) {
+      const stock = productDetails.itemsInStock[size] || 0;
+      setStockForSelectedSize(stock);
+    } else {
+      setStockForSelectedSize(null);
+    }
+  }, [size, productDetails]);
 
   function handleAddToCart(e) {
     e.preventDefault();
+    if (stockForSelectedSize === 0) return; // prevent add if out of stock
+
     const cartItem = {
-      customerId: userDetails["_id"],
+      customerId: userDetails?._id,
       productId,
       productName: productDetails.name,
       price: productDetails.price,
       size,
       quantity,
-      imgPath: productDetails.imagePath[0],
+      imgPath: productDetails.imagePath?.[0],
       productProvider: "stockProduct",
     };
-    postAuth(cartItem, (d) => {
-      setFetch(true);
 
+    postAuth(cartItem, () => {
+      setFetch(true);
       setTimeout(() => {
         handleOpenCart(cartPopUp.current);
       }, 100);
     });
   }
 
-  const heading = useRef();
-  useEffect(() => {
-    heading.current.scrollIntoView({ behavior: "smooth" });
-  });
-  useEffect(() => {
-    handleGoToAddToCart(productId);
-    if (productDetails.productId === productId)
-      setRating(
-        productDetails.rating.length === 0
-          ? "0"
-          : productDetails.rating.reduce((acc, i) => {
-              return acc + i;
-            }, 0) / productDetails.rating.length
-      );
-  }, [allProducts]);
-
   function getMeasurements() {
-    const arr = [];
-    for (let [x, y] of Object.entries(productDetails.measurementDescription)) {
-      arr.push(x + ": " + y);
-    }
-    return arr;
+    if (!productDetails?.measurementDescription) return [];
+    return Object.entries(productDetails.measurementDescription).map(
+      ([key, value]) => `${key}: ${value}`
+    );
   }
 
+  const images = productDetails?.imagePath || [];
+  const hasMultipleImages = images.length > 1;
+  const currentImage = images[selectedImageIndex] || "";
+
+  const averageRating =
+    productDetails?.rating?.length > 0
+      ? productDetails.rating.reduce((a, b) => a + b, 0) / productDetails.rating.length
+      : 0;
+
+  // Stock status helpers
+  const isOutOfStock = stockForSelectedSize === 0;
+  const isLowStock = stockForSelectedSize > 0 && stockForSelectedSize <= 5;
+  const isCriticalStock = stockForSelectedSize > 0 && stockForSelectedSize <= 2;
+
   return (
-    <>
-      <div className="AddToCart">
-        <div className="navbar">
-          <Navbar
-            handleOpenCart={() => {
-              handleOpenCart(cartPopUp.current);
-            }}
-          />
-        </div>
+    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Navbar handleOpenCart={() => handleOpenCart(cartPopUp.current)} />
 
-        <div className="cart-popup" ref={cartPopUp}>
-          <Cart />
-        </div>
+      <Box className="cart-popup" ref={cartPopUp}>
+        <Cart />
+      </Box>
 
-        <Container maxWidth="lg" sx={{ py: 6 }}>
-          {/* Page Title */}
-          <Typography
-            ref={heading}
-            id="AddToCart"
-            variant="h3"
-            component="h1"
-            gutterBottom
-            sx={{
-              fontWeight: 700,
-              color: "var(--dark-purple)",
-              mb: 4,
-              textAlign: { xs: "center", md: "left" },
-            }}
-          >
-            Add To Cart
-          </Typography>
+      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, flex: 1 }}>
+        <Typography
+          ref={headingRef}
+          variant="h3"
+          component="h1"
+          fontWeight={700}
+          color="var(--dark-purple)"
+          gutterBottom
+          sx={{ mb: 5, textAlign: { xs: "center", md: "left" } }}
+        >
+          Add to Cart
+        </Typography>
 
-          {productDetails.rating && (
-            <>
-              {/* Product Details Section */}
-              <Grid
-                container
-                spacing={4}
+        {productDetails && (
+          <Grid container spacing={5}>
+            {/* Images Column */}
+            <Grid item xs={12} md={6}>
+              <Card
+                elevation={4}
                 sx={{
-                  mb: 6,
-                  display: "flex",
-                  alignItems: "flex-start",
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  position: "relative",
+                  transition: "all 0.4s ease",
+                  "&:hover": {
+                    boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
+                  },
                 }}
               >
-                {/* Product Image */}
-                <Grid item xs={12} sm={12} md={6}>
-                  <Card
-                    sx={{
-                      borderRadius: 2,
-                      overflow: "hidden",
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={productDetails.imagePath[0]}
-                      alt={productDetails.name}
-                      sx={{
-                        width: "100%",
-                        // height: { xs: 260, sm: 300, md: 420 },
-                        maxHeight: 520,
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
-                  </Card>
-                </Grid>
-
-                {/* Product Details */}
-                <Grid item xs={12} sm={12} md={6}>
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: { xs: 3, md: 4 },
-                      backgroundColor: "transparent",
-                    }}
-                  >
-                    {/* Product Name */}
-                    <Typography
-                      variant="h4"
-                      component="h2"
-                      sx={{
-                        fontWeight: 700,
-                        color: "var(--dark-purple)",
-                        mb: 2,
-                      }}
-                    >
-                      {productDetails.name}
-                    </Typography>
-
-                    {/* Rating */}
-                    {reviews && productDetails && (
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          mb: 3,
-                        }}
-                      >
-                        <Rating
-                          value={
-                            productDetails.rating.length === 0
-                              ? 0
-                              : productDetails.rating.reduce((acc, i) => {
-                                  return acc + i;
-                                }, 0) / productDetails.rating.length
-                          }
-                          precision={0.5}
-                          readOnly
-                          sx={{
-                            "& .MuiRating-iconFilled": {
-                              color: "orange",
-                            },
-                            "& .MuiRating-iconEmpty": {
-                              color: "lightgray",
-                            },
-                          }}
-                        />
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "var(--text-color2)" }}
-                        >
-                          (
-                          {productDetails.rating.length === 0
-                            ? "0"
-                            : (
-                                productDetails.rating.reduce((acc, i) => {
-                                  return acc + i;
-                                }, 0) / productDetails.rating.length
-                              ).toFixed(1)}
-                          ) - {productDetails.rating.length} reviews
-                        </Typography>
-                      </Box>
-                    )}
-
-                    {/* Price */}
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight: 700,
-                        color: "var(--dark-purple)",
-                        mb: 3,
-                        fontSize: { xs: "1.8rem", md: "2rem" },
-                      }}
-                    >
-                      R{productDetails.price}.00
-                    </Typography>
-
-                    <Divider sx={{ my: 3 }} />
-
-                    {/* Measurements */}
-                    {productDetails && (
-                      <Box sx={{ mb: 3 }}>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{
-                            fontWeight: 600,
-                            color: "var(--dark-purple)",
-                            mb: 2,
-                          }}
-                        >
-                          Standard Measurements
-                        </Typography>
-                        <Stack
-                          direction="row"
-                          spacing={2}
-                          sx={{
-                            flexWrap: "wrap",
-                            gap: 2,
-                          }}
-                        >
-                          {getMeasurements().map((measurement, idx) => (
-                            <Chip
-                              key={idx}
-                              label={measurement}
-                              variant="outlined"
-                              sx={{
-                                borderColor: "var(--dark-purple)",
-                                color: "var(--text-color2)",
-                                fontWeight: 500,
-                              }}
-                            />
-                          ))}
-                        </Stack>
-                      </Box>
-                    )}
-
-                    {/* Form */}
-                    <Box
-                      component="form"
-                      onSubmit={handleAddToCart}
-                      id="add-to-cart-form"
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 3,
-                        mt: 4,
-                      }}
-                    >
-                      {/* Quantity Selector */}
-                      <Box>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{
-                            fontWeight: 600,
-                            color: "var(--dark-purple)",
-                            mb: 2,
-                          }}
-                        >
-                          Quantity
-                        </Typography>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          spacing={1}
-                          sx={{
-                            border: "1px solid #ddd",
-                            borderRadius: 1,
-                            width: "fit-content",
-                            p: 1,
-                          }}
-                        >
-                          <IconButton
-                            size="small"
-                            onClick={decrease}
-                            sx={{
-                              color: "var(--dark-purple)",
-                              "&:hover": {
-                                backgroundColor:
-                                  "rgba(128, 0, 128, 0.1)",
-                              },
-                            }}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                          <TextField
-                            value={quantity}
-                            disabled
-                            variant="standard"
-                            inputProps={{ style: { textAlign: "center" } }}
-                            sx={{
-                              width: 60,
-                              "& input": {
-                                fontSize: "1.1rem",
-                                fontWeight: 600,
-                              },
-                            }}
-                          />
-                          <IconButton
-                            size="small"
-                            onClick={increase}
-                            sx={{
-                              color: "var(--dark-purple)",
-                              "&:hover": {
-                                backgroundColor:
-                                  "rgba(128, 0, 128, 0.1)",
-                              },
-                            }}
-                          >
-                            <AddIcon />
-                          </IconButton>
-                        </Stack>
-                      </Box>
-
-                      {/* Size Selector */}
-                      <Box>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{
-                            fontWeight: 600,
-                            color: "var(--dark-purple)",
-                            mb: 2,
-                          }}
-                        >
-                          Size
-                        </Typography>
-                        <Stack
-                          direction="row"
-                          spacing={2}
-                          sx={{
-                            flexWrap: "wrap",
-                            gap: 2,
-                          }}
-                        >
-                          {productDetails &&
-                            Object.entries(productDetails.itemsInStock)
-                              .filter(([x, y]) => {
-                                return y > 0;
-                              })
-                              .map(([x, y]) => (
-                                <Chip
-                                  key={x}
-                                  label={x}
-                                  onClick={(e) => {
-                                    setSize(x);
-                                  }}
-                                  variant={size === x ? "filled" : "outlined"}
-                                  sx={{
-                                    borderColor: "var(--dark-purple)",
-                                    color:
-                                      size === x
-                                        ? "white"
-                                        : "var(--text-color2)",
-                                    backgroundColor:
-                                      size === x
-                                        ? "var(--dark-purple)"
-                                        : "transparent",
-                                    fontWeight: 600,
-                                    cursor: "pointer",
-                                    transition:
-                                      "all 0.3s ease",
-                                    "&:hover": {
-                                      borderColor:
-                                        "var(--dark-purple)",
-                                      backgroundColor:
-                                        size === x
-                                          ? "var(--dark-purple)"
-                                          : "rgba(128, 0, 128, 0.1)",
-                                    },
-                                  }}
-                                />
-                              ))}
-                        </Stack>
-                      </Box>
-
-                      {/* Error Alert */}
-                      {error && (
-                        <Alert severity="error" sx={{ mt: 2 }}>
-                          Network Error. Please Refresh Or Try Again
-                          Later
-                        </Alert>
-                      )}
-
-                      {/* Add to Cart Button */}
-                      <Button
-                        id="add-to-cart-btn"
-                        type="submit"
-                        disabled={loading}
-                        variant="contained"
-                        size="large"
-                        startIcon={
-                          !loading && (
-                            <ShoppingCartOutlinedIcon />
-                          )
-                        }
-                        sx={{
-                          backgroundColor: "var(--med-purple)",
-                          color: "white",
-                          fontWeight: 600,
-                          fontSize: "1rem",
-                          py: 2,
-                          mt: 2,
-                          textTransform: "none",
-                          "&:hover": {
-                            backgroundColor: "var(--dark-purple)",
-                            boxShadow: "0 4px 12px rgba(128, 0, 128, 0.3)",
-                          },
-                          "&:disabled": {
-                            opacity: 0.7,
-                          },
-                        }}
-                      >
-                        {loading ? "Adding to Cart..." : "Add To Cart"}
-                      </Button>
-                    </Box>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </>
-          )}
-
-          {/* Reviews Section */}
-          <Box sx={{ mt: 8 }}>
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 700,
-                color: "var(--text-color2)",
-                mb: 4,
-              }}
-              id="review-heading"
-            >
-              Customer Reviews
-            </Typography>
-
-            {typeof reviews === "string" ? (
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 4,
-                  textAlign: "center",
-                  backgroundColor: "rgba(128, 0, 128, 0.05)",
-                  borderRadius: 2,
-                }}
-              >
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                  spacing={2}
+                <Box
+                  sx={{
+                    overflow: "hidden",
+                    position: "relative",
+                    width: "100%",
+                    height: { xs: 360, sm: 480, md: 520 },
+                  }}
                 >
-                  <SentimentVeryDissatisfiedIcon
+                  <CardMedia
+                    component="img"
+                    image={currentImage}
+                    alt={productDetails.name}
                     sx={{
-                      fontSize: "2.5rem",
-                      color: "var(--text-color2)",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transition: "transform 0.5s ease",
+                      transform: "scale(1)",
+                      "&:hover": {
+                        transform: "scale(1.08)",
+                      },
                     }}
                   />
-                  <Typography
-                    variant="h6"
-                    sx={{ color: "var(--text-color2)" }}
-                  >
-                    No Reviews Yet
-                  </Typography>
-                </Stack>
-              </Paper>
-            ) : (
-              <Grid container spacing={3}>
-                {reviews.map((review, idx) => (
-                  <Grid item xs={12} key={idx}>
-                    <Paper
-                      elevation={0}
+                </Box>
+              </Card>
+
+              {hasMultipleImages && (
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ mt: 3, justifyContent: "center", flexWrap: "wrap" }}
+                >
+                  {images.map((img, idx) => (
+                    <Box
+                      key={idx}
+                      onClick={() => setSelectedImageIndex(idx)}
                       sx={{
-                        p: 3,
-                        borderLeft: "4px solid var(--dark-purple)",
-                        backgroundColor: "rgba(128, 0, 128, 0.02)",
-                        borderRadius: 1,
+                        width: 80,
+                        height: 80,
+                        borderRadius: 2,
+                        overflow: "hidden",
+                        border: 3,
+                        borderColor:
+                          idx === selectedImageIndex ? "primary.main" : "grey.300",
+                        cursor: "pointer",
+                        transition: "all 0.25s",
+                        "&:hover": {
+                          borderColor: "primary.light",
+                          transform: "scale(1.08)",
+                        },
                       }}
                     >
-                      {/* Review Header */}
-                      <Stack
-                        direction={{ xs: "column", sm: "row" }}
-                        justifyContent="space-between"
-                        alignItems={{ xs: "flex-start", sm: "center" }}
-                        spacing={2}
-                        sx={{ mb: 2 }}
-                      >
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontWeight: 700,
-                            color: "var(--dark-purple)",
-                          }}
-                        >
-                          {review.name} {review.surname}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: "var(--text-color2)",
-                            opacity: 0.7,
-                          }}
-                        >
-                          {new Date(
-                            review.dateOfUpload
-                          ).toLocaleDateString()}
-                        </Typography>
-                      </Stack>
-
-                      {/* Rating */}
-                      <Rating
-                        value={review.rating}
-                        precision={0.5}
-                        readOnly
+                      <Box
+                        component="img"
+                        src={img}
+                        alt={`Thumbnail ${idx + 1}`}
                         sx={{
-                          mb: 2,
-                          "& .MuiRating-iconFilled": {
-                            color: "orange",
-                          },
-                          "& .MuiRating-iconEmpty": {
-                            color: "lightgray",
-                          },
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
                         }}
                       />
+                    </Box>
+                  ))}
+                </Stack>
+              )}
+            </Grid>
 
-                      {/* Review Text */}
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: "var(--text-color2)",
-                          lineHeight: 1.6,
-                        }}
+            {/* Details Column */}
+            <Grid item xs={12} md={6}>
+              <Box sx={{ px: { md: 2 } }}>
+                <Typography variant="h4" fontWeight={700} color="var(--dark-purple)" gutterBottom>
+                  {productDetails.name}
+                </Typography>
+
+                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 3 }}>
+                  <Rating
+                    value={averageRating}
+                    precision={0.5}
+                    readOnly
+                    sx={{ "& .MuiRating-iconFilled": { color: "orange" } }}
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    {averageRating.toFixed(1)} ({productDetails.rating?.length || 0} reviews)
+                  </Typography>
+                </Stack>
+
+                <Typography variant="h5" fontWeight={700} color="var(--dark-purple)" sx={{ mb: 4 }}>
+                  R{productDetails.price}.00
+                </Typography>
+
+                <Divider sx={{ my: 4 }} />
+
+                <Box sx={{ mb: 4 }}>
+                  <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                    Standard Measurements
+                  </Typography>
+                  <Stack direction="row" spacing={1.5} sx={{ flexWrap: "wrap" }}>
+                    {getMeasurements().map((m, i) => (
+                      <Chip key={i} label={m} variant="outlined" color="var(--dark-purple)" size="small" />
+                    ))}
+                  </Stack>
+                </Box>
+
+                <Box component="form" onSubmit={handleAddToCart} sx={{ mt: 4 }}>
+                  {/* Quantity */}
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                      Quantity
+                    </Typography>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <IconButton
+                        disabled={quantity === 1}
+                        onClick={decrease}
+                        color="var(--dark-purple)"
+                        size="small"
+                        sx={{ border: 1, borderColor: "divider",color:"var(--dark-purple)" }}
                       >
-                        {review.review}
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-          </Box>
-        </Container>
-      </div>
-      <div id="footer">
-        <Footer />
-      </div>
-    </>
+                        <RemoveIcon />
+                      </IconButton>
+                      <TextField
+                        value={quantity}
+                        size="small"
+                        sx={{ width: 80, mx: 1 }}
+                        inputProps={{ style: { textAlign: "center" } }}
+                        disabled
+
+                      />
+                      <IconButton
+                        disabled={quantity === 10}
+                        onClick={increase}
+                        size="small"
+                        sx={{ border: 1, borderColor: "divider",color:"var(--dark-purple)" }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                  </Box>
+
+                  {/* Size + Stock Warning */}
+                  <Box sx={{ mb: 5 }}>
+                    <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                      Size
+                    </Typography>
+
+                    <ToggleButtonGroup
+                      value={size}
+                      exclusive
+                      onChange={(_, newSize) => newSize && setSize(newSize)}
+                      aria-label="product size"
+                    >
+                      {productDetails?.itemsInStock &&
+                        Object.entries(productDetails.itemsInStock)
+                          .filter(([, stock]) => stock > 0)
+                          .map(([sz]) => (
+                            <ToggleButton key={sz} value={sz} sx={{ px: 4, py: 1 }}>
+                              {sz}
+                            </ToggleButton>
+                          ))}
+                    </ToggleButtonGroup>
+
+                    {/* Stock Status */}
+                    {stockForSelectedSize !== null && (
+                      <Box sx={{ mt: 2 }}>
+                        {isOutOfStock ? (
+                          <Alert severity="error" icon={<WarningAmberIcon />}>
+                            Out of stock in size {size}
+                          </Alert>
+                        ) : isCriticalStock ? (
+                          <Alert severity="warning" icon={<WarningAmberIcon />}>
+                            Only {stockForSelectedSize} left in size {size} — order soon!
+                          </Alert>
+                        ) : isLowStock ? (
+                          <Alert severity="info" icon={<WarningAmberIcon />}>
+                            Low stock: {stockForSelectedSize} remaining in size {size}
+                          </Alert>
+                        ) : (
+                          <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>
+                            In stock: {stockForSelectedSize} available
+                          </Typography>
+                        )}
+                      </Box>
+                    )}
+                  </Box>
+
+                  {error && (
+                    <Alert severity="error" sx={{ mb: 3 }}>
+                      Network Error. Please try again later.
+                    </Alert>
+                  )}
+
+                  <Tooltip
+                    title={isOutOfStock ? "Cannot add — out of stock" : ""}
+                    arrow
+                  >
+                    <span>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        // color="primary"
+                        size="large"
+                        disabled={loading || isOutOfStock}
+                        startIcon={!loading && <ShoppingCartOutlinedIcon />}
+                        fullWidth
+                        sx={{ py: 1.8, fontSize: "1.1rem",backgroundColor:"var(--dark-purple)" }}
+                      >
+                        {loading
+                          ? "Adding..."
+                          : isOutOfStock
+                          ? "Out of Stock"
+                          : "Add to Cart"}
+                      </Button>
+                    </span>
+                  </Tooltip>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        )}
+
+        {/* Reviews Section */}
+        <Box sx={{ mt: 10 }}>
+          <Typography variant="h4" fontWeight={700} color="text.primary" gutterBottom>
+            Customer Reviews
+          </Typography>
+
+          {typeof reviews === "string" || !reviews?.length ? (
+            <Paper
+              sx={{
+                p: 5,
+                textAlign: "center",
+                bgcolor: "action.hover",
+                borderRadius: 3,
+              }}
+            >
+              <Stack alignItems="center" spacing={2}>
+                <SentimentVeryDissatisfiedIcon sx={{ fontSize: 60, color: "text.disabled" }} />
+                <Typography variant="h6" color="text.secondary">
+                  No Reviews Yet
+                </Typography>
+              </Stack>
+            </Paper>
+          ) : (
+            <Stack spacing={3}>
+              {reviews.map((review, idx) => (
+                <Paper
+                  key={idx}
+                  variant="outlined"
+                  sx={{
+                    p: 3,
+                    borderLeft: 5,
+                    borderColor: "var(--dark-purple)",
+                    bgcolor: "background.paper",
+                  }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    mb={1.5}
+                  >
+                    <Typography variant="h6" fontWeight={600} color="var(--dark-purple)">
+                      {review.name} {review.surname}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {new Date(review.dateOfUpload).toLocaleDateString()}
+                    </Typography>
+                  </Stack>
+
+                  <Rating
+                    value={review.rating}
+                    precision={0.5}
+                    readOnly
+                    sx={{ mb: 1.5, "& .MuiRating-iconFilled": { color: "orange" } }}
+                  />
+
+                  <Typography variant="body1" color="text.primary" lineHeight={1.7}>
+                    {review.review}
+                  </Typography>
+                </Paper>
+              ))}
+            </Stack>
+          )}
+        </Box>
+      </Container>
+
+      <Footer />
+    </Box>
   );
 }
 
